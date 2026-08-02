@@ -1,24 +1,29 @@
-// ========================================
+//========================================
 // ABSENSI KEYYENNN
 // api.js
-// ========================================
+//========================================
 
-const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbz3KWlDE8ivAIhXLVyvDpjhKuUbbJ-LAm3s1Q-dha004ZRU2rXYNTZkbeHkBxRWWlA/exec";
+const URL_WEB_APP =
+"https://script.google.com/macros/s/AKfycbz3KWlDE8ivAIhXLVyvDpjhKuUbbJ-LAm3s1Q-dha004ZRU2rXYNTZkbeHkBxRWWlA/exec";
 
 async function kirimKeServer(kode){
 
     try{
 
-        document.getElementById("hasil").innerHTML = "Mengirim data...";
+        document.getElementById("hasil").innerHTML="Mengirim data...";
 
-        const formData = new FormData();
+        const form = new URLSearchParams();
 
-        formData.append("kode", kode);
-        formData.append("mode", MODE);
+        form.append("kode",kode);
+
+        form.append("mode",MODE);
 
         const response = await fetch(URL_WEB_APP,{
+
             method:"POST",
-            body:formData
+
+            body:form
+
         });
 
         const data = await response.json();
@@ -26,27 +31,38 @@ async function kirimKeServer(kode){
         if(data.status=="success"){
 
             tampilHasil(
+
                 data.nama,
+
                 data.kode,
+
                 data.keterangan,
+
                 data.jam
+
             );
 
-        }else{
+        }
+
+        else{
 
             tampilError(data.pesan);
 
         }
 
-    }catch(err){
+    }
 
-        console.error(err);
+    catch(err){
 
-        tampilError("Tidak dapat terhubung ke server.");
+        console.log(err);
 
-    }finally{
+        tampilError(err.toString());
 
-        scanSedangDiproses = false;
+    }
+
+    finally{
+
+        scanSedangDiproses=false;
 
     }
 
