@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ABSENKU SMK</title>
+
+<link
+rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+
+            ABSENKU SMK
+
+        </h1>
+
+        <p>
+
+            Sistem Absensi QR Code
+
+        </p>
+
+    </div>
+
+    <div class="card waktu">
+
+        <div id="tanggal">
+
+            Memuat tanggal...
+
+        </div>
+
+        <div id="jam">
+
+            00:00:00
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <button
+            id="btnMasuk"
+            class="btn hijau">
+
+            🟢 ABSEN MASUK
+
+        </button>
+
+        <button
+            id="btnPulang"
+            class="btn merah">
+
+            🔴 ABSEN PULANG
+
+        </button>
+
+    </div>
+
+    <div
+        id="modeBox"
+        class="card">
+
+        <h2>
+
+            MODE
+
+        </h2>
+
+        <div
+            id="modeText">
+
+            BELUM DIPILIH
+
+        </div>
+
+    </div>
+
+    <div
+        id="scannerBox"
+        class="card">
+
+        <div
+            id="reader">
+
+        </div>
+
+    </div>
+
+    <div
+        id="hasilBox"
+        class="card">
+
+        <h2>
+
+            HASIL SCAN
+
+        </h2>
+
+        <div
+            id="hasil">
+
+            Menunggu scan...
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script src="scanner.js"></script>
+
+<script src="api.js"></script>
+
+</body>
+
+</html>
