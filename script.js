@@ -137,6 +137,5 @@ function tampilError(teks){
 
     "<span class='error'>"+teks+"</span>";
 
-}
-
 kirimKeServer("NKN001");
+}
