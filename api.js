@@ -9,24 +9,16 @@ async function kirimKeServer(kode){
 
     try{
 
-        document.getElementById("hasil").innerHTML="Mengirim data...";
+        document.getElementById("hasil").innerHTML = "Mengirim data...";
+
+        const formData = new FormData();
+
+        formData.append("kode", kode);
+        formData.append("mode", MODE);
 
         const response = await fetch(URL_WEB_APP,{
-
             method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-
-                kode:kode,
-
-                mode:MODE
-
-            })
-
+            body:formData
         });
 
         const data = await response.json();
@@ -34,40 +26,27 @@ async function kirimKeServer(kode){
         if(data.status=="success"){
 
             tampilHasil(
-
                 data.nama,
-
                 data.kode,
-
                 data.keterangan,
-
                 data.jam
-
             );
 
-        }
-
-        else{
+        }else{
 
             tampilError(data.pesan);
 
         }
 
-    }
+    }catch(err){
 
-    catch(err){
+        console.error(err);
 
-        tampilError(
+        tampilError("Tidak dapat terhubung ke server.");
 
-            "Tidak dapat terhubung ke server."
+    }finally{
 
-        );
-
-    }
-
-    finally{
-
-        scanSedangDiproses=false;
+        scanSedangDiproses = false;
 
     }
 
