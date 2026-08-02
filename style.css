@@ -1,1 +1,216 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
 
+body{
+
+    background:#eef2f7;
+
+}
+
+.container{
+
+    width:95%;
+    max-width:500px;
+    margin:25px auto;
+
+}
+
+.header{
+
+    background:#1565C0;
+    color:white;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
+
+}
+
+.header h1{
+
+    font-size:30px;
+    margin-bottom:8px;
+
+}
+
+.header p{
+
+    opacity:.9;
+
+}
+
+.card{
+
+    background:white;
+    margin-top:20px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+
+}
+
+.waktu{
+
+    text-align:center;
+
+}
+
+#tanggal{
+
+    font-size:18px;
+
+}
+
+#jam{
+
+    margin-top:8px;
+    font-size:36px;
+    font-weight:bold;
+    color:#1565C0;
+
+}
+
+.btn{
+
+    width:100%;
+    border:none;
+    padding:18px;
+    border-radius:12px;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-bottom:15px;
+    transition:.2s;
+
+}
+
+.btn:hover{
+
+    transform:scale(1.02);
+
+}
+
+.hijau{
+
+    background:#2E7D32;
+
+}
+
+.hijau:hover{
+
+    background:#1B5E20;
+
+}
+
+.merah{
+
+    background:#D32F2F;
+
+}
+
+.merah:hover{
+
+    background:#B71C1C;
+
+}
+
+#modeBox{
+
+    text-align:center;
+
+}
+
+#modeText{
+
+    margin-top:15px;
+    font-size:24px;
+    font-weight:bold;
+    color:#1565C0;
+
+}
+
+#reader{
+
+    width:100%;
+    min-height:320px;
+    border:3px dashed #1565C0;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#888;
+    font-size:18px;
+
+}
+
+#hasilBox{
+
+    text-align:center;
+
+}
+
+#hasil{
+
+    margin-top:15px;
+    font-size:22px;
+    font-weight:bold;
+    line-height:1.6;
+
+}
+
+.success{
+
+    color:#2E7D32;
+
+}
+
+.warning{
+
+    color:#EF6C00;
+
+}
+
+.error{
+
+    color:#D32F2F;
+
+}
+
+.info{
+
+    color:#1565C0;
+
+}
+
+@media(max-width:600px){
+
+.header h1{
+
+    font-size:24px;
+
+}
+
+#jam{
+
+    font-size:30px;
+
+}
+
+.btn{
+
+    font-size:18px;
+
+}
+
+#hasil{
+
+    font-size:18px;
+
+}
+
+}
