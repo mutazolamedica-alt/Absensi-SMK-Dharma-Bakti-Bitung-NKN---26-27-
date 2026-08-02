@@ -1,10 +1,9 @@
 // ========================================
-// ABSENKU SMK
+// ABSENSI KEYYENNN
 // api.js
 // ========================================
 
-// GANTI DENGAN URL WEB APP APPS SCRIPT
-const URL_WEB_APP = "PASTE_URL_WEB_APP_DISINI";
+const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbz3KWlDE8ivAIhXLVyvDpjhKuUbbJ-LAm3s1Q-dha004ZRU2rXYNTZkbeHkBxRWWlA/exec";
 
 async function kirimKeServer(kode){
 
