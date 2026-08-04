@@ -1,5 +1,5 @@
 // =============================
-// ABSENKU SMK v1.0
+// ABSENKU SMK v2.0
 // script.js
 // =============================
 
@@ -10,42 +10,33 @@ let scannerAktif = false;
 // Update Jam
 // =============================
 
-function updateJam() {
+function updateJam(){
 
     const sekarang = new Date();
 
-    const hari = [
-        "Minggu",
-        "Senin",
-        "Selasa",
-        "Rabu",
-        "Kamis",
-        "Jumat",
-        "Sabtu"
+    const hari=[
+        "Minggu","Senin","Selasa","Rabu",
+        "Kamis","Jumat","Sabtu"
     ];
 
-    const bulan = [
-        "Januari",
-        "Februari",
-        "Maret",
-        "April",
-        "Mei",
-        "Juni",
-        "Juli",
-        "Agustus",
-        "September",
-        "Oktober",
-        "November",
-        "Desember"
+    const bulan=[
+        "Januari","Februari","Maret","April",
+        "Mei","Juni","Juli","Agustus",
+        "September","Oktober","November","Desember"
     ];
 
-    document.getElementById("tanggal").innerHTML =
+    document.getElementById("tanggal").innerHTML=
+
         hari[sekarang.getDay()] + ", " +
-        sekarang.getDate() + " " +
-        bulan[sekarang.getMonth()] + " " +
+
+        sekarang.getDate()+" "+
+
+        bulan[sekarang.getMonth()]+" "+
+
         sekarang.getFullYear();
 
-    document.getElementById("jam").innerHTML =
+    document.getElementById("jam").innerHTML=
+
         sekarang.toLocaleTimeString("id-ID");
 
 }
@@ -56,85 +47,149 @@ updateJam();
 
 
 // =============================
-// Tombol Absen Masuk
+// Fungsi Tombol
 // =============================
+
+function aktifkanMode(mode){
+
+    MODE=mode;
+
+    document.getElementById("btnMasuk").disabled=true;
+    document.getElementById("btnPulang").disabled=true;
+
+    if(mode=="MASUK"){
+
+        document.getElementById("modeText").innerHTML="🟢 ABSEN MASUK";
+        document.getElementById("modeText").className="success";
+
+    }else{
+
+        document.getElementById("modeText").innerHTML="🔴 ABSEN PULANG";
+        document.getElementById("modeText").className="error";
+
+    }
+
+    document.getElementById("hasil").innerHTML="Membuka kamera...";
+
+    mulaiScanner();
+
+}
 
 document
 .getElementById("btnMasuk")
-.addEventListener("click",function(){
+.addEventListener("click",()=>{
 
-    MODE="MASUK";
-
-    document.getElementById("modeText").innerHTML="🟢 ABSEN MASUK";
-
-    document.getElementById("modeText").className="success";
-
-    document.getElementById("hasil").innerHTML=
-    "Membuka kamera...";
-
-    mulaiScanner();
+    aktifkanMode("MASUK");
 
 });
-
-
-// =============================
-// Tombol Absen Pulang
-// =============================
 
 document
 .getElementById("btnPulang")
-.addEventListener("click",function(){
+.addEventListener("click",()=>{
 
-    MODE="PULANG";
-
-    document.getElementById("modeText").innerHTML="🔴 ABSEN PULANG";
-
-    document.getElementById("modeText").className="error";
-
-    document.getElementById("hasil").innerHTML=
-    "Membuka kamera...";
-
-    mulaiScanner();
+    aktifkanMode("PULANG");
 
 });
 
 
 // =============================
-// Menampilkan Hasil Scan
+// Loading
 // =============================
 
-function tampilHasil(
-    nama,
-    kode,
-    status,
-    jam
-){
+function tampilLoading(){
 
-    document.getElementById("hasil").innerHTML=
+    document.getElementById("loading").style.display="block";
 
-    "<b>"+nama+"</b><br><br>"+
+}
 
-    "Kode : "+kode+
+function sembunyiLoading(){
 
-    "<br><br>"+
-
-    "Status : "+status+
-
-    "<br><br>"+
-
-    jam;
+    document.getElementById("loading").style.display="none";
 
 }
 
 
 // =============================
-// Pesan Error
+// Hasil
+// =============================
+
+function tampilHasil(
+
+    nama,
+    kode,
+    status,
+    jam
+
+){
+
+    sembunyiLoading();
+
+    const box=document.getElementById("hasilBox");
+
+    box.classList.remove("gagal");
+
+    box.classList.add("berhasil");
+
+    document.getElementById("hasil").innerHTML=
+
+        "<h2>✅ BERHASIL</h2><br>"+
+
+        "<b>"+nama+"</b><br><br>"+
+
+        "Kode : "+kode+"<br>"+
+
+        "Status : "+status+"<br>"+
+
+        "Jam : "+jam;
+
+    resetAplikasi();
+
+}
+
+
+// =============================
+// Error
 // =============================
 
 function tampilError(teks){
 
+    sembunyiLoading();
+
+    const box=document.getElementById("hasilBox");
+
+    box.classList.remove("berhasil");
+
+    box.classList.add("gagal");
+
     document.getElementById("hasil").innerHTML=
 
-    "<span class='error'>"+teks+"</span>";
+        "<h2>❌ GAGAL</h2><br>"+
+
+        teks;
+
+    resetAplikasi();
+
+}
+
+
+// =============================
+// Reset
+// =============================
+
+function resetAplikasi(){
+
+    setTimeout(()=>{
+
+        document.getElementById("btnMasuk").disabled=false;
+
+        document.getElementById("btnPulang").disabled=false;
+
+        document.getElementById("modeText").innerHTML="BELUM DIPILIH";
+
+        document.getElementById("modeText").className="";
+
+        stopScanner();
+
+    },2500);
 
 }
