@@ -1,29 +1,90 @@
+//========================================
 // scanner.js
-// ABSENKU SMK v1.0
+// ABSENKU SMK v2.0
+//========================================
 
 let codeReader = null;
 let kameraAktif = false;
 let scanSedangDiproses = false;
 
-async function mulaiScanner() {
+//========================================
+// Bunyi Beep
+//========================================
 
-    if (kameraAktif) return;
+function bunyiBeep(){
+
+    try{
+
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+        const osc = ctx.createOscillator();
+
+        const gain = ctx.createGain();
+
+        osc.connect(gain);
+
+        gain.connect(ctx.destination);
+
+        osc.type = "sine";
+
+        osc.frequency.value = 900;
+
+        osc.start();
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            ctx.currentTime + 0.15
+        );
+
+        osc.stop(ctx.currentTime + 0.15);
+
+    }
+
+    catch(e){}
+
+}
+
+//========================================
+// Vibrasi
+//========================================
+
+function getar(){
+
+    if(navigator.vibrate){
+
+        navigator.vibrate(150);
+
+    }
+
+}
+
+//========================================
+// Scanner
+//========================================
+
+async function mulaiScanner(){
+
+    if(kameraAktif) return;
 
     kameraAktif = true;
+
+    scanSedangDiproses = false;
+
+    document.getElementById("loading").style.display = "none";
 
     document.getElementById("hasil").innerHTML = "Membuka kamera...";
 
     codeReader = new ZXing.BrowserMultiFormatReader();
 
-    try {
+    try{
 
         const devices = await codeReader.listVideoInputDevices();
 
-        if (devices.length === 0) {
+        if(devices.length===0){
 
             tampilError("Kamera tidak ditemukan");
 
-            kameraAktif = false;
+            kameraAktif=false;
 
             return;
 
@@ -31,22 +92,25 @@ async function mulaiScanner() {
 
         let cameraId = devices[0].deviceId;
 
-        // Cari kamera belakang jika ada
-        devices.forEach(device => {
+        // Cari kamera belakang
 
-            const label = device.label.toLowerCase();
+        for(const device of devices){
 
-            if (
-                label.includes("back") ||
-                label.includes("rear") ||
-                label.includes("belakang")
-            ) {
+            const nama = (device.label || "").toLowerCase();
+
+            if(
+                nama.includes("back") ||
+                nama.includes("rear") ||
+                nama.includes("belakang")
+            ){
 
                 cameraId = device.deviceId;
 
+                break;
+
             }
 
-        });
+        }
 
         codeReader.decodeFromVideoDevice(
 
@@ -54,9 +118,9 @@ async function mulaiScanner() {
 
             "reader",
 
-            (result, err) => {
+            (result,err)=>{
 
-                if (result) {
+                if(result && !scanSedangDiproses){
 
                     prosesQRCode(result.getText());
 
@@ -68,40 +132,49 @@ async function mulaiScanner() {
 
     }
 
-    catch (e) {
+    catch(err){
 
-        tampilError(e);
+        tampilError("Tidak dapat membuka kamera.");
 
-        kameraAktif = false;
+        kameraAktif=false;
 
     }
 
 }
 
-function stopScanner() {
+//========================================
+// Stop Scanner
+//========================================
 
-    if (codeReader) {
+function stopScanner(){
+
+    if(codeReader){
 
         codeReader.reset();
 
     }
 
-    kameraAktif = false;
+    kameraAktif=false;
 
 }
 
-function prosesQRCode(kode) {
+//========================================
+// QR
+//========================================
 
-    if (scanSedangDiproses) return;
+function prosesQRCode(kode){
 
-    scanSedangDiproses = true;
+    if(scanSedangDiproses) return;
 
-    document.getElementById("hasil").innerHTML =
-        "Memproses...";
+    scanSedangDiproses=true;
 
-    // bunyi beep
-    const audio = new Audio("beep.mp3");
-    audio.play();
+    stopScanner();
+
+    bunyiBeep();
+
+    getar();
+
+    tampilLoading();
 
     kirimKeServer(kode);
 
