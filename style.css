@@ -214,3 +214,106 @@ body{
 }
 
 }
+
+/* ============================= */
+/* ABSENKU SMK v2 */
+/* ============================= */
+
+.spinner{
+
+    width:55px;
+    height:55px;
+    border:6px solid #ddd;
+    border-top:6px solid #1565C0;
+    border-radius:50%;
+    animation:putar 1s linear infinite;
+    margin:20px auto;
+
+}
+
+@keyframes putar{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+#loading{
+
+    text-align:center;
+    padding:15px;
+
+}
+
+#loading p{
+
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+    color:#1565C0;
+
+}
+
+#statusServer{
+
+    font-size:18px;
+    font-weight:bold;
+    margin-top:10px;
+
+}
+
+.berhasil{
+
+    background:#E8F5E9;
+    border-left:8px solid #2E7D32;
+    animation:muncul .35s;
+
+}
+
+.gagal{
+
+    background:#FFEBEE;
+    border-left:8px solid #D32F2F;
+    animation:muncul .35s;
+
+}
+
+@keyframes muncul{
+
+    from{
+
+        opacity:0;
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+#reader video{
+
+    border-radius:15px;
+
+}
+
+.btn:disabled{
+
+    opacity:.6;
+    cursor:not-allowed;
+
+}
