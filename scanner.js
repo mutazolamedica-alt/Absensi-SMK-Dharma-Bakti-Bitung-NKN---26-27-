@@ -90,7 +90,7 @@ async function mulaiScanner(){
 
         }
 
-        let cameraId = devices[0].deviceId;
+let cameraId = devices[devices.length - 1].deviceId;
 
         // Cari kamera belakang
 
@@ -118,13 +118,15 @@ async function mulaiScanner(){
 
             "reader",
 
-            (result,err)=>{
+        (result, err) => {
 
-                if(result && !scanSedangDiproses){
+            if (err) return;
 
-                    prosesQRCode(result.getText());
+            if (!result) return;
 
-                }
+            if (scanSedangDiproses) return;
+
+            prosesQRCode(result.getText());
 
             }
 
@@ -132,13 +134,17 @@ async function mulaiScanner(){
 
     }
 
-    catch(err){
+catch(err){
 
-        tampilError("Tidak dapat membuka kamera.");
+    console.error(err);
 
-        kameraAktif=false;
+    tampilError("Tidak dapat membuka kamera.");
 
-    }
+    kameraAktif = false;
+
+    scanSedangDiproses = false;
+
+}
 
 }
 
@@ -167,8 +173,6 @@ function prosesQRCode(kode){
     if(scanSedangDiproses) return;
 
     scanSedangDiproses=true;
-
-    stopScanner();
 
     bunyiBeep();
 
