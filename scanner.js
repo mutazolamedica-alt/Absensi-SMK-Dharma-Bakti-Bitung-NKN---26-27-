@@ -27,7 +27,7 @@ function bunyiBeep(){
 
         osc.type = "sine";
 
-        osc.frequency.value = 900;
+        osc.frequency.value = 1200;
 
         osc.start();
 
@@ -52,7 +52,7 @@ function getar(){
 
     if(navigator.vibrate){
 
-        navigator.vibrate(150);
+        navigator.vibrate(250);
 
     }
 
@@ -170,9 +170,11 @@ function stopScanner(){
 
 function prosesQRCode(kode){
 
-    if(scanSedangDiproses) return;
+    if(scanSedangDiproses){
+        return;
+    }
 
-    scanSedangDiproses=true;
+    scanSedangDiproses = true;
 
     bunyiBeep();
 
@@ -181,5 +183,12 @@ function prosesQRCode(kode){
     tampilLoading();
 
     kirimKeServer(kode);
+
+    // Siapkan scanner kembali tanpa menutup kamera
+    setTimeout(function(){
+
+        scanSedangDiproses = false;
+
+    },1000);
 
 }
