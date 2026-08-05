@@ -1,52 +1,77 @@
 // =============================
-// ABSENKU SMK v3.0
+// ABSENKU SMK v3.1
 // script.js
 // =============================
 
+
 let MODE = "";
 let scannerAktif = false;
+let scanSedangDiproses = false;
+
 
 // =============================
 // Update Jam
 // =============================
 
-function updateJam() {
+function updateJam(){
 
     const sekarang = new Date();
 
     const hari = [
-        "Minggu","Senin","Selasa","Rabu",
-        "Kamis","Jumat","Sabtu"
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu"
     ];
 
     const bulan = [
-        "Januari","Februari","Maret","April",
-        "Mei","Juni","Juli","Agustus",
-        "September","Oktober","November","Desember"
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
     ];
 
+
     document.getElementById("tanggal").innerHTML =
-        hari[sekarang.getDay()] + ", " +
-        sekarang.getDate() + " " +
-        bulan[sekarang.getMonth()] + " " +
+        hari[sekarang.getDay()] +
+        ", " +
+        sekarang.getDate() +
+        " " +
+        bulan[sekarang.getMonth()] +
+        " " +
         sekarang.getFullYear();
+
 
     document.getElementById("jam").innerHTML =
         sekarang.toLocaleTimeString("id-ID");
 
 }
 
+
 setInterval(updateJam,1000);
 updateJam();
 
 
+
 // =============================
-// MODE
+// MODE ABSENSI
 // =============================
 
 function aktifkanMode(mode){
 
     MODE = mode;
+
 
     if(mode==="MASUK"){
 
@@ -56,24 +81,33 @@ function aktifkanMode(mode){
         document.getElementById("modeText").className =
             "success";
 
+
         document.getElementById("btnMode").innerHTML =
             "GANTI KE MODE PULANG";
 
+
     }else{
+
 
         document.getElementById("modeText").innerHTML =
             "🔴 ABSEN PULANG";
 
+
         document.getElementById("modeText").className =
             "error";
+
 
         document.getElementById("btnMode").innerHTML =
             "GANTI KE MODE MASUK";
 
     }
 
+
+
     document.getElementById("hasil").innerHTML =
-        "Membuka kamera...";
+        "Kamera siap. Silakan scan QR...";
+
+
 
     if(!scannerAktif){
 
@@ -84,11 +118,15 @@ function aktifkanMode(mode){
 }
 
 
+
 // =============================
 // Tombol Mode
 // =============================
 
-document.getElementById("btnMode").addEventListener("click",function(){
+document
+.getElementById("btnMode")
+.addEventListener("click",function(){
+
 
     if(MODE===""){
 
@@ -108,28 +146,35 @@ document.getElementById("btnMode").addEventListener("click",function(){
 
     }
 
+
 });
+
 
 
 // =============================
 // Loading
 // =============================
 
+
 function tampilLoading(){
 
-    document.getElementById("loading").style.display="block";
+    document.getElementById("loading")
+    .style.display="block";
 
 }
+
 
 function sembunyiLoading(){
 
-    document.getElementById("loading").style.display="none";
+    document.getElementById("loading")
+    .style.display="none";
 
 }
 
 
+
 // =============================
-// Berhasil
+// HASIL BERHASIL
 // =============================
 
 function tampilHasil(
@@ -139,65 +184,144 @@ function tampilHasil(
     jam
 ){
 
+
     sembunyiLoading();
 
+
     const box =
-        document.getElementById("hasilBox");
+    document.getElementById("hasilBox");
+
 
     box.classList.remove("gagal");
+
     box.classList.add("berhasil");
+
+
 
     document.getElementById("hasil").innerHTML =
 
-        "<h2>✅ BERHASIL</h2><br>" +
 
-        "<b>"+nama+"</b><br><br>" +
+    "<h2>✅ BERHASIL</h2><br>"+
 
-        "Kode : "+kode+"<br>" +
+    "<b>"+nama+"</b><br><br>"+
 
-        "Status : "+status+"<br>" +
+    "Kode : "+kode+"<br>"+
 
-        "Jam : "+jam;
+    "Status : "+status+"<br>"+
+
+    "Jam : "+jam;
+
+
 
     setTimeout(function(){
 
-        document.getElementById("hasil").innerHTML =
-            "Silakan scan QR berikutnya...";
 
-        scanSedangDiproses = false;
+        document.getElementById("hasil").innerHTML =
+        "Silakan scan QR berikutnya...";
+
+
+        scanSedangDiproses=false;
+
 
     },1200);
+
+
 
 }
 
 
+
 // =============================
-// Error
+// HASIL GAGAL
 // =============================
+
 
 function tampilError(teks){
 
+
     sembunyiLoading();
 
+
+
     const box =
-        document.getElementById("hasilBox");
+    document.getElementById("hasilBox");
+
+
 
     box.classList.remove("berhasil");
+
     box.classList.add("gagal");
+
+
 
     document.getElementById("hasil").innerHTML =
 
-        "<h2>❌ GAGAL</h2><br>" +
 
-        teks;
+    "<h2>❌ GAGAL</h2><br>"+
+
+    teks;
+
+
 
     setTimeout(function(){
 
-        document.getElementById("hasil").innerHTML =
-            "Silakan scan QR berikutnya...";
 
-        scanSedangDiproses = false;
+        document.getElementById("hasil").innerHTML =
+        "Silakan scan QR berikutnya...";
+
+
+        scanSedangDiproses=false;
+
 
     },1200);
+
+
+
+}
+
+
+
+// =============================
+// DIPANGGIL scanner.js
+// setelah QR berhasil terbaca
+// =============================
+
+
+function hasilScanQR(kode){
+
+
+    if(scanSedangDiproses){
+
+        return;
+
+    }
+
+
+    if(MODE===""){
+
+
+        tampilError(
+            "Silakan pilih mode absensi terlebih dahulu"
+        );
+
+
+        return;
+
+    }
+
+
+
+    scanSedangDiproses=true;
+
+
+    tampilLoading();
+
+
+
+    prosesAbsensi(
+        kode,
+        MODE
+    );
+
 
 }
