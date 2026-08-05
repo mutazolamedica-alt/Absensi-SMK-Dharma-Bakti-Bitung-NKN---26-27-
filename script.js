@@ -325,3 +325,24 @@ function hasilScanQR(kode){
 
 
 }
+
+// =============================
+// Penghubung Scanner ke API
+// =============================
+
+function prosesAbsensi(kode, mode){
+
+    if(mode===""){
+
+        tampilError(
+            "Mode absensi belum dipilih"
+        );
+
+        return;
+
+    }
+
+
+    kirimKeServer(kode);
+
+}
