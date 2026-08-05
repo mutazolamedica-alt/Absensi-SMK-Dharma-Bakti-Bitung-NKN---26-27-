@@ -54,8 +54,6 @@ function aktifkanMode(mode){
 
     MODE=mode;
 
-    document.getElementById("btnMasuk").disabled=true;
-    document.getElementById("btnPulang").disabled=true;
 
     if(mode=="MASUK"){
 
@@ -75,22 +73,36 @@ function aktifkanMode(mode){
 
 }
 
-document
-.getElementById("btnMasuk")
-.addEventListener("click",()=>{
+document.getElementById("btnMode").addEventListener("click",()=>{
 
-    aktifkanMode("MASUK");
+    if(MODE==""){
+
+        aktifkanMode("MASUK");
+
+        document.getElementById("btnMode").innerHTML =
+        "GANTI KE MODE PULANG";
+
+    }
+
+    else if(MODE=="MASUK"){
+
+        aktifkanMode("PULANG");
+
+        document.getElementById("btnMode").innerHTML =
+        "GANTI KE MODE MASUK";
+
+    }
+
+    else{
+
+        aktifkanMode("MASUK");
+
+        document.getElementById("btnMode").innerHTML =
+        "GANTI KE MODE PULANG";
+
+    }
 
 });
-
-document
-.getElementById("btnPulang")
-.addEventListener("click",()=>{
-
-    aktifkanMode("PULANG");
-
-});
-
 
 // =============================
 // Loading
