@@ -1,48 +1,66 @@
 //========================================
 // scanner.js
-// ABSENKU SMK v2.0
+// ABSENKU SMK v3.1
+// html5-qrcode
 //========================================
 
-let codeReader = null;
+
+let html5QrCode = null;
 let kameraAktif = false;
-let scanSedangDiproses = false;
+
 
 //========================================
-// Bunyi Beep
+// Beep
 //========================================
 
 function bunyiBeep(){
 
     try{
 
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const ctx =
+        new (window.AudioContext ||
+        window.webkitAudioContext)();
 
-        const osc = ctx.createOscillator();
 
-        const gain = ctx.createGain();
+        const osc =
+        ctx.createOscillator();
+
+
+        const gain =
+        ctx.createGain();
+
 
         osc.connect(gain);
 
         gain.connect(ctx.destination);
 
-        osc.type = "sine";
 
-        osc.frequency.value = 1200;
+        osc.type="sine";
+
+        osc.frequency.value=1200;
+
 
         osc.start();
 
+
         gain.gain.exponentialRampToValueAtTime(
             0.0001,
-            ctx.currentTime + 0.15
+            ctx.currentTime+0.15
         );
 
-        osc.stop(ctx.currentTime + 0.15);
+
+        osc.stop(
+            ctx.currentTime+0.15
+        );
+
 
     }
 
     catch(e){}
 
 }
+
+
 
 //========================================
 // Vibrasi
@@ -58,137 +76,150 @@ function getar(){
 
 }
 
+
+
 //========================================
-// Scanner
+// Mulai Scanner
 //========================================
 
-async function mulaiScanner(){
 
-    if(kameraAktif) return;
+function mulaiScanner(){
 
-    kameraAktif = true;
 
-    scanSedangDiproses = false;
+    if(kameraAktif){
 
-    document.getElementById("loading").style.display = "none";
-
-    document.getElementById("hasil").innerHTML = "Membuka kamera...";
-
-    codeReader = new ZXing.BrowserMultiFormatReader();
-
-    try{
-
-        const devices = await codeReader.listVideoInputDevices();
-
-        if(devices.length===0){
-
-            tampilError("Kamera tidak ditemukan");
-
-            kameraAktif=false;
-
-            return;
-
-        }
-
-let cameraId = devices[devices.length - 1].deviceId;
-
-        // Cari kamera belakang
-
-        for(const device of devices){
-
-            const nama = (device.label || "").toLowerCase();
-
-            if(
-                nama.includes("back") ||
-                nama.includes("rear") ||
-                nama.includes("belakang")
-            ){
-
-                cameraId = device.deviceId;
-
-                break;
-
-            }
-
-        }
-
-        codeReader.decodeFromVideoDevice(
-
-            cameraId,
-
-            "reader",
-
-        (result, err) => {
-
-            if (err) return;
-
-            if (!result) return;
-
-            if (scanSedangDiproses) return;
-
-            prosesQRCode(result.getText());
-
-            }
-
-        );
+        return;
 
     }
 
-catch(err){
 
-    console.error(err);
+    kameraAktif=true;
 
-    tampilError("Tidak dapat membuka kamera.");
 
-    kameraAktif = false;
+    document.getElementById("hasil").innerHTML =
+    "Membuka kamera...";
 
-    scanSedangDiproses = false;
+
+
+    html5QrCode =
+    new Html5Qrcode("reader");
+
+
+
+    const config = {
+
+        fps:10,
+
+        qrbox:{
+            width:250,
+            height:250
+        }
+
+    };
+
+
+
+    html5QrCode.start(
+
+        {
+            facingMode:"environment"
+        },
+
+
+        config,
+
+
+        function(decodedText){
+
+
+            if(scanSedangDiproses){
+
+                return;
+
+            }
+
+
+
+            bunyiBeep();
+
+            getar();
+
+
+
+            hasilScanQR(decodedText);
+
+
+        },
+
+
+        function(errorMessage){
+
+            // error scanning normal
+            // tidak perlu ditampilkan
+
+        }
+
+
+    )
+
+    .catch(function(err){
+
+
+        console.error(err);
+
+
+        kameraAktif=false;
+
+
+        tampilError(
+            "Tidak dapat membuka kamera."
+        );
+
+
+    });
+
 
 }
 
-}
+
+
 
 //========================================
 // Stop Scanner
 //========================================
 
+
 function stopScanner(){
 
-    if(codeReader){
 
-        codeReader.reset();
+    if(
+        html5QrCode &&
+        kameraAktif
+    ){
+
+
+        html5QrCode.stop()
+
+        .then(()=>{
+
+
+            html5QrCode.clear();
+
+
+            kameraAktif=false;
+
+
+        })
+
+
+        .catch(err=>{
+
+            console.log(err);
+
+        });
+
 
     }
 
-    kameraAktif=false;
-
-}
-
-//========================================
-// QR
-//========================================
-
-function prosesQRCode(kode){
-
-    if(scanSedangDiproses){
-        return;
-    }
-
-    scanSedangDiproses = true;
-
-    bunyiBeep();
-
-    getar();
-
-    tampilLoading();
-
-    kirimKeServer(kode);
-
-    // Siapkan scanner kembali tanpa menutup kamera
-    setTimeout(function(){
-
-        scanSedangDiproses = false;
-
-    },1000);
 
 }
