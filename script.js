@@ -1,5 +1,5 @@
 // =============================
-// ABSENKU SMK v2.0
+// ABSENKU SMK v3.0
 // script.js
 // =============================
 
@@ -10,86 +10,95 @@ let scannerAktif = false;
 // Update Jam
 // =============================
 
-function updateJam(){
+function updateJam() {
 
     const sekarang = new Date();
 
-    const hari=[
+    const hari = [
         "Minggu","Senin","Selasa","Rabu",
         "Kamis","Jumat","Sabtu"
     ];
 
-    const bulan=[
+    const bulan = [
         "Januari","Februari","Maret","April",
         "Mei","Juni","Juli","Agustus",
         "September","Oktober","November","Desember"
     ];
 
-    document.getElementById("tanggal").innerHTML=
-
+    document.getElementById("tanggal").innerHTML =
         hari[sekarang.getDay()] + ", " +
-
-        sekarang.getDate()+" "+
-
-        bulan[sekarang.getMonth()]+" "+
-
+        sekarang.getDate() + " " +
+        bulan[sekarang.getMonth()] + " " +
         sekarang.getFullYear();
 
-    document.getElementById("jam").innerHTML=
-
+    document.getElementById("jam").innerHTML =
         sekarang.toLocaleTimeString("id-ID");
 
 }
 
 setInterval(updateJam,1000);
-
 updateJam();
 
 
 // =============================
-// Fungsi Tombol
+// MODE
 // =============================
 
 function aktifkanMode(mode){
 
-    MODE=mode;
+    MODE = mode;
 
+    if(mode==="MASUK"){
 
-    if(mode=="MASUK"){
+        document.getElementById("modeText").innerHTML =
+            "🟢 ABSEN MASUK";
 
-        document.getElementById("modeText").innerHTML="🟢 ABSEN MASUK";
-        document.getElementById("modeText").className="success";
+        document.getElementById("modeText").className =
+            "success";
+
+        document.getElementById("btnMode").innerHTML =
+            "GANTI KE MODE PULANG";
 
     }else{
 
-        document.getElementById("modeText").innerHTML="🔴 ABSEN PULANG";
-        document.getElementById("modeText").className="error";
+        document.getElementById("modeText").innerHTML =
+            "🔴 ABSEN PULANG";
+
+        document.getElementById("modeText").className =
+            "error";
+
+        document.getElementById("btnMode").innerHTML =
+            "GANTI KE MODE MASUK";
 
     }
 
-    document.getElementById("hasil").innerHTML="Membuka kamera...";
+    document.getElementById("hasil").innerHTML =
+        "Membuka kamera...";
 
-    mulaiScanner();
+    if(!scannerAktif){
+
+        mulaiScanner();
+
+    }
 
 }
 
-document.getElementById("btnMode").addEventListener("click",()=>{
 
-    if(MODE==""){
+// =============================
+// Tombol Mode
+// =============================
+
+document.getElementById("btnMode").addEventListener("click",function(){
+
+    if(MODE===""){
 
         aktifkanMode("MASUK");
 
-        document.getElementById("btnMode").innerHTML =
-        "GANTI KE MODE PULANG";
-
     }
 
-    else if(MODE=="MASUK"){
+    else if(MODE==="MASUK"){
 
         aktifkanMode("PULANG");
-
-        document.getElementById("btnMode").innerHTML =
-        "GANTI KE MODE MASUK";
 
     }
 
@@ -97,12 +106,10 @@ document.getElementById("btnMode").addEventListener("click",()=>{
 
         aktifkanMode("MASUK");
 
-        document.getElementById("btnMode").innerHTML =
-        "GANTI KE MODE PULANG";
-
     }
 
 });
+
 
 // =============================
 // Loading
@@ -122,39 +129,44 @@ function sembunyiLoading(){
 
 
 // =============================
-// Hasil
+// Berhasil
 // =============================
 
 function tampilHasil(
-
     nama,
     kode,
     status,
     jam
-
 ){
 
     sembunyiLoading();
 
-    const box=document.getElementById("hasilBox");
+    const box =
+        document.getElementById("hasilBox");
 
     box.classList.remove("gagal");
-
     box.classList.add("berhasil");
 
-    document.getElementById("hasil").innerHTML=
+    document.getElementById("hasil").innerHTML =
 
-        "<h2>✅ BERHASIL</h2><br>"+
+        "<h2>✅ BERHASIL</h2><br>" +
 
-        "<b>"+nama+"</b><br><br>"+
+        "<b>"+nama+"</b><br><br>" +
 
-        "Kode : "+kode+"<br>"+
+        "Kode : "+kode+"<br>" +
 
-        "Status : "+status+"<br>"+
+        "Status : "+status+"<br>" +
 
         "Jam : "+jam;
 
-    resetAplikasi();
+    setTimeout(function(){
+
+        document.getElementById("hasil").innerHTML =
+            "Silakan scan QR berikutnya...";
+
+        scanSedangDiproses = false;
+
+    },1200);
 
 }
 
@@ -167,36 +179,25 @@ function tampilError(teks){
 
     sembunyiLoading();
 
-    const box=document.getElementById("hasilBox");
+    const box =
+        document.getElementById("hasilBox");
 
     box.classList.remove("berhasil");
-
     box.classList.add("gagal");
 
-    document.getElementById("hasil").innerHTML=
+    document.getElementById("hasil").innerHTML =
 
-        "<h2>❌ GAGAL</h2><br>"+
+        "<h2>❌ GAGAL</h2><br>" +
 
         teks;
 
-    resetAplikasi();
-
-}
-
-
-// =============================
-// Reset
-// =============================
-
-function resetAplikasi(){
-
-    setTimeout(()=>{
+    setTimeout(function(){
 
         document.getElementById("hasil").innerHTML =
-        "Silakan scan QR berikutnya...";
+            "Silakan scan QR berikutnya...";
 
         scanSedangDiproses = false;
 
-    },1500);
+    },1200);
 
 }
