@@ -180,16 +180,11 @@ function resetAplikasi(){
 
     setTimeout(()=>{
 
-        document.getElementById("btnMasuk").disabled=false;
+        document.getElementById("hasil").innerHTML =
+        "Silakan scan QR berikutnya...";
 
-        document.getElementById("btnPulang").disabled=false;
+        scanSedangDiproses = false;
 
-        document.getElementById("modeText").innerHTML="BELUM DIPILIH";
-
-        document.getElementById("modeText").className="";
-
-        stopScanner();
-
-    },2500);
+    },1500);
 
 }
