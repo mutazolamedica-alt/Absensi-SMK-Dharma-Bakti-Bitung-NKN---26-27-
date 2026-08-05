@@ -3,17 +3,14 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<title>ABSENKU SMK</title>
+    <title>ABSENKU SMK</title>
 
-<link
-rel="stylesheet"
-href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -21,21 +18,17 @@ href="style.css">
 
 <div class="container">
 
+    <!-- HEADER -->
+
     <div class="header">
 
-        <h1>
+        <h1>ABSENKU SMK</h1>
 
-            ABSENKU SMK
-
-        </h1>
-
-        <p>
-
-            Sistem Absensi QR Code
-
-        </p>
+        <p>Sistem Absensi QR Code</p>
 
     </div>
+
+    <!-- JAM -->
 
     <div class="card waktu">
 
@@ -53,67 +46,48 @@ href="style.css">
 
     </div>
 
+    <!-- MODE -->
+
     <div class="card">
 
-        <button
-            id="btnMasuk"
-            class="btn hijau">
+        <h2>MODE ABSENSI</h2>
 
-            🟢 ABSEN MASUK
-
-        </button>
-
-        <button
-            id="btnPulang"
-            class="btn merah">
-
-            🔴 ABSEN PULANG
-
-        </button>
-
-    </div>
-
-    <div
-        id="modeBox"
-        class="card">
-
-        <h2>
-
-            MODE
-
-        </h2>
-
-        <div
-            id="modeText">
+        <div id="modeText" class="mode-belum">
 
             BELUM DIPILIH
 
         </div>
 
-    </div>
+        <button
+            id="btnMode"
+            class="btn biru">
 
-<div id="scannerBox" class="card">
+            PILIH MODE
 
-    <video
-        id="reader"
-        autoplay
-        playsinline
-        muted
-        style="
-            width:100%;
-            border-radius:15px;
-            background:black;
-        ">
-    </video>
+        </button>
 
     </div>
 
-        <div id="loading" style="display:none;">
-    <div class="spinner"></div>
-    <p>Mengirim data...</p>
-</div>
-        
+    <!-- KAMERA -->
+
+    <div class="card">
+
+        <div id="reader"></div>
+
     </div>
+
+    <!-- LOADING -->
+
+    <div
+        id="loading"
+        class="loading"
+        style="display:none;">
+
+        Memproses...
+
+    </div>
+
+    <!-- HASIL -->
 
     <div
         id="hasilBox"
@@ -125,27 +99,26 @@ href="style.css">
 
         </h2>
 
-        <div
-            id="hasil">
+        <div id="hasil">
 
-            Menunggu scan...
+            Belum ada scan.
 
         </div>
 
-        <hr style="margin:20px 0">
-
-<div id="statusServer" class="info">
-
-🟢 Server Siap
-
-</div>
-        
     </div>
 
 </div>
 
-<script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
-    
+<!-- ============================ -->
+<!-- Library Scanner -->
+<!-- ============================ -->
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<!-- ============================ -->
+<!-- Javascript -->
+<!-- ============================ -->
+
 <script src="script.js"></script>
 
 <script src="scanner.js"></script>
