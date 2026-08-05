@@ -58,10 +58,4 @@ async function kirimKeServer(kode){
 
     }
 
-    finally{
-
-        scanSedangDiproses=false;
-
-    }
-
 }
