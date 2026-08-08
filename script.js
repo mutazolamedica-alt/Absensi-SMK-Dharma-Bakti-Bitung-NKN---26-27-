@@ -18,6 +18,162 @@ let scanSedangDiproses = false;
 
 let riwayatScan = [];
 
+const STORAGE_RIWAYAT =
+    "absenku_riwayat_hari_ini";
+
+
+//========================================
+// TANGGAL STORAGE
+//========================================
+
+function tanggalHariIni(){
+
+    const sekarang = new Date();
+
+    const tahun =
+        sekarang.getFullYear();
+
+    const bulan =
+        String(
+            sekarang.getMonth() + 1
+        ).padStart(2,"0");
+
+    const tanggal =
+        String(
+            sekarang.getDate()
+        ).padStart(2,"0");
+
+
+    return (
+        tahun +
+        "-" +
+        bulan +
+        "-" +
+        tanggal
+    );
+
+}
+
+
+//========================================
+// SIMPAN RIWAYAT
+//========================================
+
+function simpanRiwayat(){
+
+    try{
+
+        const data = {
+
+            tanggal: tanggalHariIni(),
+
+            riwayat: riwayatScan
+
+        };
+
+
+        localStorage.setItem(
+
+            STORAGE_RIWAYAT,
+
+            JSON.stringify(data)
+
+        );
+
+    }
+
+    catch(err){
+
+        console.error(
+            "Gagal menyimpan riwayat:",
+            err
+        );
+
+    }
+
+}
+
+
+//========================================
+// MUAT RIWAYAT
+//========================================
+
+function muatRiwayat(){
+
+    try{
+
+        const data =
+            localStorage.getItem(
+                STORAGE_RIWAYAT
+            );
+
+
+        if(!data){
+
+            riwayatScan = [];
+
+            renderRiwayat();
+
+            return;
+
+        }
+
+
+        const hasil =
+            JSON.parse(data);
+
+
+        /*
+         * Jika tanggal masih sama,
+         * gunakan riwayat sebelumnya.
+         */
+
+        if(
+            hasil &&
+            hasil.tanggal === tanggalHariIni() &&
+            Array.isArray(hasil.riwayat)
+        ){
+
+            riwayatScan =
+                hasil.riwayat;
+
+        }
+
+        else{
+
+            /*
+             * Tanggal sudah berubah.
+             * Mulai riwayat baru.
+             */
+
+            riwayatScan = [];
+
+            localStorage.removeItem(
+                STORAGE_RIWAYAT
+            );
+
+        }
+
+
+        renderRiwayat();
+
+    }
+
+    catch(err){
+
+        console.error(
+            "Gagal memuat riwayat:",
+            err
+        );
+
+        riwayatScan = [];
+
+        renderRiwayat();
+
+    }
+
+}
+
 
 // ========================================
 // UPDATE JAM
@@ -151,6 +307,7 @@ setInterval(updateJam,1000);
 
 updateJam();
 
+muatRiwayat();
 
 
 // ========================================
@@ -541,6 +698,7 @@ function tambahRiwayat(data){
 
     }
 
+    simpanRiwayat();
 
     renderRiwayat();
 
