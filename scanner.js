@@ -1,11 +1,27 @@
 //========================================
 // scanner.js
-// ABSENKU SMK v3.3
+// ABSENKU SMK v3.4
 // html5-qrcode
 //========================================
 
 let html5QrCode = null;
 let kameraAktif = false;
+
+
+//========================================
+// Sinkronisasi Status Scanner
+//========================================
+
+function setStatusKamera(status){
+
+    kameraAktif = status;
+
+    // Sinkronkan dengan script.js
+    scannerAktif = status;
+
+    updateTombolKamera();
+
+}
 
 
 //========================================
@@ -17,8 +33,11 @@ function updateTombolKamera(){
     const tombol =
         document.getElementById("btnKamera");
 
+
     if(!tombol){
+
         return;
+
     }
 
 
@@ -27,9 +46,13 @@ function updateTombolKamera(){
         tombol.innerHTML =
             "📷 MATIKAN KAMERA";
 
-        tombol.classList.remove("nonaktif");
+        tombol.classList.remove(
+            "nonaktif"
+        );
 
-        tombol.classList.add("aktif");
+        tombol.classList.add(
+            "aktif"
+        );
 
     }
 
@@ -38,9 +61,13 @@ function updateTombolKamera(){
         tombol.innerHTML =
             "📷 AKTIFKAN KAMERA";
 
-        tombol.classList.remove("aktif");
+        tombol.classList.remove(
+            "aktif"
+        );
 
-        tombol.classList.add("nonaktif");
+        tombol.classList.add(
+            "nonaktif"
+        );
 
     }
 
@@ -121,7 +148,15 @@ function getar(){
 
 function mulaiScanner(){
 
-    if(kameraAktif){
+    /*
+     * Jangan membuat scanner baru jika
+     * scanner lama masih aktif.
+     */
+
+    if(
+        kameraAktif ||
+        html5QrCode
+    ){
 
         return;
 
@@ -132,8 +167,11 @@ function mulaiScanner(){
         "Membuka kamera...";
 
 
-    html5QrCode =
+    const scanner =
         new Html5Qrcode("reader");
+
+
+    html5QrCode = scanner;
 
 
     const config = {
@@ -141,14 +179,17 @@ function mulaiScanner(){
         fps: 10,
 
         qrbox: {
+
             width: 250,
+
             height: 250
+
         }
 
     };
 
 
-    html5QrCode.start(
+    scanner.start(
 
         {
             facingMode: "environment"
@@ -186,17 +227,20 @@ function mulaiScanner(){
 
     )
 
+
     .then(function(){
 
         /*
          * PENTING:
-         * kameraAktif baru menjadi TRUE
-         * setelah kamera benar-benar berhasil START.
+         * status baru aktif setelah kamera
+         * benar-benar berhasil dibuka.
          */
 
-        kameraAktif = true;
+        setStatusKamera(true);
 
-        updateTombolKamera();
+
+        document.getElementById("hasil").innerHTML =
+            "Kamera aktif. Silakan scan QR siswa.";
 
     })
 
@@ -209,11 +253,23 @@ function mulaiScanner(){
         );
 
 
-        kameraAktif = false;
+        /*
+         * Bersihkan instance yang gagal.
+         */
+
+        try{
+
+            scanner.clear();
+
+        }
+
+        catch(e){}
+
 
         html5QrCode = null;
 
-        updateTombolKamera();
+
+        setStatusKamera(false);
 
 
         tampilError(
@@ -231,35 +287,63 @@ function mulaiScanner(){
 
 function stopScanner(){
 
-    if(
-        !html5QrCode ||
-        !kameraAktif
-    ){
+    /*
+     * Jika memang tidak ada scanner,
+     * pastikan status tetap OFF.
+     */
 
-        kameraAktif = false;
+    if(!html5QrCode){
 
-        updateTombolKamera();
+        setStatusKamera(false);
 
         return;
 
     }
 
 
-    html5QrCode.stop()
+    const scanner =
+        html5QrCode;
+
+
+    /*
+     * Tandai sedang proses berhenti.
+     * Jangan langsung membuat scanner baru
+     * sebelum stop selesai.
+     */
+
+    scanner.stop()
 
     .then(function(){
 
-        html5QrCode.clear();
+        try{
+
+            scanner.clear();
+
+        }
+
+        catch(e){
+
+            console.log(
+                "Clear scanner:",
+                e
+            );
+
+        }
+
+
+        /*
+         * Baru setelah benar-benar berhenti,
+         * kosongkan instance.
+         */
 
         html5QrCode = null;
 
-        kameraAktif = false;
 
-        updateTombolKamera();
+        setStatusKamera(false);
 
 
         document.getElementById("hasil").innerHTML =
-            "Kamera dimatikan. Silakan aktifkan kembali jika ingin scan.";
+            "Kamera dimatikan. Riwayat scan tetap tersimpan.";
 
     })
 
@@ -270,6 +354,18 @@ function stopScanner(){
             "Gagal mematikan kamera:",
             err
         );
+
+
+        /*
+         * Jika stop gagal, kita tetap
+         * periksa status sebenarnya.
+         */
+
+        kameraAktif = false;
+
+        scannerAktif = false;
+
+        updateTombolKamera();
 
     });
 
@@ -285,7 +381,9 @@ document.addEventListener(
     function(){
 
         const tombol =
-            document.getElementById("btnKamera");
+            document.getElementById(
+                "btnKamera"
+            );
 
 
         if(!tombol){
@@ -299,11 +397,21 @@ document.addEventListener(
             "click",
             function(){
 
+                /*
+                 * KAMERA AKTIF
+                 * → MATIKAN
+                 */
+
                 if(kameraAktif){
 
                     stopScanner();
 
                 }
+
+                /*
+                 * KAMERA MATI
+                 * → AKTIFKAN
+                 */
 
                 else{
 
@@ -316,11 +424,15 @@ document.addEventListener(
 
 
         /*
-         * Saat halaman pertama kali dibuka,
-         * kamera belum aktif.
+         * Kondisi awal.
          */
 
         kameraAktif = false;
+
+        scannerAktif = false;
+
+        html5QrCode = null;
+
 
         updateTombolKamera();
 
