@@ -1,297 +1,1080 @@
+/* =========================================================
+   ABSENKU SMK
+   SMK DHARMA BAKTI BITUNG
+   UI PROFESSIONAL
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
 
 body{
 
-    background:#eef2f7;
+    background:#f2f6fa;
+
+    color:#17202a;
+
+    min-height:100vh;
 
 }
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
 
 .container{
 
-    width:95%;
-    max-width:500px;
-    margin:25px auto;
+    width:94%;
+
+    max-width:720px;
+
+    margin:0 auto;
+
+    padding:15px 0 25px;
 
 }
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
 
 .header{
 
-    background:#1565C0;
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0756d8,
+            #0b66d8 55%,
+            #0eaa4b
+        );
+
     color:white;
-    border-radius:15px;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 4px 10px rgba(0,0,0,.2);
+
+    border-radius:24px;
+
+    padding:28px 25px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.12);
 
 }
 
-.header h1{
 
-    font-size:30px;
-    margin-bottom:8px;
+.header::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:230px;
+    height:230px;
+
+    right:-90px;
+    top:-110px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.08);
 
 }
 
-.header p{
 
-    opacity:.9;
+.identitas-sekolah{
+
+    position:relative;
+
+    z-index:2;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:22px;
 
 }
+
+
+.logo-sekolah{
+
+    width:110px;
+
+    height:110px;
+
+    object-fit:contain;
+
+    background:white;
+
+    border-radius:50%;
+
+    padding:4px;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.20);
+
+}
+
+
+.nama-sekolah{
+
+    flex:1;
+
+}
+
+
+.nama-sekolah h1{
+
+    font-size:29px;
+
+    line-height:1.08;
+
+    letter-spacing:.5px;
+
+    font-weight:800;
+
+}
+
+
+.nama-sekolah p{
+
+    display:inline-block;
+
+    margin-top:12px;
+
+    padding:7px 14px;
+
+    border-radius:8px;
+
+    background:#0b8f3c;
+
+    border:2px solid #54e579;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
 
 .card{
 
     background:white;
-    margin-top:20px;
+
+    margin-top:15px;
+
     padding:20px;
-    border-radius:15px;
-    box-shadow:0 2px 8px rgba(0,0,0,.15);
+
+    border-radius:20px;
+
+    box-shadow:
+        0 5px 18px rgba(30,60,90,.08);
 
 }
+
+
+/* =========================================================
+   WAKTU
+   ========================================================= */
 
 .waktu{
 
+    padding:18px 20px;
+
+}
+
+
+.waktu-wrapper{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+}
+
+
+.ikon-kalender{
+
+    width:75px;
+
+    height:75px;
+
+    border-radius:50%;
+
+    background:#edf3fa;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+}
+
+
+.ikon-kalender span{
+
+    color:#111;
+
+    font-size:52px;
+
+    line-height:1;
+
+}
+
+
+.waktu-tengah{
+
+    flex:1;
+
     text-align:center;
 
 }
+
 
 #tanggal{
 
-    font-size:18px;
+    font-size:17px;
+
+    font-weight:700;
+
+    color:#111;
 
 }
+
 
 #jam{
 
-    margin-top:8px;
-    font-size:36px;
-    font-weight:bold;
-    color:#1565C0;
+    margin-top:5px;
+
+    color:#111;
+
+    font-size:48px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+    line-height:1;
 
 }
 
-.btn{
 
-    width:100%;
-    border:none;
-    padding:18px;
-    border-radius:12px;
-    color:white;
+/* =========================================================
+   JAM ANALOG
+   ========================================================= */
+
+.jam-analog{
+
+    width:85px;
+
+    height:85px;
+
+    flex-shrink:0;
+
+}
+
+
+.clock-face{
+
+    position:relative;
+
+    width:85px;
+
+    height:85px;
+
+    border:3px solid #111;
+
+    border-radius:50%;
+
+    background:white;
+
+}
+
+
+.clock-face::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:4px;
+
+    height:4px;
+
+    background:#111;
+
+    border-radius:50%;
+
+    left:50%;
+
+    top:7px;
+
+    transform:translateX(-50%);
+
+}
+
+
+.clock-face::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:4px;
+
+    height:4px;
+
+    background:#111;
+
+    border-radius:50%;
+
+    left:50%;
+
+    bottom:7px;
+
+    transform:translateX(-50%);
+
+}
+
+
+.clock-hand{
+
+    position:absolute;
+
+    bottom:50%;
+
+    left:50%;
+
+    transform-origin:50% 100%;
+
+    background:#111;
+
+    border-radius:5px;
+
+}
+
+
+.clock-hand.hour{
+
+    width:4px;
+
+    height:23px;
+
+}
+
+
+.clock-hand.minute{
+
+    width:3px;
+
+    height:31px;
+
+}
+
+
+.clock-hand.second{
+
+    width:2px;
+
+    height:34px;
+
+}
+
+
+.clock-center{
+
+    position:absolute;
+
+    width:7px;
+
+    height:7px;
+
+    background:#111;
+
+    border-radius:50%;
+
+    left:50%;
+
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    z-index:10;
+
+}
+
+
+/* =========================================================
+   SECTION TITLE
+   ========================================================= */
+
+.section-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    color:#0756d8;
+
     font-size:20px;
-    font-weight:bold;
-    cursor:pointer;
-    margin-bottom:15px;
-    transition:.2s;
+
+    font-weight:800;
 
 }
 
-.btn:hover{
 
-    transform:scale(1.02);
+.section-title span:last-child{
 
-}
-
-.hijau{
-
-    background:#2E7D32;
+    letter-spacing:.2px;
 
 }
 
-.hijau:hover{
 
-    background:#1B5E20;
+/* =========================================================
+   MODE
+   ========================================================= */
 
-}
+.mode-card{
 
-.merah{
-
-    background:#D32F2F;
-
-}
-
-.merah:hover{
-
-    background:#B71C1C;
+    padding:20px;
 
 }
 
-#modeBox{
 
-    text-align:center;
+.mode-content{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin-top:16px;
 
 }
+
+
+.mode-icon{
+
+    width:100px;
+
+    height:100px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #16c65a,
+            #0a9f3e
+        );
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:60px;
+
+    box-shadow:
+        0 7px 16px rgba(0,150,60,.20);
+
+}
+
+
+.mode-info{
+
+    flex:1;
+
+}
+
 
 #modeText{
 
-    margin-top:15px;
-    font-size:24px;
-    font-weight:bold;
-    color:#1565C0;
+    font-size:27px;
+
+    font-weight:900;
+
+    line-height:1.1;
 
 }
+
+
+.mode-status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    margin-top:10px;
+
+    padding:7px 12px;
+
+    border-radius:20px;
+
+    background:#e6f8eb;
+
+    color:#13853b;
+
+    font-size:14px;
+
+    font-weight:800;
+
+}
+
+
+.status-dot{
+
+    width:9px;
+
+    height:9px;
+
+    border-radius:50%;
+
+    background:#16b94d;
+
+    animation:denyut 1.5s infinite;
+
+}
+
+
+@keyframes denyut{
+
+    0%,100%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.35;
+    }
+
+}
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.btn{
+
+    border:none;
+
+    border-radius:14px;
+
+    min-height:62px;
+
+    padding:12px 22px;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+
+}
+
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+.btn:active{
+
+    transform:scale(.98);
+
+}
+
+
+.biru{
+
+    background:
+        linear-gradient(
+            135deg,
+            #0756d8,
+            #0d6ce0
+        );
+
+    box-shadow:
+        0 5px 14px rgba(7,86,216,.20);
+
+}
+
+
+.hijau{
+
+    background:#0da947;
+
+}
+
+
+.merah{
+
+    background:#d93232;
+
+}
+
+
+.btn:disabled{
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+}
+
+
+/* =========================================================
+   SCANNER
+   ========================================================= */
+
+.scanner-card{
+
+    padding:20px;
+
+}
+
+
+.scanner-title{
+
+    margin-bottom:15px;
+
+}
+
+
+.scanner-icon{
+
+    font-size:29px;
+
+}
+
 
 #reader{
 
     width:100%;
-    min-height:320px;
-    border:3px dashed #1565C0;
-    border-radius:15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#888;
-    font-size:18px;
+
+    min-height:360px;
+
+    border:0;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    background:#eef2f6;
+
+    position:relative;
 
 }
 
-#hasilBox{
+
+#reader video{
+
+    width:100% !important;
+
+    max-width:100% !important;
+
+    border-radius:18px;
+
+    object-fit:cover;
+
+}
+
+
+#reader__scan_region{
+
+    border-radius:18px;
+
+}
+
+
+#reader__dashboard{
+
+    padding:10px !important;
+
+}
+
+
+#reader__dashboard_section_csr{
+
+    color:#555;
+
+}
+
+
+.scanner-info{
+
+    margin-top:12px;
+
+    padding:12px;
+
+    border-radius:13px;
+
+    background:#e8f8ed;
+
+    color:#11853a;
 
     text-align:center;
 
-}
+    font-weight:700;
 
-#hasil{
-
-    margin-top:15px;
-    font-size:22px;
-    font-weight:bold;
-    line-height:1.6;
+    font-size:15px;
 
 }
 
-.success{
 
-    color:#2E7D32;
+.shield-icon{
 
-}
+    font-size:21px;
 
-.warning{
-
-    color:#EF6C00;
+    margin-right:5px;
 
 }
 
-.error{
 
-    color:#D32F2F;
-
-}
-
-.info{
-
-    color:#1565C0;
-
-}
-
-@media(max-width:600px){
-
-.header h1{
-
-    font-size:24px;
-
-}
-
-#jam{
-
-    font-size:30px;
-
-}
-
-.btn{
-
-    font-size:18px;
-
-}
-
-#hasil{
-
-    font-size:18px;
-
-}
-
-}
-
-/* ============================= */
-/* ABSENKU SMK v2 */
-/* ============================= */
-
-.spinner{
-
-    width:55px;
-    height:55px;
-    border:6px solid #ddd;
-    border-top:6px solid #1565C0;
-    border-radius:50%;
-    animation:putar 1s linear infinite;
-    margin:20px auto;
-
-}
-
-@keyframes putar{
-
-    from{
-
-        transform:rotate(0deg);
-
-    }
-
-    to{
-
-        transform:rotate(360deg);
-
-    }
-
-}
+/* =========================================================
+   LOADING
+   ========================================================= */
 
 #loading{
 
     text-align:center;
+
     padding:15px;
 
 }
 
+
 #loading p{
 
-    margin-top:15px;
-    font-size:18px;
-    font-weight:bold;
-    color:#1565C0;
-
-}
-
-#statusServer{
-
-    font-size:18px;
-    font-weight:bold;
     margin-top:10px;
 
-}
+    color:#0756d8;
 
-.berhasil{
+    font-size:16px;
 
-    background:#E8F5E9;
-    border-left:8px solid #2E7D32;
-    animation:muncul .35s;
+    font-weight:800;
 
 }
 
-.gagal{
 
-    background:#FFEBEE;
-    border-left:8px solid #D32F2F;
-    animation:muncul .35s;
+.spinner{
+
+    width:48px;
+
+    height:48px;
+
+    border:5px solid #e0e5ea;
+
+    border-top:5px solid #0756d8;
+
+    border-radius:50%;
+
+    animation:putar 1s linear infinite;
+
+    margin:auto;
 
 }
+
+
+@keyframes putar{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   HASIL
+   ========================================================= */
+
+.hasil-card{
+
+    overflow:hidden;
+
+}
+
+
+.hasil-card.berhasil{
+
+    background:#effcf3;
+
+    border:2px solid #21b84d;
+
+    animation:muncul .35s ease;
+
+}
+
+
+.hasil-card.gagal{
+
+    background:#fff1f1;
+
+    border:2px solid #db3838;
+
+    animation:muncul .35s ease;
+
+}
+
+
+#hasil{
+
+    margin-top:15px;
+
+    font-size:18px;
+
+}
+
+
+.hasil-berhasil{
+
+    display:grid;
+
+    grid-template-columns:100px 1fr auto;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:12px;
+
+}
+
+
+.hasil-check{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #16c65a,
+            #08a43f
+        );
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:58px;
+
+    font-weight:bold;
+
+}
+
+
+.hasil-data{
+
+    min-width:0;
+
+}
+
+
+.hasil-judul{
+
+    color:#168b3c;
+
+    font-size:18px;
+
+    font-weight:900;
+
+}
+
+
+.hasil-nama{
+
+    margin-top:5px;
+
+    font-size:26px;
+
+    font-weight:900;
+
+    color:#111;
+
+    word-break:break-word;
+
+}
+
+
+.hasil-detail{
+
+    margin-top:7px;
+
+    color:#455;
+
+    font-size:15px;
+
+}
+
+
+.hasil-status{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+
+.hasil-status span{
+
+    min-width:120px;
+
+    padding:10px 14px;
+
+    border-radius:20px;
+
+    background:#d9f6e1;
+
+    color:#168b3c;
+
+    text-align:center;
+
+    font-size:14px;
+
+    font-weight:800;
+
+}
+
+
+.hasil-gagal{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:12px;
+
+}
+
+
+.hasil-error-icon{
+
+    width:75px;
+
+    height:75px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:#d93232;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:50px;
+
+    font-weight:bold;
+
+}
+
+
+.hasil-judul-error{
+
+    color:#c62828;
+
+    font-size:20px;
+
+    font-weight:900;
+
+}
+
+
+.hasil-pesan{
+
+    margin-top:5px;
+
+    color:#555;
+
+    font-size:16px;
+
+    line-height:1.4;
+
+}
+
 
 @keyframes muncul{
 
     from{
 
         opacity:0;
+
         transform:translateY(10px);
 
     }
@@ -299,21 +1082,758 @@ body{
     to{
 
         opacity:1;
+
         transform:translateY(0);
 
     }
 
 }
 
-#reader video{
 
-    border-radius:15px;
+/* =========================================================
+   RIWAYAT
+   ========================================================= */
+
+.riwayat-card{
+
+    padding:20px;
 
 }
 
-.btn:disabled{
 
-    opacity:.6;
-    cursor:not-allowed;
+.riwayat-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+}
+
+
+.jumlah-scan{
+
+    min-width:42px;
+
+    height:42px;
+
+    padding:0 12px;
+
+    border-radius:50px;
+
+    background:#0756d8;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:17px;
+
+    font-weight:900;
+
+    box-shadow:
+        0 4px 10px rgba(7,86,216,.20);
+
+}
+
+
+.history-icon{
+
+    font-size:27px;
+
+}
+
+
+.riwayat-kosong{
+
+    margin-top:15px;
+
+    padding:20px;
+
+    border-radius:13px;
+
+    background:#f4f7fa;
+
+    color:#78909c;
+
+    text-align:center;
+
+    font-size:14px;
+
+}
+
+
+.riwayat-list{
+
+    max-height:390px;
+
+    overflow-y:auto;
+
+    margin-top:15px;
+
+    padding-right:4px;
+
+}
+
+
+.riwayat-list::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+
+.riwayat-list::-webkit-scrollbar-thumb{
+
+    background:#cbd5dc;
+
+    border-radius:10px;
+
+}
+
+
+.riwayat-item{
+
+    display:grid;
+
+    grid-template-columns:70px 1fr auto;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:13px 5px;
+
+    border-bottom:1px solid #edf0f2;
+
+    animation:riwayatMasuk .25s ease;
+
+}
+
+
+.riwayat-item:last-child{
+
+    border-bottom:none;
+
+}
+
+
+@keyframes riwayatMasuk{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(-8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+
+.riwayat-jam{
+
+    color:#37474f;
+
+    font-size:13px;
+
+    font-weight:800;
+
+}
+
+
+.riwayat-identitas{
+
+    min-width:0;
+
+}
+
+
+.riwayat-nama{
+
+    font-size:15px;
+
+    font-weight:800;
+
+    color:#17202a;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+.riwayat-kode{
+
+    margin-top:3px;
+
+    color:#78909c;
+
+    font-size:12px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+.riwayat-status{
+
+    padding:6px 10px;
+
+    border-radius:15px;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    white-space:nowrap;
+
+}
+
+
+.status-hadir{
+
+    background:#ddf7e5;
+
+    color:#13843b;
+
+}
+
+
+.status-gagal{
+
+    background:#ffe0e0;
+
+    color:#c62828;
+
+}
+
+
+.riwayat-footer{
+
+    margin-top:10px;
+
+    padding-top:10px;
+
+    border-top:1px solid #edf0f2;
+
+    color:#90a4ae;
+
+    text-align:center;
+
+    font-size:11px;
+
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer{
+
+    margin-top:15px;
+
+    padding:16px 18px;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            100deg,
+            #0756d8,
+            #0a7dcc,
+            #0da947
+        );
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    font-size:12px;
+
+}
+
+
+.footer-kiri{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-weight:700;
+
+}
+
+
+.footer-kiri img{
+
+    width:38px;
+
+    height:38px;
+
+    object-fit:contain;
+
+    background:white;
+
+    border-radius:50%;
+
+}
+
+
+.footer-kanan{
+
+    text-align:right;
+
+    opacity:.95;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:600px){
+
+    .container{
+
+        width:94%;
+
+        padding-top:10px;
+
+    }
+
+
+    .header{
+
+        padding:20px 16px;
+
+        border-radius:20px;
+
+    }
+
+
+    .identitas-sekolah{
+
+        gap:13px;
+
+    }
+
+
+    .logo-sekolah{
+
+        width:82px;
+
+        height:82px;
+
+    }
+
+
+    .nama-sekolah h1{
+
+        font-size:20px;
+
+    }
+
+
+    .nama-sekolah p{
+
+        margin-top:8px;
+
+        padding:5px 8px;
+
+        font-size:9px;
+
+        letter-spacing:.5px;
+
+    }
+
+
+    .card{
+
+        margin-top:12px;
+
+        padding:16px;
+
+        border-radius:17px;
+
+    }
+
+
+    .waktu{
+
+        padding:15px 10px;
+
+    }
+
+
+    .ikon-kalender{
+
+        width:55px;
+
+        height:55px;
+
+    }
+
+
+    .ikon-kalender span{
+
+        font-size:39px;
+
+    }
+
+
+    #tanggal{
+
+        font-size:13px;
+
+    }
+
+
+    #jam{
+
+        font-size:31px;
+
+        margin-top:6px;
+
+    }
+
+
+    .jam-analog{
+
+        width:60px;
+
+        height:60px;
+
+    }
+
+
+    .clock-face{
+
+        width:60px;
+
+        height:60px;
+
+        border-width:2px;
+
+    }
+
+
+    .clock-hand.hour{
+
+        width:3px;
+
+        height:16px;
+
+    }
+
+
+    .clock-hand.minute{
+
+        width:2px;
+
+        height:21px;
+
+    }
+
+
+    .clock-hand.second{
+
+        width:2px;
+
+        height:24px;
+
+    }
+
+
+    .section-title{
+
+        font-size:17px;
+
+    }
+
+
+    .mode-content{
+
+        gap:12px;
+
+    }
+
+
+    .mode-icon{
+
+        width:65px;
+
+        height:65px;
+
+        font-size:40px;
+
+    }
+
+
+    #modeText{
+
+        font-size:20px;
+
+    }
+
+
+    .mode-status{
+
+        font-size:11px;
+
+        padding:6px 9px;
+
+    }
+
+
+    .btn{
+
+        min-height:55px;
+
+        padding:10px 12px;
+
+        font-size:12px;
+
+    }
+
+
+    #reader{
+
+        min-height:300px;
+
+        border-radius:15px;
+
+    }
+
+
+    .hasil-berhasil{
+
+        grid-template-columns:65px 1fr;
+
+        gap:12px;
+
+    }
+
+
+    .hasil-check{
+
+        width:65px;
+
+        height:65px;
+
+        font-size:42px;
+
+    }
+
+
+    .hasil-judul{
+
+        font-size:14px;
+
+    }
+
+
+    .hasil-nama{
+
+        font-size:20px;
+
+    }
+
+
+    .hasil-detail{
+
+        font-size:12px;
+
+    }
+
+
+    .hasil-status{
+
+        grid-column:1 / -1;
+
+        flex-direction:row;
+
+    }
+
+
+    .hasil-status span{
+
+        flex:1;
+
+        min-width:0;
+
+        font-size:12px;
+
+        padding:8px;
+
+    }
+
+
+    .riwayat-item{
+
+        grid-template-columns:58px 1fr auto;
+
+        gap:7px;
+
+    }
+
+
+    .riwayat-jam{
+
+        font-size:11px;
+
+    }
+
+
+    .riwayat-nama{
+
+        font-size:13px;
+
+    }
+
+
+    .riwayat-kode{
+
+        font-size:10px;
+
+    }
+
+
+    .riwayat-status{
+
+        font-size:9px;
+
+        padding:5px 7px;
+
+    }
+
+
+    .footer{
+
+        flex-direction:column;
+
+        text-align:center;
+
+        padding:15px;
+
+    }
+
+
+    .footer-kiri{
+
+        justify-content:center;
+
+    }
+
+
+    .footer-kanan{
+
+        text-align:center;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media(max-width:380px){
+
+    .nama-sekolah h1{
+
+        font-size:18px;
+
+    }
+
+
+    #jam{
+
+        font-size:27px;
+
+    }
+
+
+    .ikon-kalender{
+
+        width:48px;
+
+        height:48px;
+
+    }
+
+
+    .ikon-kalender span{
+
+        font-size:34px;
+
+    }
+
+
+    .jam-analog{
+
+        width:52px;
+
+        height:52px;
+
+    }
+
+
+    .clock-face{
+
+        width:52px;
+
+        height:52px;
+
+    }
+
+
+    .mode-icon{
+
+        width:58px;
+
+        height:58px;
+
+    }
+
+
+    #modeText{
+
+        font-size:18px;
+
+    }
 
 }
