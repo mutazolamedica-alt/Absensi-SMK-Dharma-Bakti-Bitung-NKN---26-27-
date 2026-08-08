@@ -1,6 +1,6 @@
 //========================================
 // scanner.js
-// ABSENKU SMK v3.2
+// ABSENKU SMK v3.3
 // html5-qrcode
 //========================================
 
@@ -128,11 +128,6 @@ function mulaiScanner(){
     }
 
 
-    kameraAktif = true;
-
-    updateTombolKamera();
-
-
     document.getElementById("hasil").innerHTML =
         "Membuka kamera...";
 
@@ -146,10 +141,8 @@ function mulaiScanner(){
         fps: 10,
 
         qrbox: {
-
             width: 250,
             height: 250
-
         }
 
     };
@@ -186,19 +179,39 @@ function mulaiScanner(){
 
         function(errorMessage){
 
-            // error scanning normal
-            // tidak perlu ditampilkan
+            // Error scanning normal.
+            // Tidak perlu ditampilkan.
 
         }
 
     )
 
+    .then(function(){
+
+        /*
+         * PENTING:
+         * kameraAktif baru menjadi TRUE
+         * setelah kamera benar-benar berhasil START.
+         */
+
+        kameraAktif = true;
+
+        updateTombolKamera();
+
+    })
+
+
     .catch(function(err){
 
-        console.error(err);
+        console.error(
+            "Gagal membuka kamera:",
+            err
+        );
 
 
         kameraAktif = false;
+
+        html5QrCode = null;
 
         updateTombolKamera();
 
@@ -219,44 +232,46 @@ function mulaiScanner(){
 function stopScanner(){
 
     if(
-        html5QrCode &&
-        kameraAktif
+        !html5QrCode ||
+        !kameraAktif
     ){
-
-        html5QrCode.stop()
-
-        .then(()=>{
-
-            html5QrCode.clear();
-
-            html5QrCode = null;
-
-            kameraAktif = false;
-
-            updateTombolKamera();
-
-
-            document.getElementById("hasil").innerHTML =
-                "Kamera dimatikan. Riwayat scan tetap tersimpan.";
-
-        })
-
-
-        .catch(err=>{
-
-            console.log(err);
-
-        });
-
-    }
-
-    else{
 
         kameraAktif = false;
 
         updateTombolKamera();
 
+        return;
+
     }
+
+
+    html5QrCode.stop()
+
+    .then(function(){
+
+        html5QrCode.clear();
+
+        html5QrCode = null;
+
+        kameraAktif = false;
+
+        updateTombolKamera();
+
+
+        document.getElementById("hasil").innerHTML =
+            "Kamera dimatikan. Silakan aktifkan kembali jika ingin scan.";
+
+    })
+
+
+    .catch(function(err){
+
+        console.error(
+            "Gagal mematikan kamera:",
+            err
+        );
+
+    });
 
 }
 
@@ -299,6 +314,13 @@ document.addEventListener(
             }
         );
 
+
+        /*
+         * Saat halaman pertama kali dibuka,
+         * kamera belum aktif.
+         */
+
+        kameraAktif = false;
 
         updateTombolKamera();
 
