@@ -118,23 +118,27 @@ body{
 }
 
 
-.logo-sekolah{
+/* ========================================
+   LOGO SEKOLAH
+   ======================================== */
 
-    width:110px;
+.logo-sekolah {
+    width: 64px;
+    height: 64px;
 
-    height:110px;
+    object-fit: contain;
 
-    object-fit:contain;
+    display: block;
 
-    background:white;
+    background: transparent;
 
-    border-radius:50%;
+    border: none;
+    border-radius: 0;
 
-    padding:4px;
+    padding: 0;
+    margin: 0;
 
-    box-shadow:
-        0 5px 15px rgba(0,0,0,.20);
-
+    box-shadow: none;
 }
 
 
@@ -225,34 +229,30 @@ body{
 }
 
 
-.ikon-kalender{
+/* ========================================
+   IKON KALENDER
+   ======================================== */
 
-    width:75px;
+.calendar-icon {
 
-    height:75px;
+    width: 48px;
+    height: 48px;
 
-    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    background:#edf3fa;
+    color: #111111;
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    flex-shrink:0;
-
+    flex-shrink: 0;
 }
 
+.calendar-icon svg {
 
-.ikon-kalender span{
+    width: 30px;
+    height: 30px;
 
-    color:#111;
-
-    font-size:52px;
-
-    line-height:1;
+    display: block;
 
 }
 
@@ -1424,6 +1424,14 @@ body{
    MOBILE
    ========================================================= */
 
+@media (max-width: 600px) {
+
+    .logo-sekolah {
+        width: 58px;
+        height: 58px;
+    }
+
+}
 @media(max-width:600px){
 
     .container{
@@ -1498,20 +1506,23 @@ body{
     }
 
 
-    .ikon-kalender{
+@media (max-width: 600px) {
 
-        width:55px;
+    .calendar-icon {
 
-        height:55px;
+        width: 44px;
+        height: 44px;
+
+    }
+
+    .calendar-icon svg {
+
+        width: 28px;
+        height: 28px;
 
     }
 
-
-    .ikon-kalender span{
-
-        font-size:39px;
-
-    }
+}
 
 
     #tanggal{
