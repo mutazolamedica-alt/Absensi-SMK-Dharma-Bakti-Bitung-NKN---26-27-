@@ -18,13 +18,18 @@ let scanSedangDiproses = false;
 
 let riwayatScan = [];
 
+
+// ========================================
+// PENYIMPANAN RIWAYAT
+// ========================================
+
 const STORAGE_RIWAYAT =
-    "absenku_riwayat_hari_ini";
+    "absenku_riwayat_harian";
 
 
-//========================================
-// TANGGAL STORAGE
-//========================================
+// ========================================
+// TANGGAL HARI INI
+// ========================================
 
 function tanggalHariIni(){
 
@@ -55,9 +60,9 @@ function tanggalHariIni(){
 }
 
 
-//========================================
-// SIMPAN RIWAYAT
-//========================================
+// ========================================
+// SIMPAN RIWAYAT KE LOCAL STORAGE
+// ========================================
 
 function simpanRiwayat(){
 
@@ -65,9 +70,11 @@ function simpanRiwayat(){
 
         const data = {
 
-            tanggal: tanggalHariIni(),
+            tanggal:
+                tanggalHariIni(),
 
-            riwayat: riwayatScan
+            riwayat:
+                riwayatScan
 
         };
 
@@ -82,11 +89,11 @@ function simpanRiwayat(){
 
     }
 
-    catch(err){
+    catch(error){
 
         console.error(
             "Gagal menyimpan riwayat:",
-            err
+            error
         );
 
     }
@@ -94,21 +101,23 @@ function simpanRiwayat(){
 }
 
 
-//========================================
-// MUAT RIWAYAT
-//========================================
+// ========================================
+// MUAT RIWAYAT DARI LOCAL STORAGE
+// ========================================
 
 function muatRiwayat(){
 
     try{
 
-        const data =
+        const tersimpan =
             localStorage.getItem(
                 STORAGE_RIWAYAT
             );
 
 
-        if(!data){
+        // Belum ada riwayat tersimpan
+
+        if(!tersimpan){
 
             riwayatScan = [];
 
@@ -119,23 +128,41 @@ function muatRiwayat(){
         }
 
 
-        const hasil =
-            JSON.parse(data);
+        const data =
+            JSON.parse(tersimpan);
 
 
-        /*
-         * Jika tanggal masih sama,
-         * gunakan riwayat sebelumnya.
-         */
+        // Pastikan data valid
 
         if(
-            hasil &&
-            hasil.tanggal === tanggalHariIni() &&
-            Array.isArray(hasil.riwayat)
+            !data ||
+            !Array.isArray(data.riwayat)
+        ){
+
+            riwayatScan = [];
+
+            localStorage.removeItem(
+                STORAGE_RIWAYAT
+            );
+
+            renderRiwayat();
+
+            return;
+
+        }
+
+
+        // ====================================
+        // CEK TANGGAL
+        // ====================================
+
+        if(
+            data.tanggal ===
+            tanggalHariIni()
         ){
 
             riwayatScan =
-                hasil.riwayat;
+                data.riwayat;
 
         }
 
@@ -143,10 +170,12 @@ function muatRiwayat(){
 
             /*
              * Tanggal sudah berubah.
-             * Mulai riwayat baru.
+             * Riwayat lama tidak ditampilkan
+             * sebagai riwayat hari ini.
              */
 
             riwayatScan = [];
+
 
             localStorage.removeItem(
                 STORAGE_RIWAYAT
@@ -159,12 +188,13 @@ function muatRiwayat(){
 
     }
 
-    catch(err){
+    catch(error){
 
         console.error(
-            "Gagal memuat riwayat:",
-            err
+            "Gagal membaca riwayat:",
+            error
         );
+
 
         riwayatScan = [];
 
@@ -229,10 +259,13 @@ function updateJam(){
     document.getElementById("jam").innerHTML =
 
         sekarang.toLocaleTimeString(
+
             "id-ID",
+
             {
                 hour12:false
             }
+
         );
 
 
@@ -243,8 +276,10 @@ function updateJam(){
     const detik =
         sekarang.getSeconds();
 
+
     const menit =
         sekarang.getMinutes();
+
 
     const jam =
         sekarang.getHours();
@@ -253,8 +288,11 @@ function updateJam(){
     const derajatDetik =
         detik * 6;
 
+
     const derajatMenit =
-        menit * 6 + detik * 0.1;
+        menit * 6 +
+        detik * 0.1;
+
 
     const derajatJam =
         (jam % 12) * 30 +
@@ -264,8 +302,10 @@ function updateJam(){
     const jarumDetik =
         document.querySelector(".second");
 
+
     const jarumMenit =
         document.querySelector(".minute");
+
 
     const jarumJam =
         document.querySelector(".hour");
@@ -303,9 +343,21 @@ function updateJam(){
 }
 
 
-setInterval(updateJam,1000);
+// ========================================
+// JALANKAN JAM
+// ========================================
+
+setInterval(
+    updateJam,
+    1000
+);
 
 updateJam();
+
+
+// ========================================
+// MUAT RIWAYAT SAAT WEB DIBUKA
+// ========================================
 
 muatRiwayat();
 
@@ -320,16 +372,22 @@ function aktifkanMode(mode){
 
 
     const modeText =
-        document.getElementById("modeText");
+        document.getElementById(
+            "modeText"
+        );
+
 
     const btnMode =
-        document.getElementById("btnMode");
+        document.getElementById(
+            "btnMode"
+        );
 
 
-    if(mode==="MASUK"){
+    if(mode === "MASUK"){
 
         modeText.innerHTML =
             "ABSEN MASUK";
+
 
         modeText.className =
             "success";
@@ -338,13 +396,13 @@ function aktifkanMode(mode){
         btnMode.innerHTML =
             "GANTI KE MODE PULANG";
 
-
     }
 
     else{
 
         modeText.innerHTML =
             "ABSEN PULANG";
+
 
         modeText.className =
             "error";
@@ -356,7 +414,9 @@ function aktifkanMode(mode){
     }
 
 
-    document.getElementById("hasil").innerHTML =
+    document.getElementById(
+        "hasil"
+    ).innerHTML =
 
         "Kamera siap. Silakan scan QR...";
 
@@ -370,7 +430,6 @@ function aktifkanMode(mode){
 }
 
 
-
 // ========================================
 // TOMBOL MODE
 // ========================================
@@ -381,13 +440,13 @@ document
     "click",
     function(){
 
-        if(MODE===""){
+        if(MODE === ""){
 
             aktifkanMode("MASUK");
 
         }
 
-        else if(MODE==="MASUK"){
+        else if(MODE === "MASUK"){
 
             aktifkanMode("PULANG");
 
@@ -403,26 +462,26 @@ document
 );
 
 
-
 // ========================================
 // LOADING
 // ========================================
 
 function tampilLoading(){
 
-    document.getElementById("loading")
-        .style.display="block";
+    document.getElementById(
+        "loading"
+    ).style.display = "block";
 
 }
 
 
 function sembunyiLoading(){
 
-    document.getElementById("loading")
-        .style.display="none";
+    document.getElementById(
+        "loading"
+    ).style.display = "none";
 
 }
-
 
 
 // ========================================
@@ -440,19 +499,30 @@ function tampilHasil(
 
 
     const box =
-        document.getElementById("hasilBox");
+        document.getElementById(
+            "hasilBox"
+        );
 
 
-    box.classList.remove("gagal");
+    box.classList.remove(
+        "gagal"
+    );
 
-    box.classList.add("berhasil");
+
+    box.classList.add(
+        "berhasil"
+    );
 
 
-    document.getElementById("hasil").innerHTML =
+    document.getElementById(
+        "hasil"
+    ).innerHTML =
 
         "<div class='hasil-berhasil'>" +
 
-        "<div class='hasil-check'>✓</div>" +
+        "<div class='hasil-check'>" +
+        "✓" +
+        "</div>" +
 
         "<div class='hasil-data'>" +
 
@@ -507,19 +577,23 @@ function tampilHasil(
     });
 
 
-    setTimeout(function(){
+    setTimeout(
+        function(){
 
-        document.getElementById("hasil").innerHTML =
+            document.getElementById(
+                "hasil"
+            ).innerHTML =
 
-            "Silakan scan QR berikutnya...";
+                "Silakan scan QR berikutnya...";
 
 
-        scanSedangDiproses = false;
+            scanSedangDiproses = false;
 
-    },1200);
+        },
+        1200
+    );
 
 }
-
 
 
 // ========================================
@@ -532,32 +606,39 @@ function tampilError(teks){
 
 
     const box =
-        document.getElementById("hasilBox");
+        document.getElementById(
+            "hasilBox"
+        );
 
 
-    box.classList.remove("berhasil");
+    box.classList.remove(
+        "berhasil"
+    );
 
-    box.classList.add("gagal");
+
+    box.classList.add(
+        "gagal"
+    );
 
 
-    document.getElementById("hasil").innerHTML =
+    document.getElementById(
+        "hasil"
+    ).innerHTML =
 
         "<div class='hasil-gagal'>" +
 
-        "<div class='hasil-error-icon'>×</div>" +
+        "<div class='hasil-error-icon'>" +
+        "×" +
+        "</div>" +
 
         "<div>" +
 
         "<div class='hasil-judul-error'>" +
-
         "ABSENSI GAGAL" +
-
         "</div>" +
 
         "<div class='hasil-pesan'>" +
-
         teks +
-
         "</div>" +
 
         "</div>" +
@@ -572,7 +653,8 @@ function tampilError(teks){
 
     if(scanSedangDiproses){
 
-        const sekarang = new Date();
+        const sekarang =
+            new Date();
 
 
         tambahRiwayat({
@@ -584,11 +666,15 @@ function tampilError(teks){
             status:"GAGAL",
 
             jam:
+
                 sekarang.toLocaleTimeString(
+
                     "id-ID",
+
                     {
                         hour12:false
                     }
+
                 ),
 
             berhasil:false,
@@ -600,19 +686,23 @@ function tampilError(teks){
     }
 
 
-    setTimeout(function(){
+    setTimeout(
+        function(){
 
-        document.getElementById("hasil").innerHTML =
+            document.getElementById(
+                "hasil"
+            ).innerHTML =
 
-            "Silakan scan QR berikutnya...";
+                "Silakan scan QR berikutnya...";
 
 
-        scanSedangDiproses = false;
+            scanSedangDiproses = false;
 
-    },1200);
+        },
+        1200
+    );
 
 }
-
 
 
 // ========================================
@@ -628,10 +718,12 @@ function hasilScanQR(kode){
     }
 
 
-    if(MODE===""){
+    if(MODE === ""){
 
         tampilError(
+
             "Silakan pilih mode absensi terlebih dahulu."
+
         );
 
         return;
@@ -639,19 +731,21 @@ function hasilScanQR(kode){
     }
 
 
-    scanSedangDiproses=true;
+    scanSedangDiproses = true;
 
 
     tampilLoading();
 
 
     prosesAbsensi(
+
         kode,
+
         MODE
+
     );
 
 }
-
 
 
 // ========================================
@@ -663,7 +757,7 @@ function prosesAbsensi(
     mode
 ){
 
-    if(mode===""){
+    if(mode === ""){
 
         tampilError(
             "Mode absensi belum dipilih."
@@ -679,31 +773,50 @@ function prosesAbsensi(
 }
 
 
-
 // ========================================
 // TAMBAH RIWAYAT
 // ========================================
 
 function tambahRiwayat(data){
 
-    riwayatScan.unshift(data);
+    /*
+     * Masukkan data terbaru
+     * ke bagian paling atas.
+     */
+
+    riwayatScan.unshift(
+        data
+    );
 
 
-    // Maksimal 300 riwayat di browser.
-    // Cocok dengan jumlah siswa target.
+    /*
+     * Maksimal 300 riwayat
+     * tersimpan di perangkat.
+     */
 
-    if(riwayatScan.length > 300){
+    if(
+        riwayatScan.length > 300
+    ){
 
         riwayatScan.pop();
 
     }
 
+
+    /*
+     * SIMPAN KE PERANGKAT
+     */
+
     simpanRiwayat();
+
+
+    /*
+     * TAMPILKAN KE LAYAR
+     */
 
     renderRiwayat();
 
 }
-
 
 
 // ========================================
@@ -713,15 +826,21 @@ function tambahRiwayat(data){
 function renderRiwayat(){
 
     const list =
-        document.getElementById("riwayatList");
+        document.getElementById(
+            "riwayatList"
+        );
 
 
     const kosong =
-        document.getElementById("riwayatKosong");
+        document.getElementById(
+            "riwayatKosong"
+        );
 
 
     const jumlah =
-        document.getElementById("jumlahScan");
+        document.getElementById(
+            "jumlahScan"
+        );
 
 
     if(!list){
@@ -735,86 +854,113 @@ function renderRiwayat(){
         riwayatScan.length;
 
 
-    if(riwayatScan.length===0){
+    if(
+        riwayatScan.length === 0
+    ){
 
-        kosong.style.display="block";
+        kosong.style.display =
+            "block";
 
-        list.innerHTML="";
+
+        list.innerHTML =
+            "";
+
 
         return;
 
     }
 
 
-    kosong.style.display="none";
+    kosong.style.display =
+        "none";
 
 
-    list.innerHTML="";
+    list.innerHTML =
+        "";
 
 
-    riwayatScan.forEach(function(item){
+    riwayatScan.forEach(
+        function(item){
 
-        const row =
-            document.createElement("div");
+            const row =
+                document.createElement(
+                    "div"
+                );
 
 
-        row.className =
-            "riwayat-item " +
-            (
+            row.className =
+
+                "riwayat-item " +
+
+                (
+                    item.berhasil
+
+                    ? "riwayat-berhasil"
+
+                    : "riwayat-gagal"
+                );
+
+
+            const statusClass =
+
                 item.berhasil
-                ? "riwayat-berhasil"
-                : "riwayat-gagal"
+
+                ? "status-hadir"
+
+                : "status-gagal";
+
+
+            row.innerHTML =
+
+                "<div class='riwayat-jam'>" +
+
+                    item.jam +
+
+                "</div>" +
+
+
+                "<div class='riwayat-identitas'>" +
+
+                    "<div class='riwayat-nama'>" +
+
+                        item.nama +
+
+                    "</div>" +
+
+
+                    "<div class='riwayat-kode'>" +
+
+                        (
+                            item.kode !== "-"
+
+                            ? "NIS : " +
+                              item.kode
+
+                            : item.pesan ||
+                              "Scan gagal"
+                        ) +
+
+                    "</div>" +
+
+                "</div>" +
+
+
+                "<div class='riwayat-status " +
+
+                    statusClass +
+
+                "'>" +
+
+                    item.status +
+
+                "</div>";
+
+
+            list.appendChild(
+                row
             );
 
-
-        const statusClass =
-            item.berhasil
-            ? "status-hadir"
-            : "status-gagal";
-
-
-        row.innerHTML =
-
-            "<div class='riwayat-jam'>" +
-
-                item.jam +
-
-            "</div>" +
-
-
-            "<div class='riwayat-identitas'>" +
-
-                "<div class='riwayat-nama'>" +
-
-                    item.nama +
-
-                "</div>" +
-
-
-                "<div class='riwayat-kode'>" +
-
-                    (
-                        item.kode !== "-"
-                        ? "NIS : " + item.kode
-                        : item.pesan || "Scan gagal"
-                    ) +
-
-                "</div>" +
-
-            "</div>" +
-
-
-            "<div class='riwayat-status " +
-                statusClass +
-            "'>" +
-
-                item.status +
-
-            "</div>";
-
-
-        list.appendChild(row);
-
-    });
+        }
+    );
 
 }
