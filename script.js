@@ -1219,9 +1219,14 @@ function jadwalkanRekap0830(){
 
 
 // ========================================
-// MULAI DASHBOARD
+// MULAI DASHBOARD SETELAH SEMUA FILE JS
+// SELESAI DIMUAT
 // ========================================
 
-muatRekapDashboard();
+window.addEventListener("load", function(){
 
-jadwalkanRekap0830();
+    muatRekapDashboard();
+
+    jadwalkanRekap0830();
+
+});
