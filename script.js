@@ -965,3 +965,263 @@ function renderRiwayat(){
 
 }
 
+// ========================================
+// DASHBOARD REKAP KEHADIRAN
+// ABSENKU SMK
+// ========================================
+
+let rekapSudahDimuat = false;
+
+
+// ========================================
+// FORMAT TANGGAL REKAP
+// ========================================
+
+function formatTanggalRekap(tanggal){
+
+    if(!tanggal){
+        return "Tanggal tidak tersedia";
+    }
+
+
+    const bagian =
+        tanggal.split("-");
+
+
+    if(bagian.length !== 3){
+        return tanggal;
+    }
+
+
+    const tahun =
+        bagian[0];
+
+    const bulan =
+        Number(bagian[1]);
+
+    const hari =
+        Number(bagian[2]);
+
+
+    const namaBulan = [
+
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"
+
+    ];
+
+
+    return (
+        hari +
+        " " +
+        namaBulan[bulan - 1] +
+        " " +
+        tahun
+    );
+
+}
+
+
+// ========================================
+// TAMPILKAN REKAP
+// ========================================
+
+function tampilkanRekapHariIni(data){
+
+    if(!data){
+        return;
+    }
+
+
+    if(data.status !== "success"){
+
+        document.getElementById(
+            "rekapStatus"
+        ).className =
+            "rekap-status-error";
+
+
+        document.getElementById(
+            "rekapStatus"
+        ).innerHTML =
+            "BELUM TERSEDIA";
+
+
+        document.getElementById(
+            "rekapPesan"
+        ).innerHTML =
+            data.pesan ||
+            "Rekap hari ini belum tersedia.";
+
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "rekapTanggal"
+    ).innerHTML =
+        formatTanggalRekap(
+            data.tanggal
+        );
+
+
+    document.getElementById(
+        "rekapHadir"
+    ).innerHTML =
+        Number(data.hadir) || 0;
+
+
+    document.getElementById(
+        "rekapTerlambat"
+    ).innerHTML =
+        Number(data.terlambat) || 0;
+
+
+    document.getElementById(
+        "rekapIzin"
+    ).innerHTML =
+        Number(data.izin) || 0;
+
+
+    document.getElementById(
+        "rekapSakit"
+    ).innerHTML =
+        Number(data.sakit) || 0;
+
+
+    document.getElementById(
+        "rekapAlpa"
+    ).innerHTML =
+        Number(data.alpa) || 0;
+
+
+    document.getElementById(
+        "rekapTotalSiswa"
+    ).innerHTML =
+        Number(data.totalSiswa) || 0;
+
+
+    document.getElementById(
+        "rekapStatus"
+    ).className =
+        "rekap-status-ready";
+
+
+    document.getElementById(
+        "rekapStatus"
+    ).innerHTML =
+        "DATA TERBARU";
+
+
+    document.getElementById(
+        "rekapPesan"
+    ).innerHTML =
+        "Data diambil dari Rekap Harian.";
+
+
+    rekapSudahDimuat = true;
+
+}
+
+
+// ========================================
+// MUAT REKAP DARI SERVER
+// ========================================
+
+async function muatRekapDashboard(){
+
+    try{
+
+        const data =
+            await ambilRekapHariIni();
+
+
+        tampilkanRekapHariIni(data);
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Gagal memuat dashboard:",
+            error
+        );
+
+    }
+
+}
+
+
+// ========================================
+// JADWALKAN PEMBARUAN 08.30
+// TANPA POLLING
+// ========================================
+
+function jadwalkanRekap0830(){
+
+    const sekarang =
+        new Date();
+
+
+    const target =
+        new Date();
+
+
+    target.setHours(
+        8,
+        30,
+        0,
+        0
+    );
+
+
+    // Jika sekarang sudah 08.30,
+    // langsung ambil data.
+
+    if(
+        sekarang >= target
+    ){
+
+        muatRekapDashboard();
+
+        return;
+
+    }
+
+
+    const selisih =
+        target.getTime() -
+        sekarang.getTime();
+
+
+    setTimeout(
+        function(){
+
+            muatRekapDashboard();
+
+        },
+        selisih
+    );
+
+}
+
+
+// ========================================
+// MULAI DASHBOARD
+// ========================================
+
+muatRekapDashboard();
+
+jadwalkanRekap0830();
