@@ -71,7 +71,7 @@ async function ambilRekapHariIni(){
 
         const response =
             await fetch(
-                API_URL +
+                URL_WEB_APP +
                 "?action=rekapHariIni"
             );
 
