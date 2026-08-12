@@ -59,3 +59,63 @@ async function kirimKeServer(kode){
     }
 
 }
+
+// ========================================
+// API REKAP DASHBOARD
+// ABSENKU SMK
+// ========================================
+
+async function ambilRekapHariIni(){
+
+    try{
+
+        const response =
+            await fetch(
+                API_URL +
+                "?action=rekapHariIni"
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Gagal mengambil data rekap."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "REKAP HARI INI:",
+            data
+        );
+
+
+        return data;
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Gagal mengambil rekap:",
+            error
+        );
+
+
+        return {
+
+            status:"error",
+
+            pesan:
+                "Tidak dapat mengambil rekap hari ini."
+
+        };
+
+    }
+
+}
