@@ -2007,3 +2007,558 @@ body {
     }
 
 }
+
+/* =========================================================
+   REKAP KEHADIRAN HARI INI
+   ABSENKU SMK
+   ========================================================= */
+
+.rekap-hari-card {
+    padding: 24px;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.rekap-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+
+.rekap-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+}
+
+
+.rekap-title-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #0969e8,
+        #0bbf63
+    );
+
+    color: white;
+
+    font-size: 25px;
+    font-weight: 900;
+
+    box-shadow:
+        0 8px 18px rgba(9,105,232,0.18);
+}
+
+
+.rekap-title small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #7b8798;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.rekap-status-loading,
+.rekap-status-ready,
+.rekap-status-error {
+
+    padding: 7px 12px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+.rekap-status-loading {
+
+    background: #eef3f8;
+    color: #7b8798;
+
+}
+
+
+.rekap-status-ready {
+
+    background: #e8f8ef;
+    color: #079447;
+
+}
+
+
+.rekap-status-error {
+
+    background: #fff0f0;
+    color: #d83232;
+
+}
+
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.rekap-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 12px;
+
+}
+
+
+/* =========================================================
+   ITEM
+   ========================================================= */
+
+.rekap-item {
+
+    min-height: 112px;
+
+    padding: 18px 14px;
+
+    border-radius: 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #edf0f4;
+
+    box-shadow:
+        0 8px 22px rgba(25,45,75,0.06);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.rekap-item:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 26px rgba(25,45,75,0.10);
+
+}
+
+
+.rekap-item::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 70px;
+    height: 70px;
+
+    right: -25px;
+    bottom: -30px;
+
+    border-radius: 50%;
+
+    opacity: 0.08;
+
+}
+
+
+.rekap-item-icon {
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+    font-weight: 900;
+
+}
+
+
+.rekap-label {
+
+    margin-top: 10px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+}
+
+
+.rekap-number {
+
+    margin-top: 2px;
+
+    font-size: 30px;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+}
+
+
+/* =========================================================
+   WARNA STATUS
+   ========================================================= */
+
+/* HADIR - HIJAU */
+
+.rekap-hadir {
+
+    border-top: 4px solid #16a765;
+
+}
+
+.rekap-hadir .rekap-item-icon {
+
+    background: #e5f8ee;
+    color: #0b9b59;
+
+}
+
+.rekap-hadir .rekap-number {
+
+    color: #0b9b59;
+
+}
+
+
+/* TERLAMBAT - KUNING */
+
+.rekap-terlambat {
+
+    border-top: 4px solid #e5b800;
+
+}
+
+.rekap-terlambat .rekap-item-icon {
+
+    background: #fff7d6;
+    color: #b98a00;
+
+}
+
+.rekap-terlambat .rekap-number {
+
+    color: #b98a00;
+
+}
+
+
+/* IZIN - BIRU DONGKER */
+
+.rekap-izin {
+
+    border-top: 4px solid #172554;
+
+}
+
+.rekap-izin .rekap-item-icon {
+
+    background: #e9edff;
+    color: #172554;
+
+}
+
+.rekap-izin .rekap-number {
+
+    color: #172554;
+
+}
+
+
+/* SAKIT - ORANGE */
+
+.rekap-sakit {
+
+    border-top: 4px solid #f27b21;
+
+}
+
+.rekap-sakit .rekap-item-icon {
+
+    background: #fff0e3;
+    color: #e8660c;
+
+}
+
+.rekap-sakit .rekap-number {
+
+    color: #e8660c;
+
+}
+
+
+/* ALPA - MERAH */
+
+.rekap-alpa {
+
+    border-top: 4px solid #df3434;
+
+}
+
+.rekap-alpa .rekap-item-icon {
+
+    background: #ffe8e8;
+    color: #d52e2e;
+
+}
+
+.rekap-alpa .rekap-number {
+
+    color: #d52e2e;
+
+}
+
+
+/* =========================================================
+   TOTAL
+   ========================================================= */
+
+.rekap-total {
+
+    margin-top: 14px;
+
+    padding: 16px 20px;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef6ff,
+            #effbf5
+        );
+
+    border: 1px solid #dceaf5;
+
+}
+
+
+.rekap-total-label {
+
+    color: #23405f;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.6px;
+
+}
+
+
+.rekap-total-number {
+
+    color: #0868d9;
+
+    font-size: 30px;
+
+    font-weight: 900;
+
+}
+
+
+/* =========================================================
+   PESAN
+   ========================================================= */
+
+.rekap-pesan {
+
+    margin-top: 10px;
+
+    text-align: center;
+
+    color: #8a96a6;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .rekap-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE HP
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .rekap-hari-card {
+
+        padding: 18px;
+
+    }
+
+
+    .rekap-header {
+
+        align-items: flex-start;
+
+    }
+
+
+    .rekap-title-icon {
+
+        width: 42px;
+        height: 42px;
+
+        border-radius: 12px;
+
+        font-size: 22px;
+
+    }
+
+
+    .rekap-title {
+
+        font-size: 14px;
+
+    }
+
+
+    .rekap-title small {
+
+        font-size: 10px;
+
+    }
+
+
+    .rekap-status-loading,
+    .rekap-status-ready,
+    .rekap-status-error {
+
+        font-size: 9px;
+
+        padding: 6px 9px;
+
+    }
+
+
+    .rekap-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+
+    }
+
+
+    .rekap-item {
+
+        min-height: 105px;
+
+        padding: 15px 13px;
+
+    }
+
+
+    .rekap-item-icon {
+
+        width: 34px;
+        height: 34px;
+
+        font-size: 17px;
+
+    }
+
+
+    .rekap-label {
+
+        font-size: 10px;
+
+    }
+
+
+    .rekap-number {
+
+        font-size: 27px;
+
+    }
+
+
+    .rekap-total {
+
+        padding: 14px 16px;
+
+    }
+
+
+    .rekap-total-number {
+
+        font-size: 27px;
+
+    }
+
+}
