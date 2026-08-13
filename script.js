@@ -1218,12 +1218,25 @@ function jadwalkanRekap0830(){
 }
 
 
-// ========================================
-// MULAI DASHBOARD SETELAH SEMUA FILE JS
-// SELESAI DIMUAT
-// ========================================
-
 window.addEventListener("load", function(){
+
+    // ====================================
+    // PRELOAD DAFTAR SISWA
+    // ====================================
+
+    if(
+        typeof ambilDaftarSiswa ===
+        "function"
+    ){
+
+        ambilDaftarSiswa();
+
+    }
+
+
+    // ====================================
+    // DASHBOARD
+    // ====================================
 
     muatRekapDashboard();
 
