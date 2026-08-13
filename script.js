@@ -1230,3 +1230,553 @@ window.addEventListener("load", function(){
     jadwalkanRekap0830();
 
 });
+
+// ========================================
+// INPUT IZIN / SAKIT DARI DASHBOARD
+// ========================================
+
+let daftarSiswaStatusKhusus = [];
+let statusKhususAktif = "Izin";
+let statusKhususSedangDisimpan = false;
+
+
+function bukaStatusKhususModal(status){
+
+    statusKhususAktif =
+        status === "Sakit"
+            ? "Sakit"
+            : "Izin";
+
+    const modal =
+        document.getElementById("statusKhususModal");
+
+    if(!modal){
+        return;
+    }
+
+    const judul =
+        document.getElementById("statusKhususJudul");
+
+    const icon =
+        document.getElementById("statusKhususIcon");
+
+    const tombol =
+        document.getElementById("btnSimpanStatusKhusus");
+
+    const select =
+        document.getElementById("statusKhususSiswa");
+
+    const preview =
+        document.getElementById("statusKhususPreview");
+
+    const pesan =
+        document.getElementById("statusKhususPesan");
+
+    if(statusKhususAktif === "Sakit"){
+
+        judul.innerHTML = "TAMBAHKAN SAKIT";
+        icon.innerHTML = "+";
+        icon.className =
+            "status-khusus-icon sakit";
+        tombol.innerHTML = "SIMPAN SAKIT";
+        tombol.className =
+            "status-khusus-btn primary sakit";
+
+    }
+    else{
+
+        judul.innerHTML = "TAMBAHKAN IZIN";
+        icon.innerHTML = "I";
+        icon.className =
+            "status-khusus-icon izin";
+        tombol.innerHTML = "SIMPAN IZIN";
+        tombol.className =
+            "status-khusus-btn primary izin";
+
+    }
+
+    pesan.innerHTML = "";
+    pesan.className = "status-khusus-pesan";
+    preview.innerHTML =
+        "Pilih siswa untuk melihat nama dan kelas.";
+
+    select.value = "";
+
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
+
+    muatDaftarSiswaStatusKhusus();
+
+    setTimeout(function(){
+        select.focus();
+    }, 50);
+
+}
+
+
+function tutupStatusKhususModal(){
+
+    const modal =
+        document.getElementById("statusKhususModal");
+
+    if(!modal){
+        return;
+    }
+
+    if(statusKhususSedangDisimpan){
+        return;
+    }
+
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+
+}
+
+
+async function muatDaftarSiswaStatusKhusus(){
+
+    const select =
+        document.getElementById("statusKhususSiswa");
+
+    if(!select){
+        return;
+    }
+
+    if(daftarSiswaStatusKhusus.length > 0){
+
+        renderDaftarSiswaStatusKhusus();
+        return;
+
+    }
+
+    select.disabled = true;
+    select.innerHTML =
+        '<option value="">Memuat daftar siswa...</option>';
+
+    try{
+
+        const data =
+            await ambilDaftarSiswa();
+
+        if(
+            !data ||
+            data.status !== "success" ||
+            !Array.isArray(data.siswa)
+        ){
+
+            throw new Error(
+                data && data.pesan
+                    ? data.pesan
+                    : "Daftar siswa tidak tersedia."
+            );
+
+        }
+
+        daftarSiswaStatusKhusus =
+            data.siswa;
+
+        renderDaftarSiswaStatusKhusus();
+
+    }
+    catch(error){
+
+        console.error(
+            "Gagal memuat dropdown siswa:",
+            error
+        );
+
+        select.innerHTML =
+            '<option value="">Gagal memuat siswa</option>';
+
+        tampilPesanStatusKhusus(
+            error.message ||
+            "Tidak dapat mengambil daftar siswa.",
+            "error"
+        );
+
+    }
+
+}
+
+
+function renderDaftarSiswaStatusKhusus(){
+
+    const select =
+        document.getElementById("statusKhususSiswa");
+
+    if(!select){
+        return;
+    }
+
+    select.innerHTML =
+        '<option value="">Pilih siswa...</option>';
+
+    daftarSiswaStatusKhusus.forEach(function(siswa){
+
+        const option =
+            document.createElement("option");
+
+        option.value = siswa.kode;
+
+        option.textContent =
+            siswa.kode +
+            " — " +
+            siswa.nama;
+
+        select.appendChild(option);
+
+    });
+
+    select.disabled = false;
+
+}
+
+
+function tampilkanPreviewStatusKhusus(){
+
+    const select =
+        document.getElementById("statusKhususSiswa");
+
+    const preview =
+        document.getElementById("statusKhususPreview");
+
+    if(!select || !preview){
+        return;
+    }
+
+    const kode = select.value;
+
+    if(!kode){
+
+        preview.innerHTML =
+            "Pilih siswa untuk melihat nama dan kelas.";
+
+        return;
+
+    }
+
+    const siswa =
+        daftarSiswaStatusKhusus.find(
+            function(item){
+                return item.kode === kode;
+            }
+        );
+
+    if(!siswa){
+
+        preview.innerHTML =
+            "Data siswa tidak ditemukan.";
+
+        return;
+
+    }
+
+    preview.innerHTML =
+        "<strong>" +
+        escapeHtmlStatusKhusus(siswa.nama) +
+        "</strong><span>" +
+        escapeHtmlStatusKhusus(siswa.kelas) +
+        "</span>";
+
+}
+
+
+function escapeHtmlStatusKhusus(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function tampilPesanStatusKhusus(pesan, tipe){
+
+    const el =
+        document.getElementById("statusKhususPesan");
+
+    if(!el){
+        return;
+    }
+
+    el.innerHTML =
+        escapeHtmlStatusKhusus(pesan || "");
+
+    el.className =
+        "status-khusus-pesan " +
+        (tipe || "");
+
+}
+
+
+async function simpanStatusKhususDariDashboard(){
+
+    if(statusKhususSedangDisimpan){
+        return;
+    }
+
+    const select =
+        document.getElementById("statusKhususSiswa");
+
+    const tombol =
+        document.getElementById("btnSimpanStatusKhusus");
+
+    if(!select || !tombol){
+        return;
+    }
+
+    const kode = select.value;
+
+    if(!kode){
+
+        tampilPesanStatusKhusus(
+            "Silakan pilih siswa terlebih dahulu.",
+            "error"
+        );
+
+        select.focus();
+        return;
+
+    }
+
+    const siswa =
+        daftarSiswaStatusKhusus.find(
+            function(item){
+                return item.kode === kode;
+            }
+        );
+
+    const nama =
+        siswa ? siswa.nama : kode;
+
+    statusKhususSedangDisimpan = true;
+
+    select.disabled = true;
+    tombol.disabled = true;
+    tombol.innerHTML = "MENYIMPAN...";
+
+    tampilPesanStatusKhusus(
+        "Mengirim data ke server...",
+        "loading"
+    );
+
+    try{
+
+        const hasil =
+            await simpanStatusKhusus(
+                kode,
+                statusKhususAktif
+            );
+
+        if(!hasil || hasil.status !== "success"){
+
+            throw new Error(
+                hasil && hasil.pesan
+                    ? hasil.pesan
+                    : "Data gagal disimpan."
+            );
+
+        }
+
+        tampilPesanStatusKhusus(
+            nama +
+            " berhasil dicatat sebagai " +
+            statusKhususAktif +
+            ".",
+            "success"
+        );
+
+        // Kosongkan pilihan setelah berhasil.
+        select.value = "";
+        tampilkanPreviewStatusKhusus();
+
+        // Ambil angka terbaru dari server.
+        await muatRekapDashboard();
+
+        // Tutup otomatis setelah berhasil.
+        setTimeout(function(){
+
+            statusKhususSedangDisimpan = false;
+            tutupStatusKhususModal();
+
+            tombol.disabled = false;
+            tombol.innerHTML =
+                statusKhususAktif === "Sakit"
+                    ? "SIMPAN SAKIT"
+                    : "SIMPAN IZIN";
+
+        }, 700);
+
+    }
+    catch(error){
+
+        console.error(
+            "Gagal menyimpan status khusus:",
+            error
+        );
+
+        tampilPesanStatusKhusus(
+            error.message ||
+            "Tidak dapat menyimpan data.",
+            "error"
+        );
+
+        statusKhususSedangDisimpan = false;
+        select.disabled = false;
+        tombol.disabled = false;
+        tombol.innerHTML =
+            statusKhususAktif === "Sakit"
+                ? "SIMPAN SAKIT"
+                : "SIMPAN IZIN";
+
+    }
+
+}
+
+
+function pasangEventStatusKhusus(){
+
+    const izin =
+        document.querySelector(".rekap-izin");
+
+    const sakit =
+        document.querySelector(".rekap-sakit");
+
+    const tutup =
+        document.getElementById("btnTutupStatusKhusus");
+
+    const batal =
+        document.getElementById("btnBatalStatusKhusus");
+
+    const select =
+        document.getElementById("statusKhususSiswa");
+
+    const simpan =
+        document.getElementById("btnSimpanStatusKhusus");
+
+
+    if(izin){
+
+        izin.addEventListener(
+            "click",
+            function(){
+                bukaStatusKhususModal("Izin");
+            }
+        );
+
+        izin.setAttribute(
+            "role",
+            "button"
+        );
+
+        izin.setAttribute(
+            "tabindex",
+            "0"
+        );
+
+    }
+
+
+    if(sakit){
+
+        sakit.addEventListener(
+            "click",
+            function(){
+                bukaStatusKhususModal("Sakit");
+            }
+        );
+
+        sakit.setAttribute(
+            "role",
+            "button"
+        );
+
+        sakit.setAttribute(
+            "tabindex",
+            "0"
+        );
+
+    }
+
+
+    if(tutup){
+
+        tutup.addEventListener(
+            "click",
+            tutupStatusKhususModal
+        );
+
+    }
+
+
+    if(batal){
+
+        batal.addEventListener(
+            "click",
+            tutupStatusKhususModal
+        );
+
+    }
+
+
+    if(select){
+
+        select.addEventListener(
+            "change",
+            tampilkanPreviewStatusKhusus
+        );
+
+    }
+
+
+    if(simpan){
+
+        simpan.addEventListener(
+            "click",
+            simpanStatusKhususDariDashboard
+        );
+
+    }
+
+
+    const modal =
+        document.getElementById("statusKhususModal");
+
+    if(modal){
+
+        modal.addEventListener(
+            "click",
+            function(event){
+
+                if(event.target === modal){
+                    tutupStatusKhususModal();
+                }
+
+            }
+        );
+
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Escape"){
+                tutupStatusKhususModal();
+            }
+
+        }
+    );
+
+}
+
+
+window.addEventListener(
+    "load",
+    pasangEventStatusKhusus
+);
+
