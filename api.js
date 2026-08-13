@@ -121,61 +121,280 @@ async function ambilRekapHariIni(){
 }
 
 // ========================================
-// API DAFTAR SISWA
-// Untuk dropdown IZIN / SAKIT
+// CACHE DAFTAR SISWA
 // ========================================
 
-async function ambilDaftarSiswa(){
+let daftarSiswaCache = null;
+let daftarSiswaPromise = null;
 
-    try{
 
-        const response =
-            await fetch(
-                URL_WEB_APP +
-                "?action=daftarSiswa"
-            );
+// ========================================
+// API DAFTAR SISWA
+// Dengan CACHE
+// ========================================
 
-        if(!response.ok){
+async function ambilDaftarSiswa(forceRefresh = false){
 
-            throw new Error(
-                "Gagal mengambil daftar siswa."
-            );
+    // ------------------------------------
+    // Jika cache tersedia
+    // langsung gunakan cache
+    // ------------------------------------
 
-        }
+    if(
+        !forceRefresh &&
+        daftarSiswaCache
+    ){
 
-        const data =
-            await response.json();
-
-        console.log(
-            "DAFTAR SISWA:",
-            data
-        );
-
-        return data;
+        return daftarSiswaCache;
 
     }
 
-    catch(error){
 
-        console.error(
-            "Gagal mengambil daftar siswa:",
-            error
-        );
+    // ------------------------------------
+    // Jika request sedang berjalan
+    // jangan membuat request kedua
+    // ------------------------------------
 
-        return {
+    if(
+        !forceRefresh &&
+        daftarSiswaPromise
+    ){
 
-            status:"error",
-
-            pesan:
-                "Tidak dapat mengambil daftar siswa."
-
-        };
+        return await daftarSiswaPromise;
 
     }
+
+
+    // ------------------------------------
+    // Request ke Apps Script
+    // ------------------------------------
+
+    daftarSiswaPromise =
+        (async function(){
+
+            try{
+
+                const response =
+                    await fetch(
+                        URL_WEB_APP +
+                        "?action=daftarSiswa"
+                    );
+
+
+                if(!response.ok){
+
+                    throw new Error(
+                        "Gagal mengambil daftar siswa."
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if(
+                    data.status !==
+                    "success"
+                ){
+
+                    throw new Error(
+                        data.pesan ||
+                        "Daftar siswa gagal dimuat."
+                    );
+
+                }
+
+
+                // --------------------------------
+                // SIMPAN KE CACHE
+                // --------------------------------
+
+                daftarSiswaCache =
+                    data;
+
+
+                console.log(
+                    "DAFTAR SISWA DIMUAT:",
+                    data.total,
+                    "siswa"
+                );
+
+
+                return data;
+
+            }
+
+            catch(error){
+
+                console.error(
+                    "Gagal mengambil daftar siswa:",
+                    error
+                );
+
+
+                return {
+
+                    status:"error",
+
+                    pesan:
+                        "Tidak dapat mengambil daftar siswa."
+
+                };
+
+            }
+
+            finally{
+
+                daftarSiswaPromise =
+                    null;
+
+            }
+
+        })();
+
+
+    return await daftarSiswaPromise;
+
+}// ========================================
+// CACHE DAFTAR SISWA
+// ========================================
+
+let daftarSiswaCache = null;
+let daftarSiswaPromise = null;
+
+
+// ========================================
+// API DAFTAR SISWA
+// Dengan CACHE
+// ========================================
+
+async function ambilDaftarSiswa(forceRefresh = false){
+
+    // ------------------------------------
+    // Jika cache tersedia
+    // langsung gunakan cache
+    // ------------------------------------
+
+    if(
+        !forceRefresh &&
+        daftarSiswaCache
+    ){
+
+        return daftarSiswaCache;
+
+    }
+
+
+    // ------------------------------------
+    // Jika request sedang berjalan
+    // jangan membuat request kedua
+    // ------------------------------------
+
+    if(
+        !forceRefresh &&
+        daftarSiswaPromise
+    ){
+
+        return await daftarSiswaPromise;
+
+    }
+
+
+    // ------------------------------------
+    // Request ke Apps Script
+    // ------------------------------------
+
+    daftarSiswaPromise =
+        (async function(){
+
+            try{
+
+                const response =
+                    await fetch(
+                        URL_WEB_APP +
+                        "?action=daftarSiswa"
+                    );
+
+
+                if(!response.ok){
+
+                    throw new Error(
+                        "Gagal mengambil daftar siswa."
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if(
+                    data.status !==
+                    "success"
+                ){
+
+                    throw new Error(
+                        data.pesan ||
+                        "Daftar siswa gagal dimuat."
+                    );
+
+                }
+
+
+                // --------------------------------
+                // SIMPAN KE CACHE
+                // --------------------------------
+
+                daftarSiswaCache =
+                    data;
+
+
+                console.log(
+                    "DAFTAR SISWA DIMUAT:",
+                    data.total,
+                    "siswa"
+                );
+
+
+                return data;
+
+            }
+
+            catch(error){
+
+                console.error(
+                    "Gagal mengambil daftar siswa:",
+                    error
+                );
+
+
+                return {
+
+                    status:"error",
+
+                    pesan:
+                        "Tidak dapat mengambil daftar siswa."
+
+                };
+
+            }
+
+            finally{
+
+                daftarSiswaPromise =
+                    null;
+
+            }
+
+        })();
+
+
+    return await daftarSiswaPromise;
 
 }
-
-
 // ========================================
 // API SIMPAN IZIN / SAKIT
 // ========================================
