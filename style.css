@@ -2562,3 +2562,364 @@ body {
     }
 
 }
+
+/* =========================================================
+   INPUT IZIN / SAKIT - DASHBOARD
+   ========================================================= */
+
+.rekap-izin,
+.rekap-sakit {
+    cursor: pointer;
+}
+
+.rekap-izin:focus-visible,
+.rekap-sakit:focus-visible {
+    outline: 3px solid rgba(9,105,232,0.28);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   OVERLAY MODAL
+   ========================================================= */
+
+.status-khusus-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(12, 25, 45, 0.58);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+.status-khusus-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.status-khusus-modal {
+    position: relative;
+    width: min(100%, 480px);
+
+    padding: 28px;
+
+    border-radius: 24px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 24px 70px rgba(0,0,0,0.22);
+
+    transform: translateY(12px) scale(0.98);
+
+    transition: transform 0.2s ease;
+}
+
+.status-khusus-overlay.show .status-khusus-modal {
+    transform: translateY(0) scale(1);
+}
+
+
+/* =========================================================
+   CLOSE
+   ========================================================= */
+
+.status-khusus-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f1f4f8;
+    color: #607084;
+
+    font-size: 25px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.status-khusus-close:hover {
+    background: #e7edf4;
+    color: #17202a;
+}
+
+
+/* =========================================================
+   HEADER MODAL
+   ========================================================= */
+
+.status-khusus-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding-right: 35px;
+}
+
+.status-khusus-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    font-size: 25px;
+    font-weight: 900;
+}
+
+.status-khusus-icon.izin {
+    background: #e9edff;
+    color: #172554;
+}
+
+.status-khusus-icon.sakit {
+    background: #fff0e3;
+    color: #e8660c;
+}
+
+.status-khusus-title {
+    color: #17202a;
+
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+.status-khusus-subtitle {
+    margin-top: 5px;
+
+    color: #7b8798;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.status-khusus-form {
+    margin-top: 25px;
+}
+
+.status-khusus-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #4d5d70;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.7px;
+}
+
+.status-khusus-select {
+    width: 100%;
+    min-height: 52px;
+
+    padding: 0 44px 0 15px;
+
+    border: 1px solid #dce3eb;
+    border-radius: 14px;
+
+    background: #f8fafc;
+    color: #17202a;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+.status-khusus-select:focus {
+    border-color: #0872d9;
+    box-shadow: 0 0 0 4px rgba(8,114,217,0.10);
+}
+
+.status-khusus-select:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+
+/* =========================================================
+   PREVIEW SISWA
+   ========================================================= */
+
+.status-khusus-preview {
+    min-height: 62px;
+
+    margin-top: 12px;
+    padding: 12px 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: #f5f8fb;
+    border: 1px solid #e7edf3;
+
+    color: #8a96a6;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.status-khusus-preview strong {
+    color: #26384c;
+    font-size: 14px;
+}
+
+.status-khusus-preview span {
+    margin-top: 2px;
+    color: #7b8798;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.status-khusus-actions {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.status-khusus-btn {
+    min-height: 48px;
+
+    border: none;
+    border-radius: 13px;
+
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.status-khusus-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.status-khusus-btn:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.status-khusus-btn.secondary {
+    background: #eef2f6;
+    color: #536274;
+}
+
+.status-khusus-btn.primary.izin {
+    background: #172554;
+    color: #ffffff;
+    box-shadow: 0 7px 16px rgba(23,37,84,0.18);
+}
+
+.status-khusus-btn.primary.sakit {
+    background: #e8660c;
+    color: #ffffff;
+    box-shadow: 0 7px 16px rgba(232,102,12,0.18);
+}
+
+
+/* =========================================================
+   PESAN
+   ========================================================= */
+
+.status-khusus-pesan {
+    min-height: 18px;
+    margin-top: 12px;
+
+    text-align: center;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-khusus-pesan.loading {
+    color: #7b8798;
+}
+
+.status-khusus-pesan.success {
+    color: #079447;
+}
+
+.status-khusus-pesan.error {
+    color: #d83232;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 560px) {
+
+    .status-khusus-overlay {
+        align-items: flex-end;
+        padding: 10px;
+    }
+
+    .status-khusus-modal {
+        width: 100%;
+        padding: 24px 18px 18px;
+        border-radius: 22px;
+    }
+
+    .status-khusus-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .status-khusus-btn {
+        min-height: 50px;
+    }
+
+}
+
