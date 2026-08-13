@@ -572,6 +572,95 @@
 
 
     <!-- ========================================= -->
+    <!-- POP-UP INPUT IZIN / SAKIT -->
+    <!-- ========================================= -->
+
+    <div
+        id="statusKhususModal"
+        class="status-khusus-overlay"
+        aria-hidden="true">
+
+        <div
+            class="status-khusus-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="statusKhususJudul">
+
+            <button
+                type="button"
+                id="btnTutupStatusKhusus"
+                class="status-khusus-close"
+                aria-label="Tutup">×</button>
+
+            <div class="status-khusus-header">
+                <div
+                    id="statusKhususIcon"
+                    class="status-khusus-icon">I</div>
+
+                <div>
+                    <div
+                        id="statusKhususJudul"
+                        class="status-khusus-title">
+                        TAMBAHKAN IZIN
+                    </div>
+                    <div class="status-khusus-subtitle">
+                        Pilih siswa yang izin atau sakit hari ini.
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-khusus-form">
+
+                <label
+                    for="statusKhususSiswa"
+                    class="status-khusus-label">
+                    PILIH SISWA
+                </label>
+
+                <select
+                    id="statusKhususSiswa"
+                    class="status-khusus-select">
+                    <option value="">
+                        Memuat daftar siswa...
+                    </option>
+                </select>
+
+                <div
+                    id="statusKhususPreview"
+                    class="status-khusus-preview">
+                    Pilih siswa untuk melihat nama dan kelas.
+                </div>
+
+                <div class="status-khusus-actions">
+
+                    <button
+                        type="button"
+                        id="btnBatalStatusKhusus"
+                        class="status-khusus-btn secondary">
+                        BATAL
+                    </button>
+
+                    <button
+                        type="button"
+                        id="btnSimpanStatusKhusus"
+                        class="status-khusus-btn primary">
+                        SIMPAN IZIN
+                    </button>
+
+                </div>
+
+                <div
+                    id="statusKhususPesan"
+                    class="status-khusus-pesan"
+                    aria-live="polite"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
     <!-- FOOTER -->
     <!-- ========================================= -->
 
