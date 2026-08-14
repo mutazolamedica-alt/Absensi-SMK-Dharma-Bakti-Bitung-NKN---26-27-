@@ -1230,7 +1230,7 @@ window.addEventListener("load", function(){
     jadwalkanRekap0830();
 
     // Preload daftar siswa sekali saat halaman selesai dimuat.
-    // Setelah ini dropdown Izin/Sakit dapat dibuka hampir instan.
+    // Setelah ini dropdown Izin/Sakit/Terlambat dapat dibuka hampir instan.
     muatDaftarSiswaStatusKhusus().catch(function(err){
         console.warn(
             "Preload daftar siswa gagal:",
@@ -1254,7 +1254,9 @@ function bukaStatusKhususModal(status){
     statusKhususAktif =
         status === "Sakit"
             ? "Sakit"
-            : "Izin";
+            : status === "Terlambat"
+                ? "Terlambat"
+                : "Izin";
 
     const modal =
         document.getElementById("statusKhususModal");
@@ -1292,6 +1294,17 @@ function bukaStatusKhususModal(status){
             "status-khusus-btn primary sakit";
 
     }
+    else if(statusKhususAktif === "Terlambat"){
+
+        judul.innerHTML = "TAMBAHKAN TERLAMBAT";
+        icon.innerHTML = "T";
+        icon.className =
+            "status-khusus-icon terlambat";
+        tombol.innerHTML = "SIMPAN TERLAMBAT";
+        tombol.className =
+            "status-khusus-btn primary terlambat";
+
+    }
     else{
 
         judul.innerHTML = "TAMBAHKAN IZIN";
@@ -1323,7 +1336,7 @@ function bukaStatusKhususModal(status){
 }
 
 
-function tutupStatusKhususModal(){
+function tutupStatusKhususModal(force){
 
     const modal =
         document.getElementById("statusKhususModal");
@@ -1332,7 +1345,13 @@ function tutupStatusKhususModal(){
         return;
     }
 
-    if(statusKhususSedangDisimpan){
+    // Saat request masih berjalan, tombol close biasa tetap dicegah
+    // agar tidak memutus proses penyimpanan. Setelah server sukses,
+    // fungsi ini dipanggil dengan force=true sehingga modal pasti tertutup.
+    if(
+        statusKhususSedangDisimpan &&
+        force !== true
+    ){
         return;
     }
 
@@ -1602,28 +1621,36 @@ async function simpanStatusKhususDariDashboard(){
         select.value = "";
         tampilkanPreviewStatusKhusus();
 
-            // Tutup popup SEGERA setelah server mengonfirmasi berhasil.
-        // Jangan menunggu dashboard selesai dimuat karena request dashboard
-        // yang lambat tidak boleh membuat popup terlihat "stuck".
+            // Server sudah mengonfirmasi sukses.
+        // Lepaskan status loading terlebih dahulu, lalu paksa tutup popup.
+        // Dashboard diperbarui setelah popup ditutup dan tidak di-await.
         statusKhususSedangDisimpan = false;
-        tutupStatusKhususModal();
 
         tombol.disabled = false;
+        select.disabled = false;
+
         tombol.innerHTML =
             statusKhususAktif === "Sakit"
                 ? "SIMPAN SAKIT"
-                : "SIMPAN IZIN";
+                : statusKhususAktif === "Terlambat"
+                    ? "SIMPAN TERLAMBAT"
+                    : "SIMPAN IZIN";
 
-        select.disabled = false;
+        // Paksa tutup agar tidak terhalang guard status loading.
+        tutupStatusKhususModal(true);
 
-        // Perbarui dashboard di belakang layar.
-        // Tidak di-await agar UI tetap responsif.
-        muatRekapDashboard().catch(function(err){
-            console.warn(
-                "Rekap berhasil disimpan, tetapi pembaruan dashboard tertunda:",
-                err
-            );
-        });
+        // Beri browser satu frame untuk menyelesaikan perubahan UI,
+        // kemudian refresh dashboard di belakang layar.
+        setTimeout(function(){
+
+            muatRekapDashboard().catch(function(err){
+                console.warn(
+                    "Rekap berhasil disimpan, tetapi pembaruan dashboard tertunda:",
+                    err
+                );
+            });
+
+        }, 0);
 
     }
     catch(error){
@@ -1645,7 +1672,9 @@ async function simpanStatusKhususDariDashboard(){
         tombol.innerHTML =
             statusKhususAktif === "Sakit"
                 ? "SIMPAN SAKIT"
-                : "SIMPAN IZIN";
+                : statusKhususAktif === "Terlambat"
+                    ? "SIMPAN TERLAMBAT"
+                    : "SIMPAN IZIN";
 
     }
 
@@ -1653,6 +1682,9 @@ async function simpanStatusKhususDariDashboard(){
 
 
 function pasangEventStatusKhusus(){
+
+    const terlambat =
+        document.querySelector(".rekap-terlambat");
 
     const izin =
         document.querySelector(".rekap-izin");
@@ -1671,6 +1703,30 @@ function pasangEventStatusKhusus(){
 
     const simpan =
         document.getElementById("btnSimpanStatusKhusus");
+
+
+    if(terlambat){
+
+        terlambat.addEventListener(
+            "click",
+            function(){
+                bukaStatusKhususModal("Terlambat");
+            }
+        );
+
+        terlambat.setAttribute(
+            "role",
+            "button"
+        );
+
+        terlambat.setAttribute(
+            "tabindex",
+            "0"
+        );
+
+        terlambat.style.cursor = "pointer";
+
+    }
 
 
     if(izin){
