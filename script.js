@@ -1218,29 +1218,25 @@ function jadwalkanRekap0830(){
 }
 
 
+// ========================================
+// MULAI DASHBOARD SETELAH SEMUA FILE JS
+// SELESAI DIMUAT
+// ========================================
+
 window.addEventListener("load", function(){
-
-    // ====================================
-    // PRELOAD DAFTAR SISWA
-    // ====================================
-
-    if(
-        typeof ambilDaftarSiswa ===
-        "function"
-    ){
-
-        ambilDaftarSiswa();
-
-    }
-
-
-    // ====================================
-    // DASHBOARD
-    // ====================================
 
     muatRekapDashboard();
 
     jadwalkanRekap0830();
+
+    // Preload daftar siswa sekali saat halaman selesai dimuat.
+    // Setelah ini dropdown Izin/Sakit dapat dibuka hampir instan.
+    muatDaftarSiswaStatusKhusus().catch(function(err){
+        console.warn(
+            "Preload daftar siswa gagal:",
+            err
+        );
+    });
 
 });
 
@@ -1606,22 +1602,28 @@ async function simpanStatusKhususDariDashboard(){
         select.value = "";
         tampilkanPreviewStatusKhusus();
 
-        // Ambil angka terbaru dari server.
-        await muatRekapDashboard();
+            // Tutup popup SEGERA setelah server mengonfirmasi berhasil.
+        // Jangan menunggu dashboard selesai dimuat karena request dashboard
+        // yang lambat tidak boleh membuat popup terlihat "stuck".
+        statusKhususSedangDisimpan = false;
+        tutupStatusKhususModal();
 
-        // Tutup otomatis setelah berhasil.
-        setTimeout(function(){
+        tombol.disabled = false;
+        tombol.innerHTML =
+            statusKhususAktif === "Sakit"
+                ? "SIMPAN SAKIT"
+                : "SIMPAN IZIN";
 
-            statusKhususSedangDisimpan = false;
-            tutupStatusKhususModal();
+        select.disabled = false;
 
-            tombol.disabled = false;
-            tombol.innerHTML =
-                statusKhususAktif === "Sakit"
-                    ? "SIMPAN SAKIT"
-                    : "SIMPAN IZIN";
-
-        }, 700);
+        // Perbarui dashboard di belakang layar.
+        // Tidak di-await agar UI tetap responsif.
+        muatRekapDashboard().catch(function(err){
+            console.warn(
+                "Rekap berhasil disimpan, tetapi pembaruan dashboard tertunda:",
+                err
+            );
+        });
 
     }
     catch(error){
