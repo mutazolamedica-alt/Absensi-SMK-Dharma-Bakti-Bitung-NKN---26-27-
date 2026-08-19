@@ -69,12 +69,16 @@ async function ambilRekapHariIni(){
 
     try{
 
-        const response =
-            await fetch(
-                URL_WEB_APP +
-                "?action=rekapHariIni"
-            );
-
+const response =
+    await fetch(
+        URL_WEB_APP +
+        "?action=rekapHariIni&_=" +
+        Date.now(),
+        {
+            method: "GET",
+            cache: "no-store"
+        }
+    );
 
         if(!response.ok){
 
