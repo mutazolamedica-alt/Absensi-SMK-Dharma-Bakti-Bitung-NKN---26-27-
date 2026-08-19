@@ -569,10 +569,10 @@ body {
 
 .mode-icon {
 
-    width: 125px;
-    height: 125px;
+    width: 85px;
+    height: 85px;
 
-    border-radius: 50%;
+    border-radius: 10%;
 
     background:
         linear-gradient(
