@@ -1716,3 +1716,62 @@ a {
     }
 
 }
+
+/* =========================================================
+   POSISI KARTU WALI KELAS — CENTER
+   ========================================================= */
+
+.wali-card {
+
+    /* Memaksa kartu mengambil posisi tengah
+       dari seluruh area deck */
+    grid-column: 1 / -1;
+
+    justify-self: center;
+
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    .wali-card {
+
+        grid-column: 1 / -1;
+
+        justify-self: center;
+
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+}
+
+
+/* =========================================================
+   HP
+   ========================================================= */
+
+@media (max-width: 560px) {
+
+    .wali-card {
+
+        grid-column: 1 / -1;
+
+        justify-self: center;
+
+        width: 100%;
+
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+}
