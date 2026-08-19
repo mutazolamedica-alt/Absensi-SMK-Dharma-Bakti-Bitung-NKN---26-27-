@@ -2923,3 +2923,316 @@ body {
 
 }
 
+/* =========================================================
+   WE ARE NAUTIKA26
+   PERSONAL CHARACTER CARD
+   ========================================================= */
+
+.we-are-nautika-card {
+
+    position: relative;
+
+    display: block;
+
+    overflow: hidden;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    padding: 0;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0759d8 0%,
+            #0872d9 48%,
+            #08a56a 100%
+        );
+
+    border: none;
+
+    box-shadow:
+        0 12px 30px rgba(7, 89, 216, 0.18);
+
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+
+/* dekorasi lingkaran */
+
+.we-are-nautika-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    right: -60px;
+    top: -90px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.10);
+}
+
+
+.we-are-nautika-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 120px;
+    height: 120px;
+
+    left: -45px;
+    bottom: -70px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.08);
+}
+
+
+/* efek saat disentuh */
+
+.we-are-nautika-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 17px 35px rgba(7, 89, 216, 0.25);
+}
+
+
+.we-are-nautika-card:active {
+
+    transform:
+        scale(0.985);
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.we-are-nautika-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 24px 26px;
+
+    min-height: 125px;
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.we-are-nautika-icon {
+
+    width: 70px;
+    height: 70px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,0.16);
+
+    border:
+        1px solid rgba(255,255,255,0.28);
+
+    font-size: 34px;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,0.10);
+}
+
+
+/* =========================================================
+   INFO
+   ========================================================= */
+
+.we-are-nautika-info {
+
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.we-are-nautika-title {
+
+    color: #ffffff;
+
+    font-size: 23px;
+
+    font-weight: 900;
+
+    letter-spacing: 0.7px;
+
+    line-height: 1.15;
+}
+
+
+.we-are-nautika-subtitle {
+
+    margin-top: 5px;
+
+    color: rgba(255,255,255,0.88);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.1px;
+}
+
+
+.we-are-nautika-description {
+
+    margin-top: 9px;
+
+    color: rgba(255,255,255,0.78);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   ARROW
+   ========================================================= */
+
+.we-are-nautika-arrow {
+
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.14);
+
+    border:
+        1px solid rgba(255,255,255,0.22);
+
+    color: #ffffff;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+    transition:
+        transform 0.22s ease,
+        background 0.22s ease;
+}
+
+
+.we-are-nautika-card:hover
+.we-are-nautika-arrow {
+
+    transform:
+        translateX(5px);
+
+    background:
+        rgba(255,255,255,0.22);
+}
+
+
+/* =========================================================
+   HP
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .we-are-nautika-content {
+
+        gap: 13px;
+
+        padding: 18px;
+
+        min-height: 112px;
+    }
+
+
+    .we-are-nautika-icon {
+
+        width: 52px;
+        height: 52px;
+
+        border-radius: 14px;
+
+        font-size: 25px;
+    }
+
+
+    .we-are-nautika-title {
+
+        font-size: 17px;
+
+        letter-spacing: 0.4px;
+    }
+
+
+    .we-are-nautika-subtitle {
+
+        font-size: 9px;
+
+        letter-spacing: 0.8px;
+    }
+
+
+    .we-are-nautika-description {
+
+        margin-top: 6px;
+
+        font-size: 10px;
+    }
+
+
+    .we-are-nautika-arrow {
+
+        width: 38px;
+        height: 38px;
+
+        font-size: 20px;
+    }
+
+}
