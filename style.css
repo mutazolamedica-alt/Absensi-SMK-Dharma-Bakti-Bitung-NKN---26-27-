@@ -3050,8 +3050,8 @@ body {
 
 .we-are-nautika-icon {
 
-    width: 110px;
-    height: 110px;
+    width: 90px;
+    height: 120px;
 
     flex-shrink: 0;
 
@@ -3060,20 +3060,21 @@ body {
     align-items: center;
     justify-content: center;
 
-    border-radius: 22px;
+    border-radius: 12px;
 
     background:
         rgba(255,255,255,0.16);
 
     border:
-        1px solid rgba(255,255,255,0.28);
+        1px solid rgba(255,255,255,0.30);
 
-    font-size: 63px;
+    font-size: 48px;
 
     box-shadow:
-        0 8px 18px rgba(0,0,0,0.10);
-}
+        0 10px 22px rgba(0,0,0,0.14);
 
+    overflow: hidden;
+}
 
 /* =========================================================
    INFO
@@ -3192,15 +3193,15 @@ body {
     }
 
 
-    .we-are-nautika-icon {
+.we-are-nautika-icon {
 
-        width: 52px;
-        height: 52px;
+    width: 70px;
+    height: 94px;
 
-        border-radius: 14px;
+    border-radius: 10px;
 
-        font-size: 25px;
-    }
+    font-size: 38px;
+}
 
 
     .we-are-nautika-title {
