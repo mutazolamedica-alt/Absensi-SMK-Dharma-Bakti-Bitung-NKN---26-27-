@@ -569,10 +569,10 @@ body {
 
 .mode-icon {
 
-    width: 85px;
-    height: 85px;
+    width: 96px;
+    height: 96px;
 
-    border-radius: 10%;
+    border-radius: 50%;
 
     background:
         linear-gradient(
@@ -588,7 +588,7 @@ body {
 
     color: #ffffff;
 
-    font-size: 68px;
+    font-size: 52px;
 
     box-shadow:
         0 12px 22px rgba(0, 170, 85, 0.22);
@@ -3060,18 +3060,15 @@ body {
     align-items: center;
     justify-content: center;
 
-    border-radius: 12px;
+    border-radius: 10px;
 
-    background:
-        rgba(255,255,255,0.16);
+    background: transparent;
 
-    border:
-        1px solid rgba(255,255,255,0.30);
+    border: none;
 
-    font-size: 48px;
+    box-shadow: none;
 
-    box-shadow:
-        0 10px 22px rgba(0,0,0,0.14);
+    font-size: 64px;
 
     overflow: hidden;
 }
@@ -3195,14 +3192,19 @@ body {
 
 .we-are-nautika-icon {
 
-    width: 70px;
-    height: 94px;
+    width: 78px;
+    height: 104px;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    font-size: 38px;
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
+
+    font-size: 54px;
 }
-
 
     .we-are-nautika-title {
 
