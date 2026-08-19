@@ -1,142 +1,78 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>
-        WE ARE NAUTIKA'10 - Character Card
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="karakter.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE ARE NAUTIKA'10 - Character Deck</title>
+    <link rel="stylesheet" href="karakter.css">
 </head>
 
-
 <body>
+<div class="character-page">
 
-
-<div class="karakter-container">
-
-
-    <!-- ========================================= -->
-    <!-- HEADER -->
-    <!-- ========================================= -->
-
-    <header class="karakter-header">
-
-        <a
-            href="index.html"
-            class="back-button">
-
-            ←
-
+    <header class="character-header">
+        <a href="index.html" class="back-button" aria-label="Kembali ke dashboard">
+            <span>←</span>
+            <span>KEMBALI</span>
         </a>
 
-
-        <div class="header-content">
-
-            <div class="header-kecil">
-                PERSONAL CHARACTER CARD
+        <div class="brand">
+            <img src="logo-sekolah-hd.png" alt="Logo SMK Dharma Bakti Bitung">
+            <div>
+                <h1>WE ARE NAUTIKA'10</h1>
+                <p>PERSONAL CHARACTER DECK</p>
+                <small>SMK DHARMA BAKTI BITUNG</small>
             </div>
-
-            <h1>
-                WE ARE NAUTIKA'10
-            </h1>
-
-            <p>
-                Satu kelas. Satu perjalanan.
-                Satu karakter.
-            </p>
-
         </div>
-
-
-        <div class="header-card-icon">
-
-            <img
-                src="we-are-nautika10.png"
-                alt="We Are Nautika'10">
-
-        </div>
-
     </header>
 
+    <main>
+        <section class="hero">
+            <div class="hero-badge">NAUTIKA'10</div>
+            <h2>KENALI SETIAP KARAKTER</h2>
+            <p>
+                Setiap siswa memiliki cerita, karakter, dan perjalanan
+                kehadiran yang berbeda.
+            </p>
+        </section>
 
+        <section class="wali-card">
+            <div class="wali-avatar">W</div>
+            <div>
+                <span>WALI KELAS</span>
+                <h3>NAUTIKA'10</h3>
+                <p>Character Deck &amp; Attendance Journey</p>
+            </div>
+        </section>
 
-    <!-- ========================================= -->
-    <!-- INFO -->
-    <!-- ========================================= -->
+        <section class="deck-section">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">PERSONAL CHARACTER</span>
+                    <h2>STUDENT DECK</h2>
+                </div>
+                <div id="jumlahSiswa" class="student-count">0 SISWA</div>
+            </div>
 
-    <section class="info-panel">
+            <div id="loadingDeck" class="deck-message">
+                Memuat daftar siswa...
+            </div>
 
-        <div>
+            <div id="deck" class="character-grid"></div>
 
-            <strong>
-                CHARACTER DECK
-            </strong>
-
-            <span>
-                Wali kelas + 29 siswa
-            </span>
-
-        </div>
-
-
-        <div
-            id="jumlahKartu"
-            class="jumlah-kartu">
-
-            30 KARTU
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ========================================= -->
-    <!-- DECK -->
-    <!-- ========================================= -->
-
-    <main
-        id="characterDeck"
-        class="character-deck">
-
+            <div id="emptyDeck" class="deck-message hidden">
+                Daftar siswa belum tersedia.
+            </div>
+        </section>
     </main>
 
-
-
-    <!-- ========================================= -->
-    <!-- FOOTER -->
-    <!-- ========================================= -->
-
-    <footer class="karakter-footer">
-
-        <span>
-            WE ARE NAUTIKA'10
-        </span>
-
-        <span>
-            SMK Dharma Bakti Bitung
-        </span>
-
+    <footer class="character-footer">
+        <span>Disiplin Hari Ini, Sukses Masa Depan</span>
+        <span>© 2026 SMK Dharma Bakti Bitung</span>
     </footer>
-
-
 </div>
 
-
-
+<script src="api.js"></script>
 <script src="karakter.js"></script>
-
 </body>
-
 </html>
