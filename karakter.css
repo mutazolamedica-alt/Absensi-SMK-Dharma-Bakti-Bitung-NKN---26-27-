@@ -1,1 +1,1117 @@
 
+/* =========================================================
+   WE ARE NAUTIKA'10
+   CHARACTER CARD
+   ========================================================= */
+
+
+* {
+
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef5ff,
+            #f4faf7
+        );
+
+    color: #142033;
+
+}
+
+
+.karakter-container {
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding:
+        30px 35px 50px;
+
+}
+
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.karakter-header {
+
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 230px;
+
+    padding:
+        40px 45px;
+
+    border-radius: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0967dc,
+            #0879d5 45%,
+            #09a46f
+        );
+
+    color: white;
+
+    box-shadow:
+        0 15px 40px
+        rgba(30,80,130,0.16);
+
+}
+
+
+.karakter-header::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    right: -100px;
+    top: -170px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.10);
+
+}
+
+
+.karakter-header::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    left: -100px;
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.08);
+
+}
+
+
+.header-content {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.header-kecil {
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    opacity: .9;
+
+    margin-bottom: 10px;
+
+}
+
+
+.header-content h1 {
+
+    font-size: 48px;
+
+    font-weight: 900;
+
+    letter-spacing: .5px;
+
+}
+
+
+.header-content p {
+
+    margin-top: 12px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    opacity: .9;
+
+}
+
+
+.back-button {
+
+    position: absolute;
+
+    z-index: 5;
+
+    left: 25px;
+
+    top: 25px;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+
+    color: white;
+
+    font-size: 25px;
+
+    background:
+        rgba(255,255,255,0.15);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.25);
+
+    transition:
+        .2s ease;
+
+}
+
+
+.back-button:hover {
+
+    background:
+        rgba(255,255,255,0.25);
+
+    transform:
+        translateX(-3px);
+
+}
+
+
+.header-card-icon {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 130px;
+    height: 160px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.header-card-icon img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 12px 18px
+            rgba(0,0,0,.18)
+        );
+
+}
+
+
+
+/* =========================================================
+   INFO PANEL
+   ========================================================= */
+
+.info-panel {
+
+    margin-top: 22px;
+
+    padding:
+        18px 24px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.92);
+
+    border:
+        1px solid
+        rgba(255,255,255,.9);
+
+    box-shadow:
+        0 8px 25px
+        rgba(31,52,73,.07);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.info-panel div:first-child {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+}
+
+
+.info-panel strong {
+
+    color: #0967d9;
+
+    font-size: 15px;
+
+    letter-spacing: 1px;
+
+}
+
+
+.info-panel span {
+
+    color: #7a8797;
+
+    font-size: 12px;
+
+}
+
+
+.jumlah-kartu {
+
+    padding:
+        9px 14px;
+
+    border-radius: 12px;
+
+    background:
+        #edf6ff;
+
+    color:
+        #0868d9;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+}
+
+
+
+/* =========================================================
+   DECK
+   ========================================================= */
+
+.character-deck {
+
+    margin-top: 28px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 24px;
+
+}
+
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.character-card {
+
+    height: 390px;
+
+    perspective: 1200px;
+
+    cursor: pointer;
+
+}
+
+
+.character-card-inner {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    transition:
+        transform .65s
+        cubic-bezier(.2,.7,.2,1);
+
+    transform-style:
+        preserve-3d;
+
+}
+
+
+.character-card.flipped
+.character-card-inner {
+
+    transform:
+        rotateY(180deg);
+
+}
+
+
+.character-card-front,
+.character-card-back {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    backface-visibility:
+        hidden;
+
+    -webkit-backface-visibility:
+        hidden;
+
+}
+
+
+
+/* =========================================================
+   FRONT
+   ========================================================= */
+
+.character-card-front {
+
+    display: flex;
+
+    flex-direction: column;
+
+    background:
+        white;
+
+    border:
+        1px solid
+        #e4ebf2;
+
+    box-shadow:
+        0 12px 30px
+        rgba(25,45,75,.09);
+
+}
+
+
+.card-image-area {
+
+    height: 235px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #e9f3ff,
+            #f2fbf7
+        );
+
+}
+
+
+.card-image {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+
+.card-number {
+
+    position: absolute;
+
+    top: 14px;
+    left: 14px;
+
+    padding:
+        6px 9px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,255,255,.88);
+
+    color:
+        #17436b;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+}
+
+
+.card-percent {
+
+    position: absolute;
+
+    top: 14px;
+    right: 14px;
+
+    padding:
+        7px 10px;
+
+    border-radius: 10px;
+
+    color: white;
+
+    background:
+        #16a765;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+}
+
+
+.card-front-info {
+
+    flex: 1;
+
+    padding:
+        17px 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+}
+
+
+.card-role {
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.2px;
+
+    color:
+        #7d8a99;
+
+}
+
+
+.card-name {
+
+    margin-top: 5px;
+
+    font-size: 18px;
+
+    line-height: 1.1;
+
+    font-weight: 900;
+
+    color:
+        #152238;
+
+}
+
+
+.card-class {
+
+    margin-top: 5px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color:
+        #8793a1;
+
+}
+
+
+.card-flip-hint {
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    color:
+        #a0aab6;
+
+}
+
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+.character-card-back {
+
+    transform:
+        rotateY(180deg);
+
+    padding: 22px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f4f9ff
+        );
+
+    border:
+        1px solid
+        #dce8f2;
+
+    box-shadow:
+        0 12px 30px
+        rgba(25,45,75,.09);
+
+}
+
+
+.back-title {
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    color:
+        #0967d9;
+
+}
+
+
+.back-name {
+
+    margin-top: 6px;
+
+    font-size: 20px;
+
+    font-weight: 900;
+
+    color:
+        #152238;
+
+}
+
+
+.back-percent {
+
+    margin-top: 14px;
+
+    padding:
+        14px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    background:
+        #eaf7f0;
+
+    color:
+        #0b9b59;
+
+}
+
+
+.back-percent strong {
+
+    display: block;
+
+    font-size: 30px;
+
+    font-weight: 900;
+
+}
+
+
+.back-percent span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+
+.attendance-grid {
+
+    margin-top: 15px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap: 8px;
+
+}
+
+
+.attendance-item {
+
+    padding:
+        10px;
+
+    border-radius: 12px;
+
+    background:
+        white;
+
+    border:
+        1px solid
+        #edf0f4;
+
+}
+
+
+.attendance-label {
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    color:
+        #8a96a6;
+
+}
+
+
+.attendance-value {
+
+    margin-top: 3px;
+
+    font-size: 18px;
+
+    font-weight: 900;
+
+}
+
+
+.hadir-value {
+    color: #0b9b59;
+}
+
+.terlambat-value {
+    color: #b98a00;
+}
+
+.izin-value {
+    color: #172554;
+}
+
+.sakit-value {
+    color: #e8660c;
+}
+
+.alpa-value {
+    color: #d52e2e;
+}
+
+
+.back-hint {
+
+    margin-top: auto;
+
+    text-align: center;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    color:
+        #9ba6b3;
+
+}
+
+
+
+/* =========================================================
+   STATUS WARNA KARTU
+   ========================================================= */
+
+.character-card.percent-90
+.card-percent {
+
+    background:
+        #16a765;
+
+}
+
+
+.character-card.percent-75
+.card-percent {
+
+    background:
+        #4a9bdb;
+
+}
+
+
+.character-card.percent-60
+.card-percent {
+
+    background:
+        #e5b800;
+
+}
+
+
+.character-card.percent-low
+.card-percent {
+
+    background:
+        #df3434;
+
+}
+
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.karakter-footer {
+
+    margin-top: 35px;
+
+    padding:
+        20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color:
+        #8b97a5;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media
+(max-width: 1100px) {
+
+    .character-deck {
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   TABLET KECIL
+   ========================================================= */
+
+@media
+(max-width: 850px) {
+
+    .character-deck {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+    .karakter-container {
+
+        padding:
+            20px;
+
+    }
+
+    .header-content h1 {
+
+        font-size: 38px;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   HP
+   ========================================================= */
+
+@media
+(max-width: 600px) {
+
+    .karakter-container {
+
+        padding:
+            12px 10px 30px;
+
+    }
+
+
+    .karakter-header {
+
+        min-height: 190px;
+
+        padding:
+            35px 22px;
+
+        border-radius: 22px;
+
+    }
+
+
+    .header-content {
+
+        padding-top: 15px;
+
+    }
+
+
+    .header-content h1 {
+
+        font-size: 28px;
+
+    }
+
+
+    .header-content p {
+
+        font-size: 11px;
+
+    }
+
+
+    .header-kecil {
+
+        font-size: 9px;
+
+    }
+
+
+    .header-card-icon {
+
+        width: 75px;
+        height: 100px;
+
+    }
+
+
+    .info-panel {
+
+        padding:
+            15px;
+
+    }
+
+
+    .character-deck {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 12px;
+
+    }
+
+
+    .character-card {
+
+        height: 310px;
+
+    }
+
+
+    .card-image-area {
+
+        height: 175px;
+
+    }
+
+
+    .card-front-info {
+
+        padding:
+            12px;
+
+    }
+
+
+    .card-name {
+
+        font-size: 14px;
+
+    }
+
+
+    .card-class {
+
+        font-size: 9px;
+
+    }
+
+
+    .card-flip-hint {
+
+        font-size: 7px;
+
+    }
+
+
+    .character-card-back {
+
+        padding: 14px;
+
+    }
+
+
+    .back-name {
+
+        font-size: 15px;
+
+    }
+
+
+    .back-percent {
+
+        margin-top: 9px;
+
+        padding: 9px;
+
+    }
+
+
+    .back-percent strong {
+
+        font-size: 23px;
+
+    }
+
+
+    .attendance-grid {
+
+        gap: 5px;
+
+        margin-top: 8px;
+
+    }
+
+
+    .attendance-item {
+
+        padding: 7px;
+
+    }
+
+
+    .attendance-value {
+
+        font-size: 14px;
+
+    }
+
+
+    .karakter-footer {
+
+        flex-direction: column;
+
+        gap: 5px;
+
+        text-align: center;
+
+    }
+
+}
