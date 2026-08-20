@@ -149,37 +149,38 @@ function prosesLogin(){
     tombol.innerHTML =
         "MEMBUKA...";
 
+// ====================================
+// ANIMASI LOGIN BERHASIL
+// LOGO → ZOOM → BLUR → DASHBOARD
+// ====================================
 
-    const loginScreen =
-        document.getElementById(
-            "loginScreen"
-        );
-
-
-    if(loginScreen){
-
-        loginScreen.style.opacity =
-            "0";
-
-        loginScreen.style.transition =
-            "opacity .25s ease";
+const loginScreen =
+    document.getElementById(
+        "loginScreen"
+    );
 
 
-        setTimeout(
-            function(){
+if(loginScreen){
 
-                loginScreen.style.display =
-                    "none";
+    // Aktifkan animasi CSS
+    loginScreen.classList.add(
+        "login-success"
+    );
 
-            },
-            250
-        );
 
-    }
+    // Tunggu animasi selesai
+    setTimeout(
+        function(){
+
+            loginScreen.style.display =
+                "none";
+
+        },
+        1350
+    );
 
 }
-
-
+    
 // ========================================
 // PASANG EVENT LOGIN
 // ========================================
