@@ -3258,7 +3258,7 @@ body {
 
 /* =========================================================
    LOGIN WEB ABSENSI
-   KEAMANAN LEVEL 1
+   ANIMASI SMOOTH LOGO → BLUR → DASHBOARD
    ========================================================= */
 
 .login-screen {
@@ -3284,12 +3284,16 @@ body {
             #0759d8
         );
 
+    opacity: 1;
+
+    visibility: visible;
+
 }
 
 
-/* ========================================
+/* =========================================================
    KARTU LOGIN
-   ======================================== */
+   ========================================================= */
 
 .login-card {
 
@@ -3310,12 +3314,15 @@ body {
 
     text-align: center;
 
+    transform:
+        scale(1);
+
 }
 
 
-/* ========================================
+/* =========================================================
    LOGO
-   ======================================== */
+   ========================================================= */
 
 .login-logo {
 
@@ -3323,13 +3330,22 @@ body {
 
     height: 78px;
 
-    margin: 0 auto 15px;
+    margin:
+        0 auto 15px;
 
     display: flex;
 
     align-items: center;
 
     justify-content: center;
+
+    transition:
+        transform 1.05s
+        cubic-bezier(.15,.85,.2,1),
+
+        filter .85s ease,
+
+        opacity .75s ease;
 
 }
 
@@ -3345,73 +3361,92 @@ body {
 }
 
 
-/* ========================================
+/* =========================================================
    JUDUL
-   ======================================== */
+   ========================================================= */
 
 .login-title {
 
-    color: #062b67;
+    color:
+        #062b67;
 
-    font-size: 25px;
+    font-size:
+        25px;
 
-    font-weight: 950;
+    font-weight:
+        950;
 
-    letter-spacing: .5px;
+    letter-spacing:
+        .5px;
 
 }
 
 
 .login-subtitle {
 
-    margin-top: 6px;
+    margin-top:
+        6px;
 
-    margin-bottom: 25px;
+    margin-bottom:
+        25px;
 
-    color: #718096;
+    color:
+        #718096;
 
-    font-size: 10px;
+    font-size:
+        10px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    letter-spacing: 1px;
+    letter-spacing:
+        1px;
 
 }
 
 
-/* ========================================
+/* =========================================================
    INPUT
-   ======================================== */
+   ========================================================= */
 
 .login-field {
 
-    margin-bottom: 15px;
+    margin-bottom:
+        15px;
 
-    text-align: left;
+    text-align:
+        left;
 
 }
 
 
 .login-field label {
 
-    display: block;
+    display:
+        block;
 
-    margin-bottom: 6px;
+    margin-bottom:
+        6px;
 
-    color: #23395d;
+    color:
+        #23395d;
 
-    font-size: 11px;
+    font-size:
+        11px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
 }
 
 
 .login-field input {
 
-    width: 100%;
+    width:
+        100%;
 
-    height: 46px;
+    height:
+        46px;
 
     padding:
         0 13px;
@@ -3420,17 +3455,23 @@ body {
         1px solid
         #d8e2f0;
 
-    border-radius: 12px;
+    border-radius:
+        12px;
 
-    outline: none;
+    outline:
+        none;
 
-    background: #f8fbff;
+    background:
+        #f8fbff;
 
-    color: #14213d;
+    color:
+        #14213d;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
     transition:
         border-color .2s ease,
@@ -3455,13 +3496,14 @@ body {
 }
 
 
-/* ========================================
+/* =========================================================
    ERROR
-   ======================================== */
+   ========================================================= */
 
 .login-error {
 
-    min-height: 18px;
+    min-height:
+        18px;
 
     margin:
         2px 0 10px;
@@ -3478,19 +3520,23 @@ body {
 }
 
 
-/* ========================================
+/* =========================================================
    BUTTON
-   ======================================== */
+   ========================================================= */
 
 .login-button {
 
-    width: 100%;
+    width:
+        100%;
 
-    height: 48px;
+    height:
+        48px;
 
-    border: none;
+    border:
+        none;
 
-    border-radius: 13px;
+    border-radius:
+        13px;
 
     background:
         linear-gradient(
@@ -3499,17 +3545,23 @@ body {
             #0759d8
         );
 
-    color: white;
+    color:
+        white;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 12px;
+    font-size:
+        12px;
 
-    font-weight: 950;
+    font-weight:
+        950;
 
-    letter-spacing: .8px;
+    letter-spacing:
+        .8px;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     box-shadow:
         0 8px 18px
@@ -3544,7 +3596,8 @@ body {
 
 .login-button:disabled {
 
-    opacity: .65;
+    opacity:
+        .65;
 
     cursor:
         not-allowed;
@@ -3555,9 +3608,218 @@ body {
 }
 
 
-/* ========================================
+/* =========================================================
+   ANIMASI LOGIN BERHASIL
+   ========================================================= */
+
+/*
+   Tahap 1:
+   kartu login sedikit mengecil
+   */
+
+.login-screen.login-success
+.login-card {
+
+    animation:
+        loginCardExit
+        1.25s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+
+}
+
+
+/*
+   Tahap 2:
+   logo membesar drastis,
+   kemudian blur dan menghilang
+   */
+
+.login-screen.login-success
+.login-logo {
+
+    animation:
+        logoZoomExit
+        1.25s
+        cubic-bezier(.15,.75,.15,1)
+        forwards;
+
+}
+
+
+/*
+   Tahap 3:
+   seluruh elemen selain logo
+   menghilang lebih cepat
+   */
+
+.login-screen.login-success
+.login-title,
+
+.login-screen.login-success
+.login-subtitle,
+
+.login-screen.login-success
+.login-field,
+
+.login-screen.login-success
+.login-error,
+
+.login-screen.login-success
+.login-button {
+
+    animation:
+        loginContentFade
+        .45s
+        ease
+        forwards;
+
+}
+
+
+/* =========================================================
+   LOGO ZOOM
+   ========================================================= */
+
+@keyframes logoZoomExit {
+
+    0% {
+
+        transform:
+            scale(1);
+
+        filter:
+            blur(0);
+
+        opacity:
+            1;
+
+    }
+
+
+    45% {
+
+        transform:
+            scale(2.2);
+
+        filter:
+            blur(0);
+
+        opacity:
+            1;
+
+    }
+
+
+    70% {
+
+        transform:
+            scale(4.5);
+
+        filter:
+            blur(2px);
+
+        opacity:
+            .95;
+
+    }
+
+
+    100% {
+
+        transform:
+            scale(9);
+
+        filter:
+            blur(16px);
+
+        opacity:
+            0;
+
+    }
+
+}
+
+
+/* =========================================================
+   KARTU LOGIN KELUAR
+   ========================================================= */
+
+@keyframes loginCardExit {
+
+    0% {
+
+        transform:
+            scale(1);
+
+        opacity:
+            1;
+
+    }
+
+
+    45% {
+
+        transform:
+            scale(1.02);
+
+        opacity:
+            1;
+
+    }
+
+
+    75% {
+
+        transform:
+            scale(1.05);
+
+        opacity:
+            .75;
+
+    }
+
+
+    100% {
+
+        transform:
+            scale(1.15);
+
+        opacity:
+            0;
+
+    }
+
+}
+
+
+/* =========================================================
+   KONTEN LOGIN HILANG
+   ========================================================= */
+
+@keyframes loginContentFade {
+
+    0% {
+
+        opacity:
+            1;
+
+    }
+
+
+    100% {
+
+        opacity:
+            0;
+
+    }
+
+}
+
+
+/* =========================================================
    HP
-   ======================================== */
+   ========================================================= */
 
 @media (max-width: 480px) {
 
