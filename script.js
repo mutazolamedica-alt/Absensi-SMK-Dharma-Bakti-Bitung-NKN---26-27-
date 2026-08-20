@@ -120,6 +120,11 @@ function prosesLogin(){
             PASSWORD_SISWA
         );
 
+    console.log(
+    "LOGIN DICEK:",
+    username,
+    password
+);
 
     if(!loginBenar){
 
