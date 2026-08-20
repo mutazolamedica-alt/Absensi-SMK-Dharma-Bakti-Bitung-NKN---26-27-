@@ -3255,3 +3255,339 @@ body {
     }
 
 }
+
+/* =========================================================
+   LOGIN WEB ABSENSI
+   KEAMANAN LEVEL 1
+   ========================================================= */
+
+.login-screen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #062b67,
+            #0759d8
+        );
+
+}
+
+
+/* ========================================
+   KARTU LOGIN
+   ======================================== */
+
+.login-card {
+
+    width: min(
+        390px,
+        100%
+    );
+
+    padding: 32px 28px;
+
+    border-radius: 24px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.25);
+
+    text-align: center;
+
+}
+
+
+/* ========================================
+   LOGO
+   ======================================== */
+
+.login-logo {
+
+    width: 78px;
+
+    height: 78px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.login-logo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+/* ========================================
+   JUDUL
+   ======================================== */
+
+.login-title {
+
+    color: #062b67;
+
+    font-size: 25px;
+
+    font-weight: 950;
+
+    letter-spacing: .5px;
+
+}
+
+
+.login-subtitle {
+
+    margin-top: 6px;
+
+    margin-bottom: 25px;
+
+    color: #718096;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* ========================================
+   INPUT
+   ======================================== */
+
+.login-field {
+
+    margin-bottom: 15px;
+
+    text-align: left;
+
+}
+
+
+.login-field label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #23395d;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+}
+
+
+.login-field input {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding:
+        0 13px;
+
+    border:
+        1px solid
+        #d8e2f0;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #f8fbff;
+
+    color: #14213d;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+
+}
+
+
+.login-field input:focus {
+
+    border-color:
+        #1474f5;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(20,116,245,.10);
+
+}
+
+
+/* ========================================
+   ERROR
+   ======================================== */
+
+.login-error {
+
+    min-height: 18px;
+
+    margin:
+        2px 0 10px;
+
+    color:
+        #d63f3f;
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+}
+
+
+/* ========================================
+   BUTTON
+   ======================================== */
+
+.login-button {
+
+    width: 100%;
+
+    height: 48px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #073d8f,
+            #0759d8
+        );
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 950;
+
+    letter-spacing: .8px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px
+        rgba(7,89,216,.20);
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+
+}
+
+
+.login-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 11px 24px
+        rgba(7,89,216,.28);
+
+}
+
+
+.login-button:active {
+
+    transform:
+        translateY(0);
+
+}
+
+
+.login-button:disabled {
+
+    opacity: .65;
+
+    cursor:
+        not-allowed;
+
+    transform:
+        none;
+
+}
+
+
+/* ========================================
+   HP
+   ======================================== */
+
+@media (max-width: 480px) {
+
+    .login-card {
+
+        padding:
+            28px 20px;
+
+        border-radius:
+            21px;
+
+    }
+
+
+    .login-logo {
+
+        width:
+            68px;
+
+        height:
+            68px;
+
+    }
+
+
+    .login-title {
+
+        font-size:
+            22px;
+
+    }
+
+}
