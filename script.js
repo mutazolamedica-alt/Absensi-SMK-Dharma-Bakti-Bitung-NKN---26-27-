@@ -176,7 +176,7 @@ if(loginScreen){
                 "none";
 
         },
-        1350
+        2100
     );
 
 }
