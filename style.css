@@ -3609,69 +3609,56 @@ body {
 
 
 /* =========================================================
-   ANIMASI LOGIN BERHASIL
+   LOGIN SUCCESS ANIMATION — FIXED
+   LOGO → ZOOM → BLUR → FADE → DASHBOARD
    ========================================================= */
 
-/*
-   Tahap 1:
-   kartu login sedikit mengecil
-   */
 
-.login-screen.login-success
-.login-card {
+/* =========================================================
+   1. KARTU LOGIN KELUAR DENGAN HALUS
+   ========================================================= */
+
+.login-screen.login-success .login-card {
 
     animation:
         loginCardExit
-        1.25s
-        cubic-bezier(.2,.8,.2,1)
+        2s
+        cubic-bezier(.22,.75,.18,1)
         forwards;
 
 }
 
 
-/*
-   Tahap 2:
-   logo membesar drastis,
-   kemudian blur dan menghilang
-   */
+/* =========================================================
+   2. LOGO SMK DHARMA BAKTI
+      ZOOM → BLUR → HILANG
+   ========================================================= */
 
-.login-screen.login-success
-.login-logo {
+.login-screen.login-success .login-logo {
 
     animation:
         logoZoomExit
         2s
-        cubic-bezier(.15,.75,.15,1)
+        cubic-bezier(.16,.75,.18,1)
         forwards;
 
 }
 
 
-/*
-   Tahap 3:
-   seluruh elemen selain logo
-   menghilang lebih cepat
-   */
+/* =========================================================
+   3. KONTEN LOGIN MENGHILANG
+   ========================================================= */
 
-.login-screen.login-success
-.login-title,
-
-.login-screen.login-success
-.login-subtitle,
-
-.login-screen.login-success
-.login-field,
-
-.login-screen.login-success
-.login-error,
-
-.login-screen.login-success
-.login-button {
+.login-screen.login-success .login-title,
+.login-screen.login-success .login-subtitle,
+.login-screen.login-success .login-field,
+.login-screen.login-success .login-error,
+.login-screen.login-success .login-button {
 
     animation:
         loginContentFade
-        .45s
-        ease
+        .55s
+        ease-out
         forwards;
 
 }
@@ -3683,6 +3670,7 @@ body {
 
 @keyframes logoZoomExit {
 
+    /* Awal */
     0% {
 
         transform:
@@ -3697,10 +3685,11 @@ body {
     }
 
 
-    45% {
+    /* Logo mulai membesar */
+    35% {
 
         transform:
-            scale(1.8);
+            scale(1.7);
 
         filter:
             blur(0);
@@ -3711,27 +3700,44 @@ body {
     }
 
 
-    70% {
+    /* Logo mulai memenuhi layar */
+    60% {
 
         transform:
-            scale(3.8);
+            scale(3.2);
 
         filter:
-            blur(2px);
+            blur(1px);
 
         opacity:
-            .95;
+            .98;
 
     }
 
 
+    /* Mulai blur */
+    78% {
+
+        transform:
+            scale(4.8);
+
+        filter:
+            blur(6px);
+
+        opacity:
+            .75;
+
+    }
+
+
+    /* Hilang */
     100% {
 
         transform:
             scale(7);
 
         filter:
-            blur(14px);
+            blur(16px);
 
         opacity:
             0;
@@ -3758,10 +3764,10 @@ body {
     }
 
 
-    45% {
+    40% {
 
         transform:
-            scale(1.02);
+            scale(1.015);
 
         opacity:
             1;
@@ -3769,13 +3775,13 @@ body {
     }
 
 
-    75% {
+    70% {
 
         transform:
-            scale(1.05);
+            scale(1.04);
 
         opacity:
-            .75;
+            .65;
 
     }
 
@@ -3783,7 +3789,7 @@ body {
     100% {
 
         transform:
-            scale(1.15);
+            scale(1.10);
 
         opacity:
             0;
@@ -3794,7 +3800,7 @@ body {
 
 
 /* =========================================================
-   KONTEN LOGIN HILANG
+   INPUT + TEKS MENGHILANG
    ========================================================= */
 
 @keyframes loginContentFade {
