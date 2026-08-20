@@ -4,6 +4,278 @@
 // SMK Dharma Bakti Bitung
 // ========================================
 
+// ========================================
+// LOGIN WEB ABSENSI
+// KEAMANAN LEVEL 1
+// ========================================
+
+// ========================================
+// AKUN 1 - WALI / GURU
+// ========================================
+
+const USERNAME_WALI =
+    "wali";
+
+const PASSWORD_WALI =
+    "123456";
+
+
+// ========================================
+// AKUN 2 - SISWA
+// FULL ACCESS SAMA DENGAN WALI
+// ========================================
+
+const USERNAME_SISWA =
+    "siswa";
+
+const PASSWORD_SISWA =
+    "nautika10";
+
+
+// ========================================
+// CEK LOGIN
+// ========================================
+
+function prosesLogin(){
+
+    const usernameInput =
+        document.getElementById(
+            "loginUsername"
+        );
+
+    const passwordInput =
+        document.getElementById(
+            "loginPassword"
+        );
+
+    const error =
+        document.getElementById(
+            "loginError"
+        );
+
+    const tombol =
+        document.getElementById(
+            "btnLogin"
+        );
+
+
+    if(
+        !usernameInput ||
+        !passwordInput ||
+        !error ||
+        !tombol
+    ){
+
+        return;
+
+    }
+
+
+    const username =
+        usernameInput.value
+            .trim();
+
+    const password =
+        passwordInput.value;
+
+
+    // ====================================
+    // VALIDASI KOSONG
+    // ====================================
+
+    if(
+        username === "" ||
+        password === ""
+    ){
+
+        error.innerHTML =
+            "Username dan password wajib diisi.";
+
+        return;
+
+    }
+
+
+    // ====================================
+    // VALIDASI AKUN
+    // ====================================
+
+    const loginBenar =
+
+        (
+            username ===
+            USERNAME_WALI &&
+
+            password ===
+            PASSWORD_WALI
+        )
+
+        ||
+
+        (
+            username ===
+            USERNAME_SISWA &&
+
+            password ===
+            PASSWORD_SISWA
+        );
+
+
+    if(!loginBenar){
+
+        error.innerHTML =
+            "Username atau password salah.";
+
+        passwordInput.value =
+            "";
+
+        passwordInput.focus();
+
+        return;
+
+    }
+
+
+    // ====================================
+    // LOGIN BERHASIL
+    // ====================================
+
+    error.innerHTML =
+        "";
+
+    tombol.disabled =
+        true;
+
+    tombol.innerHTML =
+        "MEMBUKA...";
+
+
+    const loginScreen =
+        document.getElementById(
+            "loginScreen"
+        );
+
+
+    if(loginScreen){
+
+        loginScreen.style.opacity =
+            "0";
+
+        loginScreen.style.transition =
+            "opacity .25s ease";
+
+
+        setTimeout(
+            function(){
+
+                loginScreen.style.display =
+                    "none";
+
+            },
+            250
+        );
+
+    }
+
+}
+
+
+// ========================================
+// PASANG EVENT LOGIN
+// ========================================
+
+function pasangLogin(){
+
+    const tombol =
+        document.getElementById(
+            "btnLogin"
+        );
+
+    const username =
+        document.getElementById(
+            "loginUsername"
+        );
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        );
+
+
+    if(
+        !tombol ||
+        !username ||
+        !password
+    ){
+
+        return;
+
+    }
+
+
+    tombol.addEventListener(
+        "click",
+        prosesLogin
+    );
+
+
+    // Enter pada username
+    username.addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+
+                event.preventDefault();
+
+                password.focus();
+
+            }
+
+        }
+    );
+
+
+    // Enter pada password
+    password.addEventListener(
+        "keydown",
+        function(event){
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+
+                event.preventDefault();
+
+                prosesLogin();
+
+            }
+
+        }
+    );
+
+
+    // Fokus otomatis ke username
+    setTimeout(
+        function(){
+
+            username.focus();
+
+        },
+        100
+    );
+
+}
+
+
+window.addEventListener(
+    "load",
+    pasangLogin
+);
 
 let MODE = "";
 
