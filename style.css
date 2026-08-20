@@ -3640,7 +3640,7 @@ body {
 
     animation:
         logoZoomExit
-        4s
+        2s
         cubic-bezier(.15,.75,.15,1)
         forwards;
 
@@ -3700,7 +3700,7 @@ body {
     45% {
 
         transform:
-            scale(2.2);
+            scale(1.8);
 
         filter:
             blur(0);
@@ -3714,7 +3714,7 @@ body {
     70% {
 
         transform:
-            scale(4.5);
+            scale(3.8);
 
         filter:
             blur(2px);
@@ -3728,10 +3728,10 @@ body {
     100% {
 
         transform:
-            scale(15);
+            scale(7);
 
         filter:
-            blur(16px);
+            blur(14px);
 
         opacity:
             0;
