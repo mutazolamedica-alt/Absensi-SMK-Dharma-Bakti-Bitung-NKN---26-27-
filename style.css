@@ -3644,6 +3644,34 @@ body {
 
 }
 
+@keyframes loginScreenExit {
+
+    0% {
+
+        opacity: 1;
+
+    }
+
+    70% {
+
+        opacity: 1;
+
+    }
+
+    88% {
+
+        opacity: .65;
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+    }
+
+}
+
 
 /* =========================================================
    3. KONTEN LOGIN MENGHILANG
