@@ -234,295 +234,156 @@ function getCharacterImage(kode) {
 
     }
 
+   function buatKartu(siswa, index) {
 
-    // ========================================
-    // BUAT KARTU
-    // ========================================
+    const nomor = String(index + 1).padStart(2, "0");
 
-    function buatKartu(
-        siswa,
-        index
-    ){
+    const card = document.createElement("article");
 
-        const nomor =
-            String(index + 1)
-                .padStart(2,"0");
+    card.className = "character-card";
 
+    card.tabIndex = 0;
 
-        const card =
-            document.createElement("article");
+    card.setAttribute("role", "button");
 
-
-        card.className =
-            "character-card";
+    card.setAttribute(
+        "aria-label",
+        `Buka karakter ${siswa.nama}`
+    );
 
 
-        card.tabIndex =
-            0;
+    card.innerHTML = `
+
+        <!-- =========================================
+             FRONT
+             PURE CHARACTER ARTWORK
+             ========================================= -->
+
+        <div class="card-inner">
+
+            <div class="card-face card-front">
+
+                <img
+                    class="character-photo"
+                    src="${getCharacterImage(siswa.kode)}"
+                    alt="Character ${escapeHTML(siswa.nama)}">
+
+            </div>
 
 
-        card.setAttribute(
-            "role",
-            "button"
-        );
+            <!-- =====================================
+                 BACK
+                 IDENTITY + ATTENDANCE
+                 ===================================== -->
+
+            <div class="card-face card-back">
+
+                <div class="back-top">
+
+                    <span class="close-flip">
+                        ↻
+                    </span>
+
+                </div>
 
 
-        card.setAttribute(
-            "aria-label",
-            "Buka karakter " +
-            siswa.nama
-        );
+                <h3 class="back-name">
+                    ${escapeHTML(siswa.nama)}
+                </h3>
 
 
-        card.innerHTML = `
-
-            <div class="card-inner">
-
-
-               <div class="card-face card-front">
-               
-                   <img
-                       class="character-photo"
-                       src="${getCharacterImage(siswa.kode)}"
-                       alt="Character ${escapeHTML(siswa.nama)}">
-               
-               </div>
-
-                <!-- =========================
-                     BELAKANG KARTU
-                     ========================= -->
-
-                <div class="card-face card-back">
+                <div class="back-class">
+                    ${escapeHTML(siswa.kelas)}
+                </div>
 
 
-                    <div class="back-top">
+                <div class="stats">
 
-                        <span
-                            class="back-number"
-                        >
-
-                            STUDENT ${nomor}
-
-                        </span>
-
-
-                        <span
-                            class="close-flip"
-                        >
-
-                            ↻
-
-                        </span>
-
+                    <div class="stat hadir">
+                        <strong>0</strong>
+                        <span>HADIR</span>
                     </div>
 
-
-                    <h3 class="back-name">
-
-                        ${escapeHTML(
-                            siswa.nama
-                        )}
-
-                    </h3>
-
-
-                    <div class="back-class">
-
-                        ${escapeHTML(
-                            siswa.kelas
-                        )}
-
+                    <div class="stat terlambat">
+                        <strong>0</strong>
+                        <span>TERLAMBAT</span>
                     </div>
 
-
-                    <div class="stats">
-
-
-                        <div class="stat hadir">
-
-                            <strong>
-
-                                ${Number(
-                                    siswa.hadir
-                                ) || 0}
-
-                            </strong>
-
-                            <span>
-
-                                HADIR
-
-                            </span>
-
-                        </div>
-
-
-                        <div class="stat terlambat">
-
-                            <strong>
-
-                                ${Number(
-                                    siswa.terlambat
-                                ) || 0}
-
-                            </strong>
-
-                            <span>
-
-                                TERLAMBAT
-
-                            </span>
-
-                        </div>
-
-
-                        <div class="stat izin">
-
-                            <strong>
-
-                                ${Number(
-                                    siswa.izin
-                                ) || 0}
-
-                            </strong>
-
-                            <span>
-
-                                IZIN
-
-                            </span>
-
-                        </div>
-
-
-                        <div class="stat sakit">
-
-                            <strong>
-
-                                ${Number(
-                                    siswa.sakit
-                                ) || 0}
-
-                            </strong>
-
-                            <span>
-
-                                SAKIT
-
-                            </span>
-
-                        </div>
-
-
-                        <div class="stat alpa">
-
-                            <strong>
-
-                                ${Number(
-                                    siswa.alpa
-                                ) || 0}
-
-                            </strong>
-
-                            <span>
-
-                                ALPA
-
-                            </span>
-
-                        </div>
-
-
-                        <div class="stat">
-
-                            <strong>
-
-                                ${formatPersentase(
-                                    siswa.persentase
-                                )}
-
-                            </strong>
-
-                            <span>
-
-                                KEHADIRAN
-
-                            </span>
-
-                        </div>
-
-
+                    <div class="stat izin">
+                        <strong>0</strong>
+                        <span>IZIN</span>
                     </div>
 
-
-                    <div class="score-row">
-
-                        <span>
-
-                            TOTAL SKOR
-
-                        </span>
-
-
-                        <strong>
-
-                            ${Number(
-                                siswa.totalSkor
-                            ) || 0}
-
-                        </strong>
-
+                    <div class="stat sakit">
+                        <strong>0</strong>
+                        <span>SAKIT</span>
                     </div>
 
+                    <div class="stat alpa">
+                        <strong>0</strong>
+                        <span>ALPA</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>0%</strong>
+                        <span>KEHADIRAN</span>
+                    </div>
+
+                </div>
+
+
+                <div class="score-row">
+
+                    <span>
+                        TOTAL SKOR
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
 
                 </div>
 
             </div>
 
-        `;
+        </div>
+    `;
 
 
-        // ====================================
-        // FLIP
-        // ====================================
+    function toggleCard() {
 
-        function toggleCard(){
-
-            card.classList.toggle(
-                "flipped"
-            );
-
-        }
-
-
-        card.addEventListener(
-            "click",
-            toggleCard
-        );
-
-
-        card.addEventListener(
-            "keydown",
-            function(event){
-
-                if(
-                    event.key === "Enter" ||
-                    event.key === " "
-                ){
-
-                    event.preventDefault();
-
-                    toggleCard();
-
-                }
-
-            }
-        );
-
-
-        return card;
+        card.classList.toggle("flipped");
 
     }
+
+
+    card.addEventListener(
+        "click",
+        toggleCard
+    );
+
+
+    card.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+
+                event.preventDefault();
+
+                toggleCard();
+
+            }
+
+        }
+    );
+
+
+    return card;
+}
 
 
     // ========================================
