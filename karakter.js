@@ -118,14 +118,71 @@
 
         `);
 
+/* =========================================================
+   CHARACTER IMAGE CONFIG
+   =========================================================
+   Format:
+   "KODE SISWA": "NAMA FILE GAMBAR"
+
+   Jika belum ada artwork:
+   gunakan null → otomatis memakai placeholder.
+
+   Saat artwork sudah selesai, cukup ubah:
+   null
+   menjadi:
+   "NKN001.png"
+   ========================================================= */
+
 const CHARACTER_IMAGES = {
-    "NKN028": "NKN028.png"
+
+    "NKN001": null,
+    "NKN002": null,
+    "NKN003": null,
+    "NKN004": null,
+    "NKN005": null,
+    "NKN006": null,
+    "NKN007": null,
+    "NKN008": null,
+    "NKN009": null,
+    "NKN010": null,
+
+    "NKN011": null,
+    "NKN012": null,
+    "NKN013": null,
+    "NKN014": null,
+    "NKN015": null,
+    "NKN016": null,
+    "NKN017": null,
+    "NKN018": null,
+    "NKN019": null,
+    "NKN020": null,
+
+    "NKN021": null,
+    "NKN022": null,
+    "NKN023": null,
+    "NKN024": null,
+    "NKN025": null,
+    "NKN026": null,
+    "NKN027": null,
+
+    "NKN028": "NKN028.png",
+
+    "NKN029": null,
+    "NKN030": null
 };
 
+
+/* =========================================================
+   AMBIL GAMBAR CHARACTER
+   ========================================================= */
+
 function getCharacterImage(kode) {
+
     const key = String(kode || "").trim();
 
-    return CHARACTER_IMAGES[key] || PLACEHOLDER_IMAGE;
+    const image = CHARACTER_IMAGES[key];
+
+    return image || PLACEHOLDER_IMAGE;
 }
    
     // ========================================
@@ -222,61 +279,14 @@ function getCharacterImage(kode) {
             <div class="card-inner">
 
 
-                <!-- =========================
-                     DEPAN KARTU
-                     ========================= -->
-
-                <div class="card-face card-front">
-
-
-                    <div class="card-number">
-
-                        ${nomor}
-
-                    </div>
-
-
+               <div class="card-face card-front">
+               
                    <img
-                      class="character-photo"
-                      src="${getCharacterImage(siswa.kode)}"
-                      alt="Character ${escapeHTML(siswa.nama)}">
-
-                    >
-
-
-                    <div class="character-front-info">
-
-
-                        <h3 class="character-name">
-
-                            ${escapeHTML(
-                                siswa.nama
-                            )}
-
-                        </h3>
-
-
-                        <div class="character-class">
-
-                            ${escapeHTML(
-                                siswa.kelas
-                            )}
-
-                        </div>
-
-
-                        <div class="tap-hint">
-
-                            KLIK UNTUK
-                            MELIHAT PROFIL →
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
+                       class="character-photo"
+                       src="${getCharacterImage(siswa.kode)}"
+                       alt="Character ${escapeHTML(siswa.nama)}">
+               
+               </div>
 
                 <!-- =========================
                      BELAKANG KARTU
