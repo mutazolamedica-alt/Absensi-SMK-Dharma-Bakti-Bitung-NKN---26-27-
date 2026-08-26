@@ -1570,3 +1570,38 @@ a {
         border-radius: 12px;
     }
 }
+
+/* =========================================================
+   WALI CARD — DESKTOP ONLY
+   Mulai dari 821px ke atas
+   ========================================================= */
+
+@media (min-width: 821px) {
+
+    .wali-card {
+        width: 100%;
+        max-width: none;
+
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .wali-card picture {
+        display: block;
+        width: 100%;
+        line-height: 0;
+    }
+
+    .wali-card-image {
+        display: block;
+
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+
+        object-fit: contain;
+        object-position: center;
+    }
+
+}
+
