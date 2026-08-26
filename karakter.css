@@ -756,15 +756,13 @@ a {
    ========================================================= */
 
 .character-photo {
-
-    width:
-        100%;
-
-    height:
-        155px;
-
-    object-fit:
-        cover;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    background: #eef5ff;
+}
 
     flex-shrink:
         0;
