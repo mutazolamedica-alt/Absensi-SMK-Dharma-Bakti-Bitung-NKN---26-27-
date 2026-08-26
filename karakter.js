@@ -118,7 +118,16 @@
 
         `);
 
+const CHARACTER_IMAGES = {
+    "NKN028": "NKN028.png"
+};
 
+function getCharacterImage(kode) {
+    const key = String(kode || "").trim();
+
+    return CHARACTER_IMAGES[key] || PLACEHOLDER_IMAGE;
+}
+   
     // ========================================
     // ESCAPE HTML
     // ========================================
@@ -227,14 +236,10 @@
                     </div>
 
 
-                    <img
-
-                        class="character-photo"
-
-                        src="${PLACEHOLDER_IMAGE}"
-
-                        alt="Character
-                        ${escapeHTML(siswa.nama)}"
+                   <img
+                      class="character-photo"
+                      src="${getCharacterImage(siswa.kode)}"
+                      alt="Character ${escapeHTML(siswa.nama)}">
 
                     >
 
