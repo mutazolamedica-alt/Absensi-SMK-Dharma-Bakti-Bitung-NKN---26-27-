@@ -1,416 +1,1178 @@
 /* =========================================================
    WE ARE NAUTIKA'10
-   PERSONAL CHARACTER DECK
+   PERSONAL CHARACTER DECK — FINAL
+
+   FRONT CARD : PURE CHARACTER ARTWORK ONLY
+   BACK CARD  : IDENTITY + ATTENDANCE SUMMARY
+
+   CARA MENAMBAHKAN ARTWORK SISWA BERIKUTNYA:
+   Tambahkan 1 baris pada CHARACTER_IMAGES menggunakan KODE siswa.
+
+   Contoh:
+   "NKN029": "karakter/NKN029.png",
    ========================================================= */
 
 (function () {
-
     "use strict";
 
-
-    // ========================================
-    // URL WEB APP ABSENKU
-    // ========================================
-
-    const URL_WEB_APP =
-        "https://script.google.com/macros/s/AKfycbz3KWlDE8ivAIhXLVyvDpjhKuUbbJ-LAm3s1Q-dha004ZRU2rXYNTZkbeHkBxRWWlA/exec";
+    const deck = document.getElementById("deck");
+    const loading = document.getElementById("loadingDeck");
+    const empty = document.getElementById("emptyDeck");
+    const jumlah = document.getElementById("jumlahSiswa");
 
 
-    // ========================================
-    // ELEMENT
-    // ========================================
+    /* =========================================================
+       1. DATABASE ARTWORK CHARACTER
+       =========================================================
 
-    const deck =
-        document.getElementById("deck");
+       Gunakan KODE siswa sebagai kunci.
 
-    const loading =
-        document.getElementById("loadingDeck");
+       NKN028 = TRIFOSA / TREASURER
+       ========================================================= */
 
-    const empty =
-        document.getElementById("emptyDeck");
-
-    const jumlah =
-        document.getElementById("jumlahSiswa");
+    const CHARACTER_IMAGES = {
+        "NKN028": "karakter/NKN028.png"
+    };
 
 
-    // ========================================
-    // PLACEHOLDER KARAKTER
-    // NANTI DIGANTI KARAKTER AI
-    // ========================================
+    /* =========================================================
+       2. PLACEHOLDER
+       ========================================================= */
 
     const PLACEHOLDER_IMAGE =
         "data:image/svg+xml;charset=UTF-8," +
         encodeURIComponent(`
-
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="600"
-                height="760"
-                viewBox="0 0 600 760"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="600"
+                 height="840"
+                 viewBox="0 0 600 840">
 
                 <defs>
-
                     <linearGradient
                         id="g"
                         x1="0"
                         y1="0"
                         x2="1"
-                        y2="1"
-                    >
+                        y2="1">
 
                         <stop
                             offset="0%"
-                            stop-color="#dcecff"
-                        />
+                            stop-color="#dcecff"/>
 
                         <stop
                             offset="100%"
-                            stop-color="#f6faff"
-                        />
-
+                            stop-color="#f6faff"/>
                     </linearGradient>
-
                 </defs>
-
 
                 <rect
                     width="600"
-                    height="760"
-                    fill="url(#g)"
-                />
-
+                    height="840"
+                    fill="url(#g)"/>
 
                 <circle
                     cx="300"
-                    cy="275"
+                    cy="290"
                     r="105"
-                    fill="#9fc5f5"
-                />
-
+                    fill="#9fc5f5"/>
 
                 <path
-                    d="
-                        M125 690
-                        c20-150
-                        105-215
-                        175-215
-                        s155 65
-                        175 215
-                    "
-                    fill="#6b9fe1"
-                />
-
+                    d="M120 760c22-155 108-225 180-225s158 70 180 225"
+                    fill="#6b9fe1"/>
 
                 <text
                     x="300"
-                    y="730"
+                    y="805"
                     text-anchor="middle"
-                    font-family="Arial"
+                    font-family="Arial, Helvetica, sans-serif"
                     font-size="26"
                     font-weight="700"
-                    fill="#4773a9"
-                >
+                    fill="#4773a9">
                     CHARACTER
                 </text>
 
             </svg>
-
         `);
 
-/* =========================================================
-   CHARACTER IMAGE CONFIG
-   =========================================================
-   Format:
-   "KODE SISWA": "NAMA FILE GAMBAR"
 
-   Jika belum ada artwork:
-   gunakan null → otomatis memakai placeholder.
+    /* =========================================================
+       3. UTILITIES
+       ========================================================= */
 
-   Saat artwork sudah selesai, cukup ubah:
-   null
-   menjadi:
-   "NKN001.png"
-   ========================================================= */
-
-const CHARACTER_IMAGES = {
-
-    "NKN001": null,
-    "NKN002": null,
-    "NKN003": null,
-    "NKN004": null,
-    "NKN005": null,
-    "NKN006": null,
-    "NKN007": null,
-    "NKN008": null,
-    "NKN009": null,
-    "NKN010": null,
-
-    "NKN011": null,
-    "NKN012": null,
-    "NKN013": null,
-    "NKN014": null,
-    "NKN015": null,
-    "NKN016": null,
-    "NKN017": null,
-    "NKN018": null,
-    "NKN019": null,
-    "NKN020": null,
-
-    "NKN021": null,
-    "NKN022": null,
-    "NKN023": null,
-    "NKN024": null,
-    "NKN025": null,
-    "NKN026": null,
-    "NKN027": null,
-
-    "NKN028": "NKN028.png",
-
-    "NKN029": null,
-    "NKN030": null
-};
-
-
-/* =========================================================
-   AMBIL GAMBAR CHARACTER
-   ========================================================= */
-
-function getCharacterImage(kode) {
-
-    const key = String(kode || "").trim();
-
-    const image = CHARACTER_IMAGES[key];
-
-    return image || PLACEHOLDER_IMAGE;
-}
-   
-    // ========================================
-    // ESCAPE HTML
-    // ========================================
-
-    function escapeHTML(value){
+    function escapeHTML(value) {
 
         return String(value ?? "")
-            .replace(/&/g,"&amp;")
-            .replace(/</g,"&lt;")
-            .replace(/>/g,"&gt;")
-            .replace(/"/g,"&quot;")
-            .replace(/'/g,"&#039;");
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
 
     }
 
 
-    // ========================================
-    // FORMAT PERSENTASE
-    // ========================================
+    function angka(value) {
 
-    function formatPersentase(value){
+        const n = Number(value);
 
-        let angka =
-            Number(value) || 0;
+        return Number.isFinite(n)
+            ? n
+            : 0;
+
+    }
 
 
-        /*
-         * Rekap Bulanan menyimpan:
-         *
-         * 1     = 100%
-         * 0.95  = 95%
-         *
-         * Jadi kita tampilkan x100.
-         */
+    function normalisasiKode(value) {
 
-        if(angka <= 1){
+        return String(value ?? "")
+            .trim()
+            .toUpperCase();
 
-            angka =
-                angka * 100;
+    }
+
+
+    /* =========================================================
+       4. NORMALISASI DATA SISWA
+       ========================================================= */
+
+    function normalisasiSiswa(item) {
+
+        if (!item) {
+            return null;
+        }
+
+
+        if (typeof item === "string") {
+
+            return {
+
+                kode: normalisasiKode(item),
+
+                nama: item,
+
+                kelas: "-"
+
+            };
 
         }
 
 
-        return angka
-            .toFixed(2)
-            .replace(".",",") + "%";
+        return {
 
-    }
+            kode:
+                normalisasiKode(
+                    item.kode ??
+                    item.Kode ??
+                    item.nis ??
+                    item.NIS ??
+                    item.id ??
+                    ""
+                ),
 
-   function buatKartu(siswa, index) {
+            nama:
+                String(
+                    item.nama ??
+                    item.Nama ??
+                    item.name ??
+                    "Siswa"
+                ).trim(),
 
-    const nomor = String(index + 1).padStart(2, "0");
+            kelas:
+                String(
+                    item.kelas ??
+                    item.Kelas ??
+                    "-"
+                ).trim(),
 
-    const card = document.createElement("article");
+            statistik:
+                normalisasiStatistik(
+                    item.statistik ??
+                    item.statistics ??
+                    item.rekap ??
+                    item.attendance ??
+                    item.absensi ??
+                    item
+                )
 
-    card.className = "character-card";
-
-    card.tabIndex = 0;
-
-    card.setAttribute("role", "button");
-
-    card.setAttribute(
-        "aria-label",
-        `Buka karakter ${siswa.nama}`
-    );
-
-
-    card.innerHTML = `
-
-        <!-- =========================================
-             FRONT
-             PURE CHARACTER ARTWORK
-             ========================================= -->
-
-        <div class="card-inner">
-
-            <div class="card-face card-front">
-
-                <img
-                    class="character-photo"
-                    src="${getCharacterImage(siswa.kode)}"
-                    alt="Character ${escapeHTML(siswa.nama)}">
-
-            </div>
-
-
-            <!-- =====================================
-                 BACK
-                 IDENTITY + ATTENDANCE
-                 ===================================== -->
-
-            <div class="card-face card-back">
-
-                <div class="back-top">
-
-                    <span class="close-flip">
-                        ↻
-                    </span>
-
-                </div>
-
-
-                <h3 class="back-name">
-                    ${escapeHTML(siswa.nama)}
-                </h3>
-
-
-                <div class="back-class">
-                    ${escapeHTML(siswa.kelas)}
-                </div>
-
-
-                <div class="stats">
-
-                    <div class="stat hadir">
-                        <strong>0</strong>
-                        <span>HADIR</span>
-                    </div>
-
-                    <div class="stat terlambat">
-                        <strong>0</strong>
-                        <span>TERLAMBAT</span>
-                    </div>
-
-                    <div class="stat izin">
-                        <strong>0</strong>
-                        <span>IZIN</span>
-                    </div>
-
-                    <div class="stat sakit">
-                        <strong>0</strong>
-                        <span>SAKIT</span>
-                    </div>
-
-                    <div class="stat alpa">
-                        <strong>0</strong>
-                        <span>ALPA</span>
-                    </div>
-
-                    <div class="stat">
-                        <strong>0%</strong>
-                        <span>KEHADIRAN</span>
-                    </div>
-
-                </div>
-
-
-                <div class="score-row">
-
-                    <span>
-                        TOTAL SKOR
-                    </span>
-
-                    <strong>
-                        0
-                    </strong>
-
-                </div>
-
-            </div>
-
-        </div>
-    `;
-
-
-    function toggleCard() {
-
-        card.classList.toggle("flipped");
+        };
 
     }
 
 
-    card.addEventListener(
-        "click",
-        toggleCard
-    );
+    /* =========================================================
+       5. NORMALISASI STATISTIK
+       ========================================================= */
+
+    function normalisasiStatistik(data) {
+
+        if (
+            !data ||
+            typeof data !== "object"
+        ) {
+
+            return null;
+
+        }
 
 
-    card.addEventListener(
-        "keydown",
-        function (event) {
+        const sumber =
+            data.data &&
+            typeof data.data === "object"
 
-            if (
-                event.key === "Enter" ||
-                event.key === " "
-            ) {
+                ? data.data
 
-                event.preventDefault();
+                : data;
 
-                toggleCard();
+
+        const memilikiField = [
+
+            "hadir",
+            "Hadir",
+
+            "terlambat",
+            "Terlambat",
+
+            "izin",
+            "Izin",
+
+            "sakit",
+            "Sakit",
+
+            "alpa",
+            "Alpa",
+
+            "kehadiran",
+            "persentase",
+
+            "totalSkor",
+            "total_skor",
+
+            "skor"
+
+        ].some(function (key) {
+
+            return Object.prototype.hasOwnProperty
+                .call(sumber, key);
+
+        });
+
+
+        if (!memilikiField) {
+
+            return null;
+
+        }
+
+
+        return {
+
+            hadir:
+                angka(
+                    sumber.hadir ??
+                    sumber.Hadir
+                ),
+
+            terlambat:
+                angka(
+                    sumber.terlambat ??
+                    sumber.Terlambat
+                ),
+
+            izin:
+                angka(
+                    sumber.izin ??
+                    sumber.Izin
+                ),
+
+            sakit:
+                angka(
+                    sumber.sakit ??
+                    sumber.Sakit
+                ),
+
+            alpa:
+                angka(
+                    sumber.alpa ??
+                    sumber.Alpa
+                ),
+
+            kehadiran:
+                sumber.kehadiran ??
+                sumber.persentase ??
+                null,
+
+            totalSkor:
+                sumber.totalSkor ??
+                sumber.total_skor ??
+                sumber.skor ??
+                null
+
+        };
+
+    }
+
+
+    /* =========================================================
+       6. PERHITUNGAN STATISTIK
+       
+       Sistem skor ABSENKU:
+       
+       Hadir      = 3
+       Terlambat  = 3
+       Izin       = 1
+       Sakit      = 1
+       Alpa       = 0
+       ========================================================= */
+
+    function hitungStatistik(statistik) {
+
+        const s =
+            statistik || {};
+
+
+        const hadir =
+            angka(s.hadir);
+
+
+        const terlambat =
+            angka(s.terlambat);
+
+
+        const izin =
+            angka(s.izin);
+
+
+        const sakit =
+            angka(s.sakit);
+
+
+        const alpa =
+            angka(s.alpa);
+
+
+        const totalHari =
+            hadir +
+            terlambat +
+            izin +
+            sakit +
+            alpa;
+
+
+        let kehadiran =
+            s.kehadiran;
+
+
+        if (
+            kehadiran === null ||
+            kehadiran === undefined ||
+            kehadiran === ""
+        ) {
+
+            kehadiran =
+                totalHari > 0
+
+                    ? (
+                        (hadir + terlambat)
+                        /
+                        totalHari
+                    ) * 100
+
+                    : 0;
+
+        }
+
+        else {
+
+            kehadiran =
+                angka(kehadiran);
+
+
+            if (kehadiran <= 1) {
+
+                kehadiran *= 100;
 
             }
 
         }
-    );
 
 
-    return card;
-}
+        let totalSkor =
+            s.totalSkor;
 
 
-    // ========================================
-    // TAMPILKAN DECK
-    // ========================================
+        if (
+            totalSkor === null ||
+            totalSkor === undefined ||
+            totalSkor === ""
+        ) {
 
-    function tampilkanDeck(data){
+            totalSkor =
 
-        if(
-            !data ||
-            data.status !== "success"
-        ){
+                (hadir * 3) +
 
-            throw new Error(
-                data &&
-                data.pesan
-                    ? data.pesan
-                    : "Data Character Card tidak tersedia."
+                (terlambat * 3) +
+
+                (izin * 1) +
+
+                (sakit * 1);
+
+        }
+
+        else {
+
+            totalSkor =
+                angka(totalSkor);
+
+        }
+
+
+        return {
+
+            hadir,
+
+            terlambat,
+
+            izin,
+
+            sakit,
+
+            alpa,
+
+            kehadiran,
+
+            totalSkor
+
+        };
+
+    }
+
+
+    /* =========================================================
+       7. FUNGSI API STATISTIK
+       
+       Jika api.js memiliki salah satu fungsi di bawah,
+       karakter.js akan menggunakannya secara otomatis.
+       ========================================================= */
+
+    const NAMA_FUNGSI_STATISTIK = [
+
+        "ambilRekapSiswa",
+
+        "ambilStatistikSiswa",
+
+        "getRekapSiswa",
+
+        "getStatistikSiswa",
+
+        "ambilDataAbsensiSiswa",
+
+        "getDataAbsensiSiswa"
+
+    ];
+
+
+    function cariFungsiStatistik() {
+
+        for (
+            const nama
+            of NAMA_FUNGSI_STATISTIK
+        ) {
+
+            if (
+                typeof window[nama] ===
+                "function"
+            ) {
+
+                return window[nama];
+
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    function panggilFungsiStatistik(
+        fn,
+        kode
+    ) {
+
+        return new Promise(
+            function (
+                resolve,
+                reject
+            ) {
+
+                let selesai = false;
+
+
+                function sukses(data) {
+
+                    if (selesai) {
+                        return;
+                    }
+
+                    selesai = true;
+
+                    resolve(data);
+
+                }
+
+
+                function gagal(error) {
+
+                    if (selesai) {
+                        return;
+                    }
+
+                    selesai = true;
+
+                    reject(error);
+
+                }
+
+
+                try {
+
+                    const hasil =
+                        fn(
+                            kode,
+                            sukses
+                        );
+
+
+                    /*
+                     * Promise style
+                     */
+
+                    if (
+                        hasil &&
+                        typeof hasil.then ===
+                        "function"
+                    ) {
+
+                        hasil
+                            .then(sukses)
+                            .catch(gagal);
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Synchronous return
+                     */
+
+                    if (
+                        hasil !==
+                        undefined
+                    ) {
+
+                        sukses(hasil);
+
+                    }
+
+                }
+
+                catch (error) {
+
+                    gagal(error);
+
+                }
+
+            }
+        );
+
+    }
+
+
+    async function muatStatistikSiswa(
+        siswa
+    ) {
+
+        /*
+         * Jika statistik sudah ikut
+         * dikirim bersama data siswa,
+         * langsung gunakan.
+         */
+
+        if (siswa.statistik) {
+
+            return hitungStatistik(
+                siswa.statistik
             );
 
         }
 
 
+        const fn =
+            cariFungsiStatistik();
+
+
+        /*
+         * Jika API statistik belum tersedia,
+         * kartu tetap tampil normal.
+         */
+
+        if (!fn) {
+
+            return hitungStatistik(
+                null
+            );
+
+        }
+
+
+        try {
+
+            const hasil =
+                await panggilFungsiStatistik(
+                    fn,
+                    siswa.kode
+                );
+
+
+            return hitungStatistik(
+                normalisasiStatistik(
+                    hasil
+                )
+            );
+
+        }
+
+        catch (error) {
+
+            console.warn(
+
+                "Statistik tidak dapat dimuat untuk " +
+                siswa.kode,
+
+                error
+
+            );
+
+
+            return hitungStatistik(
+                null
+            );
+
+        }
+
+    }
+
+
+    async function muatSemuaStatistik(
+        siswa
+    ) {
+
+        /*
+         * Semua request dijalankan paralel.
+         * Tidak menunggu siswa 1 selesai
+         * baru kemudian siswa 2.
+         */
+
+        const hasil =
+            await Promise.all(
+
+                siswa.map(
+                    async function (item) {
+
+                        item.statistikFinal =
+                            await muatStatistikSiswa(
+                                item
+                            );
+
+                        return item;
+
+                    }
+                )
+
+            );
+
+
+        return hasil;
+
+    }
+
+
+    /* =========================================================
+       8. FORMAT PERSENTASE
+       ========================================================= */
+
+    function formatPersentase(
+        value
+    ) {
+
+        const n =
+            angka(value);
+
+
+        if (n === 0) {
+
+            return "0%";
+
+        }
+
+
+        return Number.isInteger(n)
+
+            ? `${n}%`
+
+            : `${n.toFixed(1)}%`;
+
+    }
+
+
+    /* =========================================================
+       9. BUAT KARTU
+       
+       FRONT:
+       PURE CHARACTER ARTWORK.
+       
+       Tidak ada:
+       - nama
+       - kelas
+       - nomor
+       - tombol
+       - teks identitas
+       
+       BACK:
+       - nama
+       - kelas
+       - statistik
+       - total skor
+       ========================================================= */
+
+    function buatKartu(
+        siswa,
+        index
+    ) {
+
+        const nomor =
+            String(index + 1)
+                .padStart(2, "0");
+
+
+        const statistik =
+            hitungStatistik(
+                siswa.statistikFinal
+            );
+
+
+        const kode =
+            normalisasiKode(
+                siswa.kode
+            );
+
+
+        const artwork =
+            CHARACTER_IMAGES[kode] ||
+            PLACEHOLDER_IMAGE;
+
+
+        const card =
+            document.createElement(
+                "article"
+            );
+
+
+        card.className =
+            "character-card";
+
+
+        card.dataset.kode =
+            kode;
+
+
+        card.tabIndex =
+            0;
+
+
+        card.setAttribute(
+            "role",
+            "button"
+        );
+
+
+        card.setAttribute(
+
+            "aria-label",
+
+            `Buka informasi karakter ${siswa.nama}`
+
+        );
+
+
+        card.innerHTML = `
+
+            <div class="card-inner">
+
+                <!-- =========================
+                     FRONT
+                     PURE CHARACTER
+                     ========================= -->
+
+                <div class="card-face card-front">
+
+                    <img
+                        class="character-photo"
+                        src="${escapeHTML(artwork)}"
+                        alt="Character ${escapeHTML(siswa.nama)}"
+                        loading="lazy">
+
+                </div>
+
+
+                <!-- =========================
+                     BACK
+                     IDENTITY + ATTENDANCE
+                     ========================= -->
+
+                <div class="card-face card-back">
+
+                    <div class="back-top">
+
+                        <span class="back-number">
+                            STUDENT ${nomor}
+                        </span>
+
+                        <span
+                            class="close-flip"
+                            aria-hidden="true">
+                            ↻
+                        </span>
+
+                    </div>
+
+
+                    <h3 class="back-name">
+
+                        ${escapeHTML(siswa.nama)}
+
+                    </h3>
+
+
+                    <div class="back-class">
+
+                        ${escapeHTML(siswa.kelas)}
+
+                    </div>
+
+
+                    <div class="stats">
+
+                        <div class="stat hadir">
+
+                            <strong>
+                                ${statistik.hadir}
+                            </strong>
+
+                            <span>
+                                HADIR
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat terlambat">
+
+                            <strong>
+                                ${statistik.terlambat}
+                            </strong>
+
+                            <span>
+                                TERLAMBAT
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat izin">
+
+                            <strong>
+                                ${statistik.izin}
+                            </strong>
+
+                            <span>
+                                IZIN
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat sakit">
+
+                            <strong>
+                                ${statistik.sakit}
+                            </strong>
+
+                            <span>
+                                SAKIT
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat alpa">
+
+                            <strong>
+                                ${statistik.alpa}
+                            </strong>
+
+                            <span>
+                                ALPA
+                            </span>
+
+                        </div>
+
+
+                        <div class="stat">
+
+                            <strong>
+                                ${formatPersentase(
+                                    statistik.kehadiran
+                                )}
+                            </strong>
+
+                            <span>
+                                KEHADIRAN
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="score-row">
+
+                        <span>
+                            TOTAL SKOR
+                        </span>
+
+                        <strong>
+                            ${statistik.totalSkor}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        /* =====================================================
+           FLIP CARD
+           ===================================================== */
+
+        function toggleCard() {
+
+            card.classList.toggle(
+                "flipped"
+            );
+
+        }
+
+
+        card.addEventListener(
+            "click",
+            toggleCard
+        );
+
+
+        card.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Enter" ||
+                    event.key === " "
+                ) {
+
+                    event.preventDefault();
+
+                    toggleCard();
+
+                }
+
+            }
+        );
+
+
+        return card;
+
+    }
+
+
+    /* =========================================================
+       10. AMBIL DAFTAR SISWA
+       ========================================================= */
+
+    async function ambilDaftarSiswaDeck() {
+
+        /*
+         * API utama.
+         */
+
+        if (
+            typeof window.ambilDaftarSiswa ===
+            "function"
+        ) {
+
+            return await window.ambilDaftarSiswa();
+
+        }
+
+
+        /*
+         * Fallback callback style.
+         */
+
+        if (
+            typeof window.getDaftarSiswa ===
+            "function"
+        ) {
+
+            return await new Promise(
+                function (
+                    resolve,
+                    reject
+                ) {
+
+                    try {
+
+                        window.getDaftarSiswa(
+                            function (result) {
+
+                                resolve(
+                                    result
+                                );
+
+                            }
+                        );
+
+                    }
+
+                    catch (error) {
+
+                        reject(
+                            error
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        throw new Error(
+
+            "Fungsi API daftar siswa belum ditemukan. " +
+            "Pastikan api.js dimuat sebelum karakter.js."
+
+        );
+
+    }
+
+
+    /* =========================================================
+       11. EKSTRAK DATA SISWA
+       ========================================================= */
+
+    function ekstrakDaftarSiswa(
+        data
+    ) {
+
+        if (
+            Array.isArray(data)
+        ) {
+
+            return data;
+
+        }
+
+
+        if (
+            !data ||
+            typeof data !== "object"
+        ) {
+
+            return [];
+
+        }
+
+
+        return (
+
+            data.siswa ??
+
+            data.data?.siswa ??
+
+            data.data ??
+
+            data.daftarSiswa ??
+
+            data.result ??
+
+            []
+
+        );
+
+    }
+
+
+    /* =========================================================
+       12. RENDER DECK
+       ========================================================= */
+
+    async function tampilkanSiswa(
+        data
+    ) {
+
+        let daftar =
+            ekstrakDaftarSiswa(
+                data
+            );
+
+
+        if (
+            !Array.isArray(daftar)
+        ) {
+
+            daftar = [];
+
+        }
+
+
         const siswa =
-            Array.isArray(data.siswa)
-                ? data.siswa
-                : [];
+
+            daftar
+
+                .map(
+                    normalisasiSiswa
+                )
+
+                .filter(
+                    Boolean
+                )
+
+                .filter(
+                    function (item) {
+
+                        return (
+                            item.kode &&
+                            item.nama
+                        );
+
+                    }
+                );
 
 
         deck.innerHTML =
@@ -418,8 +1180,7 @@ function getCharacterImage(kode) {
 
 
         jumlah.textContent =
-            siswa.length +
-            " SISWA";
+            `${siswa.length} SISWA`;
 
 
         loading.classList.add(
@@ -427,16 +1188,13 @@ function getCharacterImage(kode) {
         );
 
 
-        if(
+        if (
             siswa.length === 0
-        ){
+        ) {
 
             empty.classList.remove(
                 "hidden"
             );
-
-            empty.textContent =
-                "Belum ada data siswa.";
 
             return;
 
@@ -448,8 +1206,26 @@ function getCharacterImage(kode) {
         );
 
 
+        /*
+         * Muat statistik seluruh siswa
+         * secara paralel.
+         */
+
+        await muatSemuaStatistik(
+            siswa
+        );
+
+
+        /*
+         * Setelah data siap,
+         * render seluruh kartu.
+         */
+
         siswa.forEach(
-            function(item,index){
+            function (
+                item,
+                index
+            ) {
 
                 deck.appendChild(
                     buatKartu(
@@ -464,50 +1240,13 @@ function getCharacterImage(kode) {
     }
 
 
-    // ========================================
-    // AMBIL CHARACTER CARD DARI SERVER
-    // ========================================
+    /* =========================================================
+       13. INIT
+       ========================================================= */
 
-    async function ambilCharacterCards(){
+    async function init() {
 
-        const response =
-            await fetch(
-                URL_WEB_APP +
-                "?action=characterCards"
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "Server tidak dapat dihubungi."
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        console.log(
-            "CHARACTER CARDS:",
-            data
-        );
-
-
-        return data;
-
-    }
-
-
-    // ========================================
-    // INIT
-    // ========================================
-
-    async function init(){
-
-        try{
+        try {
 
             loading.classList.remove(
                 "hidden"
@@ -520,21 +1259,23 @@ function getCharacterImage(kode) {
 
 
             const data =
-                await ambilCharacterCards();
+                await ambilDaftarSiswaDeck();
 
 
-            tampilkanDeck(
+            await tampilkanSiswa(
                 data
             );
 
-
         }
 
-        catch(error){
+        catch (error) {
 
             console.error(
+
                 "Gagal memuat Character Deck:",
+
                 error
+
             );
 
 
@@ -549,6 +1290,7 @@ function getCharacterImage(kode) {
 
 
             empty.textContent =
+
                 "Daftar siswa belum dapat dimuat. " +
                 "Periksa koneksi/API ABSENKU.";
 
@@ -561,14 +1303,14 @@ function getCharacterImage(kode) {
     }
 
 
-    // ========================================
-    // JALANKAN
-    // ========================================
+    /* =========================================================
+       14. MULAI
+       ========================================================= */
 
-    if(
+    if (
         document.readyState ===
         "loading"
-    ){
+    ) {
 
         document.addEventListener(
             "DOMContentLoaded",
@@ -577,7 +1319,7 @@ function getCharacterImage(kode) {
 
     }
 
-    else{
+    else {
 
         init();
 
