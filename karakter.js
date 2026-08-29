@@ -63,7 +63,7 @@
          * "NKN028": "NKN028.png"
          */
 
-        "NKN028": "character/NKN028.png",
+        "NKN028": "NKN028.png",
 
     };
 
