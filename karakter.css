@@ -1314,33 +1314,6 @@ a {
     }
 
 
-    .card-back {
-
-        padding:
-            10px;
-
-    }
-
-
-    .back-name {
-
-        font-size:
-            11px;
-
-        min-height:
-            25px;
-
-    }
-
-
-    .back-class {
-
-        font-size:
-            7px;
-
-    }
-
-
     .stats {
 
         gap:
@@ -1623,3 +1596,138 @@ a {
 
 }
 
+/* =========================================================
+   CHARACTER CARD — MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .card-back {
+
+        padding: 14px;
+
+    }
+
+
+    .card-back .back-name {
+
+        font-size: 15px;
+
+    }
+
+
+    .card-back .back-class {
+
+        font-size: 9px;
+
+    }
+
+
+    .card-back .stats {
+
+        gap: 8px;
+
+        margin-top: 14px;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .card-back .stat {
+
+        min-height: 58px;
+
+        padding: 7px 5px;
+
+    }
+
+
+    .card-back .stat strong {
+
+        font-size: 18px;
+
+    }
+
+
+    .card-back .stat span {
+
+        font-size: 7px;
+
+    }
+
+
+    .card-back .back-result {
+
+        gap: 6px;
+
+        margin-top: 3px;
+
+    }
+
+
+    .card-back .result-box {
+
+        min-height: 39px;
+
+        padding: 4px 8px;
+
+    }
+
+
+    .card-back .result-box strong {
+
+        font-size: 17px;
+
+    }
+
+
+    .card-back .result-box span {
+
+        font-size: 6.5px;
+
+    }
+
+}
+
+/* =========================================================
+   CHARACTER CARD — TABLET
+   ========================================================= */
+
+@media (min-width: 601px) and (max-width: 1024px) {
+
+    .card-back {
+
+        padding: 16px;
+
+    }
+
+
+    .card-back .stat {
+
+        min-height: 62px;
+
+    }
+
+
+    .card-back .stat strong {
+
+        font-size: 20px;
+
+    }
+
+
+    .card-back .result-box {
+
+        min-height: 42px;
+
+    }
+
+
+    .card-back .result-box strong {
+
+        font-size: 19px;
+
+    }
+
+}
