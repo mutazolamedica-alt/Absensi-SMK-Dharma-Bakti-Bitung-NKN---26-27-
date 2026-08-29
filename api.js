@@ -345,3 +345,12 @@ async function simpanStatusKhusus(
     }
 
 }
+
+
+async function ambilDaftarAlpaHariIni(){
+    const response=await fetch(URL_WEB_APP+"?action=daftarAlpaHariIni&_="+Date.now(),{method:"GET",cache:"no-store"});
+    if(!response.ok) throw new Error("Gagal mengambil daftar siswa Alpa.");
+    const data=await response.json();
+    if(data.status!=="success") throw new Error(data.pesan||"Daftar siswa Alpa gagal dimuat.");
+    return data;
+}
