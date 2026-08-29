@@ -292,163 +292,149 @@
                 </div>
 
 
+<!-- ================= BACK ================= -->
 
-                <!-- =================================================
-                     BACK CARD
-                     ================================================= -->
+<div class="card-face card-back">
 
-                <div class="card-face card-back">
+    <div class="back-top">
 
+        <span class="back-number">
+            STUDENT ${nomor}
+        </span>
 
-                    <div class="back-top">
+        <span
+            class="close-flip"
+            aria-hidden="true">
+            ↻
+        </span>
 
+    </div>
 
-                        <span class="back-number">
-                            STUDENT ${nomor}
-                        </span>
 
+    <h3 class="back-name">
+        ${escapeHTML(siswa.nama)}
+    </h3>
 
-                        <span
-                            class="close-flip"
-                            aria-hidden="true">
-                            ↻
-                        </span>
 
+    <div class="back-class">
+        ${escapeHTML(siswa.kelas)}
+    </div>
 
-                    </div>
 
+    <!-- =========================================
+         STATUS ABSENSI
+         HADIR = HADIR + TERLAMBAT
+         ========================================= -->
 
+    <div class="stats">
 
-                    <h3 class="back-name">
-                        ${escapeHTML(
-                            siswa.nama
-                        )}
-                    </h3>
 
+        <!-- HADIR -->
 
-                    <div class="back-class">
-                        ${escapeHTML(
-                            siswa.kelas
-                        )}
-                    </div>
+        <div class="stat hadir">
 
+            <strong>
+                ${hadirTotal}
+            </strong>
 
+            <span>
+                HADIR
+            </span>
 
-                    <!-- =================================================
-                         STATISTIK
-                         ================================================= -->
+        </div>
 
-                    <div class="stats">
 
+        <!-- IZIN -->
 
-                        <!-- HADIR = HADIR + TERLAMBAT -->
+        <div class="stat izin">
 
-                        <div class="stat hadir">
+            <strong>
+                ${siswa.izin}
+            </strong>
 
-                            <strong>
-                                ${hadirTotal}
-                            </strong>
+            <span>
+                IZIN
+            </span>
 
-                            <span>
-                                HADIR
-                            </span>
+        </div>
 
-                        </div>
 
+        <!-- SAKIT -->
 
+        <div class="stat sakit">
 
-                        <!-- IZIN -->
+            <strong>
+                ${siswa.sakit}
+            </strong>
 
-                        <div class="stat izin">
+            <span>
+                SAKIT
+            </span>
 
-                            <strong>
-                                ${siswa.izin}
-                            </strong>
+        </div>
 
-                            <span>
-                                IZIN
-                            </span>
 
-                        </div>
+        <!-- ALPA -->
 
+        <div class="stat alpa">
 
+            <strong>
+                ${siswa.alpa}
+            </strong>
 
-                        <!-- SAKIT -->
+            <span>
+                ALPA
+            </span>
 
-                        <div class="stat sakit">
+        </div>
 
-                            <strong>
-                                ${siswa.sakit}
-                            </strong>
 
-                            <span>
-                                SAKIT
-                            </span>
+    </div>
 
-                        </div>
 
+    <!-- =========================================
+         HASIL AKHIR
+         FULL WIDTH
+         ========================================= -->
 
+    <div class="back-result">
 
-                        <!-- ALPA -->
 
-                        <div class="stat alpa">
+        <!-- KEHADIRAN -->
 
-                            <strong>
-                                ${siswa.alpa}
-                            </strong>
+        <div class="result-box">
 
-                            <span>
-                                ALPA
-                            </span>
+            <strong>
+                ${formatPersentase(
+                    siswa.persentase
+                )}
+            </strong>
 
-                        </div>
+            <span>
+                KEHADIRAN
+            </span>
 
+        </div>
 
 
-                        <!-- PERSENTASE -->
+        <!-- TOTAL SKOR -->
 
-                        <div class="stat">
+        <div class="result-box">
 
-                            <strong>
-                                ${formatPersentase(
-                                    siswa.persentase
-                                )}
-                            </strong>
+            <strong>
+                ${siswa.totalSkor}
+            </strong>
 
-                            <span>
-                                KEHADIRAN
-                            </span>
+            <span>
+                TOTAL SKOR
+            </span>
 
-                        </div>
+        </div>
 
 
-                    </div>
+    </div>
 
-
-
-                    <!-- =================================================
-                         TOTAL SKOR
-                         ================================================= -->
-
-                    <div class="score-row">
-
-                        <span>
-                            TOTAL SKOR
-                        </span>
-
-                        <strong>
-                            ${siswa.totalSkor}
-                        </strong>
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-        `;
-
+</div>
 
         /* =========================================================
            FLIP CARD
