@@ -4099,3 +4099,142 @@ body {
     }
 
 }
+
+
+/* =========================================================
+   LOGIN SUCCESS ANIMATION — MASTER / RESTORED
+   LOGO → ZOOM → BLUR → CARD FADE → SCREEN FADE
+   ========================================================= */
+
+.login-screen.login-success {
+    animation:
+        loginScreenExit
+        2.1s
+        cubic-bezier(.22,.75,.18,1)
+        forwards;
+}
+
+.login-screen.login-success .login-card {
+    animation:
+        loginCardExit
+        2.0s
+        cubic-bezier(.22,.75,.18,1)
+        forwards;
+}
+
+.login-screen.login-success .login-logo {
+    animation:
+        logoZoomExit
+        2.0s
+        cubic-bezier(.16,.75,.18,1)
+        forwards;
+}
+
+.login-screen.login-success .login-title,
+.login-screen.login-success .login-subtitle,
+.login-screen.login-success .login-field,
+.login-screen.login-success .login-error,
+.login-screen.login-success .login-button {
+    animation:
+        loginContentExit
+        1.25s
+        ease
+        forwards;
+}
+
+@keyframes loginScreenExit {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    88% {
+        opacity: .65;
+    }
+
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes loginCardExit {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+
+    45% {
+        opacity: 1;
+        transform: scale(1.02);
+        filter: blur(0);
+    }
+
+    78% {
+        opacity: .9;
+        transform: scale(1.07);
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.14);
+        filter: blur(7px);
+    }
+}
+
+@keyframes logoZoomExit {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+
+    35% {
+        opacity: 1;
+        transform: scale(1.15);
+        filter: blur(0);
+    }
+
+    70% {
+        opacity: .85;
+        transform: scale(2.2);
+        filter: blur(1px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(5.5);
+        filter: blur(8px);
+    }
+}
+
+@keyframes loginContentExit {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+
+    45% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(8px);
+        filter: blur(4px);
+    }
+}
+
+/* Pastikan dashboard tidak ikut terpengaruh */
+.login-screen.login-success {
+    pointer-events: none;
+}
+
