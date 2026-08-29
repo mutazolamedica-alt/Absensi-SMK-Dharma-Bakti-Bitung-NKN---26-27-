@@ -3943,5 +3943,159 @@ body {
 }
 
 
-/* DAFTAR ALPA HARI INI */
-.rekap-alpa{cursor:pointer}.rekap-alpa:focus-visible{outline:3px solid rgba(213,46,46,.28);outline-offset:3px}.status-khusus-icon.alpa{background:#ffe8e8;color:#d52e2e}.daftar-alpa-modal{width:min(100%,520px)}.daftar-alpa-content{margin-top:25px}.daftar-alpa-jumlah{padding:10px 14px;border-radius:12px;background:#fff5f5;border:1px solid #f3dada;color:#c52d2d;font-size:12px;font-weight:800;text-align:center}.daftar-alpa-list{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow-y:auto;margin-top:12px}.daftar-alpa-row{display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:14px;background:#f8fafc;border:1px solid #e7edf3}.daftar-alpa-no{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#ffe8e8;color:#d52e2e;font-size:11px;font-weight:900}.daftar-alpa-data{min-width:0;flex:1}.daftar-alpa-nama{color:#26384c;font-size:13px;font-weight:800}.daftar-alpa-detail{margin-top:3px;color:#7b8798;font-size:11px}.daftar-alpa-badge{padding:5px 8px;border-radius:8px;background:#ffe8e8;color:#d52e2e;font-size:9px;font-weight:900}.daftar-alpa-loading,.daftar-alpa-empty{padding:30px 18px;border-radius:14px;background:#f5f8fb;border:1px solid #e7edf3;color:#7b8798;text-align:center;font-size:12px;font-weight:700}.daftar-alpa-empty.error{color:#d83232;background:#fff5f5}.daftar-alpa-actions{margin-top:18px}.daftar-alpa-actions .status-khusus-btn{width:100%}
+/* =========================================================
+   DAFTAR ALPA HARI INI
+   ========================================================= */
+
+.rekap-alpa {
+    cursor: pointer;
+}
+
+.rekap-alpa:focus-visible {
+    outline: 3px solid rgba(213,46,46,0.28);
+    outline-offset: 3px;
+}
+
+.status-khusus-icon.alpa {
+    background: #ffe8e8;
+    color: #d52e2e;
+}
+
+.daftar-alpa-modal {
+    width: min(100%, 520px);
+}
+
+.daftar-alpa-content {
+    margin-top: 25px;
+}
+
+.daftar-alpa-jumlah {
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: #fff5f5;
+    border: 1px solid #f3dada;
+    color: #c52d2d;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.daftar-alpa-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 360px;
+    overflow-y: auto;
+    margin-top: 12px;
+    padding-right: 3px;
+}
+
+.daftar-alpa-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 13px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #e7edf3;
+}
+
+.daftar-alpa-no {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #ffe8e8;
+    color: #d52e2e;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.daftar-alpa-data {
+    min-width: 0;
+    flex: 1;
+}
+
+.daftar-alpa-nama {
+    color: #26384c;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.daftar-alpa-detail {
+    margin-top: 3px;
+    color: #7b8798;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.daftar-alpa-badge {
+    flex-shrink: 0;
+    padding: 5px 8px;
+    border-radius: 8px;
+    background: #ffe8e8;
+    color: #d52e2e;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: .4px;
+}
+
+.daftar-alpa-loading,
+.daftar-alpa-empty {
+    padding: 30px 18px;
+    border-radius: 14px;
+    background: #f5f8fb;
+    border: 1px solid #e7edf3;
+    color: #7b8798;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.daftar-alpa-empty-icon {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #e5f8ee;
+    color: #079447;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.daftar-alpa-empty.error {
+    color: #d83232;
+    background: #fff5f5;
+    border-color: #f0d8d8;
+}
+
+.daftar-alpa-actions {
+    margin-top: 18px;
+}
+
+.daftar-alpa-actions .status-khusus-btn {
+    width: 100%;
+}
+
+@media (max-width: 560px) {
+
+    .daftar-alpa-list {
+        max-height: 48vh;
+    }
+
+    .daftar-alpa-row {
+        padding: 11px;
+    }
+
+    .daftar-alpa-badge {
+        display: none;
+    }
+
+}
