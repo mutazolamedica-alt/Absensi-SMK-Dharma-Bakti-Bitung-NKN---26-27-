@@ -2131,3 +2131,10 @@ window.addEventListener(
     pasangEventStatusKhusus
 );
 
+
+
+function bukaDaftarAlpaModal(){const m=document.getElementById("daftarAlpaModal");if(!m)return;m.classList.add("show");m.setAttribute("aria-hidden","false");muatDaftarAlpaHariIni();}
+function tutupDaftarAlpaModal(){const m=document.getElementById("daftarAlpaModal");if(!m)return;m.classList.remove("show");m.setAttribute("aria-hidden","true");}
+function escAlpa(v){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");}
+async function muatDaftarAlpaHariIni(){const j=document.getElementById("daftarAlpaJumlah"),l=document.getElementById("daftarAlpaList"),t=document.getElementById("daftarAlpaTanggal");if(!j||!l||!t)return;j.textContent="Memuat daftar siswa...";l.innerHTML='<div class="daftar-alpa-loading">Memuat daftar siswa Alpa...</div>';try{const d=await ambilDaftarAlpaHariIni();t.textContent=d.tanggal||"";j.textContent=(d.siswa||[]).length+" siswa berstatus ALPA";l.innerHTML="";(d.siswa||[]).forEach((x,i)=>{const r=document.createElement("div");r.className="daftar-alpa-row";r.innerHTML='<div class="daftar-alpa-no">'+(i+1)+'</div><div class="daftar-alpa-data"><div class="daftar-alpa-nama">'+escAlpa(x.nama)+'</div><div class="daftar-alpa-detail">'+escAlpa(x.kode)+' · '+escAlpa(x.kelas)+'</div></div><div class="daftar-alpa-badge">ALPA</div>';l.appendChild(r);});if(!(d.siswa||[]).length)l.innerHTML='<div class="daftar-alpa-empty">Tidak ada siswa yang Alpa hari ini.</div>';}catch(e){j.textContent="Gagal memuat daftar Alpa";l.innerHTML='<div class="daftar-alpa-empty error">'+escAlpa(e.message)+'</div>';}}
+window.addEventListener("load",function(){const a=document.querySelector(".rekap-alpa");const m=document.getElementById("daftarAlpaModal");const x=document.getElementById("btnTutupDaftarAlpa"),b=document.getElementById("btnTutupDaftarAlpaBottom");if(a)a.addEventListener("click",bukaDaftarAlpaModal);if(x)x.addEventListener("click",tutupDaftarAlpaModal);if(b)b.addEventListener("click",tutupDaftarAlpaModal);if(m)m.addEventListener("click",e=>{if(e.target===m)tutupDaftarAlpaModal();});});
