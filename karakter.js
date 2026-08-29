@@ -1,109 +1,82 @@
 /* =========================================================
    WE ARE NAUTIKA'10
    PERSONAL CHARACTER DECK
-   KARAKTER.JS — FINAL
+   karakter.js — FINAL
    ========================================================= */
 
 (function () {
-
     "use strict";
 
-
-    /* =====================================================
-       KONFIGURASI
-       ===================================================== */
-
-    const API_URL =
-        typeof window.API_URL === "string" &&
-        window.API_URL.trim() !== ""
-            ? window.API_URL.trim()
-            : "";
+    const deck = document.getElementById("deck");
+    const loading = document.getElementById("loadingDeck");
+    const empty = document.getElementById("emptyDeck");
+    const jumlah = document.getElementById("jumlahSiswa");
 
 
-    /*
-     * Artwork Character Card.
-     *
-     * Format:
-     *
-     * "KODE": "nama-file-gambar"
-     *
-     * Untuk sekarang baru NKN028.
-     */
-
-    const CHARACTER_IMAGES = {
-
-        "NKN028":
-            "karakter/NKN028.png"
-
-    };
-
-
-    /*
-     * Jika artwork belum tersedia,
-     * gunakan placeholder.
-     */
+    /* =========================================================
+       PLACEHOLDER CHARACTER
+       ========================================================= */
 
     const PLACEHOLDER_IMAGE =
         "data:image/svg+xml;charset=UTF-8," +
         encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="600"
+                 height="760"
+                 viewBox="0 0 600 760">
 
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1500"
-                height="2100"
-                viewBox="0 0 1500 2100">
+                <defs>
+                    <linearGradient
+                        id="g"
+                        x1="0"
+                        y1="0"
+                        x2="1"
+                        y2="1">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#dcecff"/>
+
+                        <stop
+                            offset="100%"
+                            stop-color="#f6faff"/>
+
+                    </linearGradient>
+                </defs>
 
                 <rect
-                    width="1500"
-                    height="2100"
-                    fill="#eaf2f8"/>
+                    width="600"
+                    height="760"
+                    fill="url(#g)"/>
+
+                <circle
+                    cx="300"
+                    cy="275"
+                    r="105"
+                    fill="#9fc5f5"/>
+
+                <path
+                    d="M125 690c20-150 105-215 175-215s155 65 175 215"
+                    fill="#6b9fe1"/>
 
                 <text
-                    x="750"
-                    y="1030"
+                    x="300"
+                    y="730"
                     text-anchor="middle"
                     font-family="Arial"
-                    font-size="90"
+                    font-size="26"
                     font-weight="700"
-                    fill="#78909c">
+                    fill="#4773a9">
                     CHARACTER
                 </text>
 
-                <text
-                    x="750"
-                    y="1140"
-                    text-anchor="middle"
-                    font-family="Arial"
-                    font-size="48"
-                    fill="#90a4ae">
-                    ARTWORK COMING SOON
-                </text>
-
             </svg>
-
         `);
 
 
-    /* =====================================================
-       ELEMENT HTML
-       ===================================================== */
-
-    const deck =
-        document.getElementById("deck");
-
-    const loadingDeck =
-        document.getElementById("loadingDeck");
-
-    const emptyDeck =
-        document.getElementById("emptyDeck");
-
-    const jumlahSiswa =
-        document.getElementById("jumlahSiswa");
-
-
-    /* =====================================================
-       UTILITY
-       ===================================================== */
+    /* =========================================================
+       SECURITY
+       ========================================================= */
 
     function escapeHTML(value) {
 
@@ -113,448 +86,171 @@
             .replace(/>/g, "&gt;")
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
-
     }
 
 
-    function normalisasiKode(value) {
-
-        return String(value ?? "")
-            .trim()
-            .toUpperCase();
-
-    }
-
+    /* =========================================================
+       ANGKA
+       ========================================================= */
 
     function angka(value) {
 
-        const n =
-            Number(value);
+        const n = Number(value);
 
         return Number.isFinite(n)
             ? n
             : 0;
-
     }
 
+
+    /* =========================================================
+       FORMAT PERSENTASE
+       ========================================================= */
 
     function formatPersentase(value) {
 
-        const n =
-            angka(value);
-
+        let n = angka(value);
 
         /*
-         * Google Sheets percentage biasanya
-         * dikirim sebagai decimal:
+         * Jika API mengirim:
          *
-         * 0.95 = 95%
+         * 0.85  → 85%
          *
-         * Tetapi apabila API sudah mengirim
-         * 95, kita tidak mengalikannya lagi.
+         * Jika API mengirim:
+         *
+         * 85    → 85%
          */
 
-        const persen =
-            n <= 1 && n > 0
-                ? n * 100
-                : n;
-
-
-        if (
-            Number.isInteger(persen)
-        ) {
-
-            return persen + "%";
-
+        if (n > 0 && n <= 1) {
+            n = n * 100;
         }
 
-
-        return persen
-            .toFixed(1)
-            .replace(".", ",") + "%";
-
-    }
-
-
-    /* =====================================================
-       AMBIL API URL
-       ===================================================== */
-
-    function getCharacterAPIUrl() {
-
-        /*
-         * Prioritas:
-         *
-         * 1. API_URL dari api.js
-         * 2. window.API_URL
-         *
-         */
-
-        if (
-            API_URL
-        ) {
-
-            return API_URL;
-
-        }
-
-
-        /*
-         * Jika api.js menggunakan variabel
-         * global API_URL.
-         */
-
-        if (
-            typeof window.API_URL ===
-            "string" &&
-            window.API_URL.trim() !== ""
-        ) {
-
-            return window.API_URL.trim();
-
-        }
-
-
-        throw new Error(
-            "API_URL tidak ditemukan. " +
-            "Pastikan api.js dimuat sebelum karakter.js."
+        return (
+            n.toFixed(
+                n % 1 === 0
+                    ? 0
+                    : 1
+            ) + "%"
         );
-
     }
 
 
-    /* =====================================================
-       AMBIL DATA CHARACTER CARD
-       ===================================================== */
-
-    async function ambilCharacterCards() {
-
-        const url =
-            getCharacterAPIUrl();
-
-
-        const separator =
-            url.includes("?")
-                ? "&"
-                : "?";
-
-
-        const response =
-            await fetch(
-                url +
-                separator +
-                "action=characterCards",
-                {
-                    method:"GET",
-                    cache:"no-store"
-                }
-            );
-
-
-        if (
-            !response.ok
-        ) {
-
-            throw new Error(
-                "Server Character Card gagal merespons. " +
-                "HTTP " +
-                response.status
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            !data ||
-            data.status !== "success"
-        ) {
-
-            throw new Error(
-                data?.pesan ||
-                "Data Character Card tidak valid."
-            );
-
-        }
-
-
-        return data;
-
-    }
-
-
-    /* =====================================================
+    /* =========================================================
        NORMALISASI DATA SISWA
-       ===================================================== */
+       ========================================================= */
 
     function normalisasiSiswa(item) {
+
+        if (!item) {
+            return null;
+        }
 
         return {
 
             kode:
-                normalisasiKode(
-                    item?.kode
-                ),
+                String(
+                    item.kode ??
+                    item.Kode ??
+                    item.nis ??
+                    item.NIS ??
+                    item.id ??
+                    ""
+                ).trim(),
 
             nama:
                 String(
-                    item?.nama || ""
+                    item.nama ??
+                    item.Nama ??
+                    item.name ??
+                    "Siswa"
                 ).trim(),
 
             kelas:
                 String(
-                    item?.kelas || ""
+                    item.kelas ??
+                    item.Kelas ??
+                    "-"
                 ).trim(),
 
             hadir:
-                angka(
-                    item?.hadir
-                ),
+                angka(item.hadir),
+
+            terlambat:
+                angka(item.terlambat),
 
             izin:
-                angka(
-                    item?.izin
-                ),
+                angka(item.izin),
 
             sakit:
-                angka(
-                    item?.sakit
-                ),
+                angka(item.sakit),
 
             alpa:
-                angka(
-                    item?.alpa
-                ),
+                angka(item.alpa),
 
             totalSkor:
-                angka(
-                    item?.totalSkor
-                ),
+                angka(item.totalSkor),
 
             persentase:
-                item?.persentase ?? 0
+                item.persentase,
+
+            foto:
+                item.foto ??
+                item.photo ??
+                item.image ??
+                ""
 
         };
-
     }
 
 
-    /* =====================================================
-       BUAT FRONT CARD
-       
-       FRONT HANYA ARTWORK.
-       
-       TIDAK ADA:
-       - nama
-       - kelas
-       - kode
-       - statistik
-       - tombol
-       ===================================================== */
+    /* =========================================================
+       SUMBER FOTO
+       ========================================================= */
 
-    function buatFrontCard(siswa) {
+    function sumberFoto(siswa) {
 
-        const kode =
-            normalisasiKode(
-                siswa.kode
-            );
+        if (siswa.foto) {
+            return String(siswa.foto);
+        }
 
-
-        const artwork =
-            CHARACTER_IMAGES[kode] ||
-            PLACEHOLDER_IMAGE;
-
-
-        return `
-
-            <div class="card-face card-front">
-
-                <img
-                    class="character-photo"
-                    src="${escapeHTML(artwork)}"
-                    alt="Character ${escapeHTML(siswa.nama)}"
-                    loading="lazy">
-
-            </div>
-
-        `;
-
+        return PLACEHOLDER_IMAGE;
     }
 
 
-    /* =====================================================
-       BUAT BACK CARD
-       ===================================================== */
+    /* =========================================================
+       BUAT CHARACTER CARD
+       ========================================================= */
 
-    function buatBackCard(siswa) {
+    function buatKartu(siswa, index) {
 
-        return `
-
-            <div class="card-face card-back">
-
-                <div class="back-top">
-
-                    <span class="back-number">
-                        ${escapeHTML(siswa.kode)}
-                    </span>
-
-                    <span
-                        class="close-flip"
-                        aria-hidden="true">
-                        ↻
-                    </span>
-
-                </div>
+        const nomor =
+            String(index + 1).padStart(2, "0");
 
 
-                <h3 class="back-name">
+        /*
+         * =====================================================
+         * ATURAN ABSENSI
+         *
+         * HADIR = HADIR + TERLAMBAT
+         *
+         * TERLAMBAT TIDAK DITAMPILKAN
+         * =====================================================
+         */
 
-                    ${escapeHTML(siswa.nama)}
+        const hadirTotal =
+            siswa.hadir +
+            siswa.terlambat;
 
-                </h3>
-
-
-                <div class="back-class">
-
-                    ${escapeHTML(siswa.kelas)}
-
-                </div>
-
-
-                <div class="stats">
-
-
-                    <!-- HADIR
-                         HADIR + TERLAMBAT
-                         sudah digabung oleh Code.gs
-                    -->
-
-                    <div class="stat hadir">
-
-                        <strong>
-                            ${siswa.hadir}
-                        </strong>
-
-                        <span>
-                            HADIR
-                        </span>
-
-                    </div>
-
-
-                    <!-- IZIN -->
-
-                    <div class="stat izin">
-
-                        <strong>
-                            ${siswa.izin}
-                        </strong>
-
-                        <span>
-                            IZIN
-                        </span>
-
-                    </div>
-
-
-                    <!-- SAKIT -->
-
-                    <div class="stat sakit">
-
-                        <strong>
-                            ${siswa.sakit}
-                        </strong>
-
-                        <span>
-                            SAKIT
-                        </span>
-
-                    </div>
-
-
-                    <!-- ALPA -->
-
-                    <div class="stat alpa">
-
-                        <strong>
-                            ${siswa.alpa}
-                        </strong>
-
-                        <span>
-                            ALPA
-                        </span>
-
-                    </div>
-
-
-                    <!-- PERSENTASE -->
-
-                    <div class="stat">
-
-                        <strong>
-                            ${formatPersentase(
-                                siswa.persentase
-                            )}
-                        </strong>
-
-                        <span>
-                            KEHADIRAN
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- TOTAL SKOR -->
-
-                <div class="score-row">
-
-                    <span>
-                        TOTAL SKOR
-                    </span>
-
-                    <strong>
-                        ${siswa.totalSkor}
-                    </strong>
-
-                </div>
-
-            </div>
-
-        `;
-
-    }
-
-
-    /* =====================================================
-       BUAT SATU CHARACTER CARD
-       ===================================================== */
-
-    function buatCard(
-        siswa,
-        index
-    ) {
 
         const card =
-            document.createElement(
-                "article"
-            );
+            document.createElement("article");
 
 
         card.className =
             "character-card";
 
 
-        card.dataset.kode =
-            siswa.kode;
-
-
-        card.tabIndex =
-            0;
+        card.tabIndex = 0;
 
 
         card.setAttribute(
@@ -565,7 +261,7 @@
 
         card.setAttribute(
             "aria-label",
-            `Character Card ${siswa.nama}`
+            `Buka karakter ${siswa.nama}`
         );
 
 
@@ -573,35 +269,250 @@
 
             <div class="card-inner">
 
-                ${buatFrontCard(siswa)}
 
-                ${buatBackCard(siswa)}
+                <!-- =================================================
+                     FRONT CARD
+                     ================================================= -->
+
+                <div class="card-face card-front">
+
+
+                    <div class="card-number">
+                        ${nomor}
+                    </div>
+
+
+                    <img
+                        class="character-photo"
+                        src="${escapeHTML(
+                            sumberFoto(siswa)
+                        )}"
+                        alt="Character ${escapeHTML(
+                            siswa.nama
+                        )}"
+                        loading="lazy"
+                        draggable="false">
+
+
+                    <div class="character-front-info">
+
+
+                        <h3 class="character-name">
+                            ${escapeHTML(
+                                siswa.nama
+                            )}
+                        </h3>
+
+
+                        <div class="character-class">
+                            ${escapeHTML(
+                                siswa.kelas
+                            )}
+                        </div>
+
+
+                        <div class="tap-hint">
+                            KLIK UNTUK MELIHAT PROFIL →
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     BACK CARD
+                     ================================================= -->
+
+                <div class="card-face card-back">
+
+
+                    <div class="back-top">
+
+
+                        <span class="back-number">
+                            STUDENT ${nomor}
+                        </span>
+
+
+                        <span
+                            class="close-flip"
+                            aria-hidden="true">
+                            ↻
+                        </span>
+
+
+                    </div>
+
+
+
+                    <h3 class="back-name">
+                        ${escapeHTML(
+                            siswa.nama
+                        )}
+                    </h3>
+
+
+                    <div class="back-class">
+                        ${escapeHTML(
+                            siswa.kelas
+                        )}
+                    </div>
+
+
+
+                    <!-- =================================================
+                         STATISTIK
+                         ================================================= -->
+
+                    <div class="stats">
+
+
+                        <!-- HADIR = HADIR + TERLAMBAT -->
+
+                        <div class="stat hadir">
+
+                            <strong>
+                                ${hadirTotal}
+                            </strong>
+
+                            <span>
+                                HADIR
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- IZIN -->
+
+                        <div class="stat izin">
+
+                            <strong>
+                                ${siswa.izin}
+                            </strong>
+
+                            <span>
+                                IZIN
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- SAKIT -->
+
+                        <div class="stat sakit">
+
+                            <strong>
+                                ${siswa.sakit}
+                            </strong>
+
+                            <span>
+                                SAKIT
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- ALPA -->
+
+                        <div class="stat alpa">
+
+                            <strong>
+                                ${siswa.alpa}
+                            </strong>
+
+                            <span>
+                                ALPA
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- PERSENTASE -->
+
+                        <div class="stat">
+
+                            <strong>
+                                ${formatPersentase(
+                                    siswa.persentase
+                                )}
+                            </strong>
+
+                            <span>
+                                KEHADIRAN
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         TOTAL SKOR
+                         ================================================= -->
+
+                    <div class="score-row">
+
+                        <span>
+                            TOTAL SKOR
+                        </span>
+
+                        <strong>
+                            ${siswa.totalSkor}
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
 
             </div>
-
         `;
 
 
-        /* =================================================
-           FLIP
-           ================================================= */
+        /* =========================================================
+           FLIP CARD
+           ========================================================= */
 
-        function flipCard() {
+        function toggleCard(event) {
+
+            /*
+             * Supaya jika suatu saat ada button/link
+             * di dalam card, elemen tersebut tidak ikut
+             * menyebabkan flip.
+             */
+
+            if (
+                event &&
+                event.target &&
+                event.target.closest &&
+                event.target.closest(
+                    "a, button"
+                )
+            ) {
+                return;
+            }
+
 
             card.classList.toggle(
                 "flipped"
             );
-
         }
 
 
         card.addEventListener(
             "click",
-            function () {
-
-                flipCard();
-
-            }
+            toggleCard
         );
 
 
@@ -616,172 +527,334 @@
 
                     event.preventDefault();
 
-                    flipCard();
-
+                    toggleCard(event);
                 }
-
             }
         );
 
 
         return card;
-
     }
 
 
-    /* =====================================================
-       RENDER SEMUA SISWA
-       ===================================================== */
+    /* =========================================================
+       AMBIL CHARACTER CARDS
+       
+       PENTING:
+       Character Deck TIDAK menggunakan
+       ambilDaftarSiswa().
+       
+       Langsung:
+       
+       ?action=characterCards
+       ========================================================= */
 
-    function renderDeck(
-        data
-    ) {
-
-        const daftar =
-            Array.isArray(data.siswa)
-                ? data.siswa
-                : [];
-
-
-        deck.innerHTML =
-            "";
-
-
-        jumlahSiswa.textContent =
-            `${daftar.length} SISWA`;
+    async function ambilCharacterCards() {
 
 
         if (
-            daftar.length === 0
+            typeof URL_WEB_APP ===
+                "undefined" ||
+            !URL_WEB_APP
         ) {
 
-            loadingDeck.classList.add(
-                "hidden"
+            throw new Error(
+                "URL_WEB_APP tidak ditemukan. Pastikan api.js dimuat sebelum karakter.js."
+            );
+        }
+
+
+        const separator =
+            URL_WEB_APP.includes("?")
+                ? "&"
+                : "?";
+
+
+        const url =
+            URL_WEB_APP +
+            separator +
+            "action=characterCards" +
+            "&_=" +
+            Date.now();
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
             );
 
-            emptyDeck.classList.remove(
-                "hidden"
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Gagal mengambil Character Card (${response.status}).`
             );
+        }
 
-            emptyDeck.textContent =
-                "Daftar siswa belum tersedia.";
 
-            return;
+        const data =
+            await response.json();
+
+
+        console.log(
+            "CHARACTER CARDS:",
+            data
+        );
+
+
+        if (
+            !data ||
+            data.status !== "success"
+        ) {
+
+            throw new Error(
+                data?.pesan ||
+                "Data Character Card gagal dimuat."
+            );
+        }
+
+
+        return data;
+    }
+
+
+    /* =========================================================
+       TAMPILKAN CHARACTER CARDS
+       ========================================================= */
+
+    function tampilkanCharacterCards(data) {
+
+        let daftar = [];
+
+
+        /*
+         * Format utama dari Code.gs:
+         *
+         * {
+         *   status: "success",
+         *   total: ...,
+         *   siswa: [...]
+         * }
+         */
+
+        if (
+            data &&
+            Array.isArray(
+                data.siswa
+            )
+        ) {
+
+            daftar =
+                data.siswa;
 
         }
 
 
-        emptyDeck.classList.add(
+        /*
+         * Fallback
+         */
+
+        else if (
+            Array.isArray(data)
+        ) {
+
+            daftar = data;
+
+        }
+
+
+        else if (
+            data &&
+            Array.isArray(
+                data.data
+            )
+        ) {
+
+            daftar =
+                data.data;
+
+        }
+
+
+        else if (
+            data &&
+            Array.isArray(
+                data.daftarSiswa
+            )
+        ) {
+
+            daftar =
+                data.daftarSiswa;
+        }
+
+
+
+        const siswa =
+            daftar
+
+                .map(
+                    normalisasiSiswa
+                )
+
+                .filter(Boolean)
+
+                .filter(
+                    item =>
+                        item.nama
+                );
+
+
+        /*
+         * Bersihkan deck
+         */
+
+        deck.innerHTML = "";
+
+
+        /*
+         * Jumlah siswa
+         */
+
+        jumlah.textContent =
+            `${siswa.length} SISWA`;
+
+
+        /*
+         * Matikan loading
+         */
+
+        loading.classList.add(
             "hidden"
         );
 
 
-        loadingDeck.classList.add(
+        /*
+         * Jika kosong
+         */
+
+        if (
+            siswa.length === 0
+        ) {
+
+            empty.classList.remove(
+                "hidden"
+            );
+
+            empty.textContent =
+                "Data Character Deck belum tersedia.";
+
+            return;
+        }
+
+
+        /*
+         * Sembunyikan pesan kosong
+         */
+
+        empty.classList.add(
             "hidden"
         );
 
 
-        daftar.forEach(
+        /*
+         * Buat seluruh card
+         */
+
+        siswa.forEach(
             function (
-                rawSiswa,
+                item,
                 index
             ) {
 
-                const siswa =
-                    normalisasiSiswa(
-                        rawSiswa
-                    );
-
-
                 deck.appendChild(
-                    buatCard(
-                        siswa,
+                    buatKartu(
+                        item,
                         index
                     )
                 );
 
             }
         );
-
     }
 
 
-    /* =====================================================
-       ERROR STATE
-       ===================================================== */
-
-    function tampilError(
-        error
-    ) {
-
-        console.error(
-            "Character Deck:",
-            error
-        );
-
-
-        loadingDeck.classList.add(
-            "hidden"
-        );
-
-
-        emptyDeck.classList.remove(
-            "hidden"
-        );
-
-
-        emptyDeck.textContent =
-            "Data Character Deck belum dapat dimuat.";
-
-
-        jumlahSiswa.textContent =
-            "0 SISWA";
-
-    }
-
-
-    /* =====================================================
+    /* =========================================================
        INIT
-       ===================================================== */
+       ========================================================= */
 
     async function init() {
 
         try {
 
-            loadingDeck.classList.remove(
+
+            loading.classList.remove(
                 "hidden"
             );
 
 
-            emptyDeck.classList.add(
+            empty.classList.add(
                 "hidden"
             );
 
+
+            jumlah.textContent =
+                "MEMUAT...";
+
+
+            /*
+             * Ambil data khusus Character Card
+             */
 
             const data =
                 await ambilCharacterCards();
 
 
-            renderDeck(
+            /*
+             * Render card
+             */
+
+            tampilkanCharacterCards(
                 data
             );
 
+
         }
+        catch (error) {
 
-        catch(error) {
 
-            tampilError(
+            console.error(
+                "Gagal memuat Character Deck:",
                 error
             );
 
-        }
 
+            loading.classList.add(
+                "hidden"
+            );
+
+
+            empty.classList.remove(
+                "hidden"
+            );
+
+
+            empty.textContent =
+                "Character Deck belum dapat dimuat. Periksa API / deployment Apps Script.";
+
+
+            jumlah.textContent =
+                "0 SISWA";
+        }
     }
 
 
-    /* =====================================================
+    /* =========================================================
        START
-       ===================================================== */
+       ========================================================= */
 
     if (
         document.readyState ===
@@ -794,7 +867,6 @@
         );
 
     }
-
     else {
 
         init();
