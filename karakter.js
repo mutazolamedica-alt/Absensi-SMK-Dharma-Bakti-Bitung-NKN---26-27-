@@ -277,11 +277,6 @@
                 <div class="card-face card-front">
 
 
-                    <div class="card-number">
-                        ${nomor}
-                    </div>
-
-
                     <img
                         class="character-photo"
                         src="${escapeHTML(
@@ -292,32 +287,7 @@
                         )}"
                         loading="lazy"
                         draggable="false">
-
-
-                    <div class="character-front-info">
-
-
-                        <h3 class="character-name">
-                            ${escapeHTML(
-                                siswa.nama
-                            )}
-                        </h3>
-
-
-                        <div class="character-class">
-                            ${escapeHTML(
-                                siswa.kelas
-                            )}
-                        </div>
-
-
-                        <div class="tap-hint">
-                            KLIK UNTUK MELIHAT PROFIL →
-                        </div>
-
-
-                    </div>
-
+                        
 
                 </div>
 
