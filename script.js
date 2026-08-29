@@ -120,11 +120,6 @@ function prosesLogin(){
             PASSWORD_SISWA
         );
 
-    console.log(
-    "LOGIN DICEK:",
-    username,
-    password
-);
 
     if(!loginBenar){
 
@@ -183,8 +178,6 @@ if(loginScreen){
         },
         2100
     );
-
-}
 
 }
     
@@ -2132,9 +2125,274 @@ window.addEventListener(
 );
 
 
+// ========================================
+// DAFTAR SISWA ALPA HARI INI
+// READ ONLY
+// ========================================
 
-function bukaDaftarAlpaModal(){const m=document.getElementById("daftarAlpaModal");if(!m)return;m.classList.add("show");m.setAttribute("aria-hidden","false");muatDaftarAlpaHariIni();}
-function tutupDaftarAlpaModal(){const m=document.getElementById("daftarAlpaModal");if(!m)return;m.classList.remove("show");m.setAttribute("aria-hidden","true");}
-function escAlpa(v){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");}
-async function muatDaftarAlpaHariIni(){const j=document.getElementById("daftarAlpaJumlah"),l=document.getElementById("daftarAlpaList"),t=document.getElementById("daftarAlpaTanggal");if(!j||!l||!t)return;j.textContent="Memuat daftar siswa...";l.innerHTML='<div class="daftar-alpa-loading">Memuat daftar siswa Alpa...</div>';try{const d=await ambilDaftarAlpaHariIni();t.textContent=d.tanggal||"";j.textContent=(d.siswa||[]).length+" siswa berstatus ALPA";l.innerHTML="";(d.siswa||[]).forEach((x,i)=>{const r=document.createElement("div");r.className="daftar-alpa-row";r.innerHTML='<div class="daftar-alpa-no">'+(i+1)+'</div><div class="daftar-alpa-data"><div class="daftar-alpa-nama">'+escAlpa(x.nama)+'</div><div class="daftar-alpa-detail">'+escAlpa(x.kode)+' · '+escAlpa(x.kelas)+'</div></div><div class="daftar-alpa-badge">ALPA</div>';l.appendChild(r);});if(!(d.siswa||[]).length)l.innerHTML='<div class="daftar-alpa-empty">Tidak ada siswa yang Alpa hari ini.</div>';}catch(e){j.textContent="Gagal memuat daftar Alpa";l.innerHTML='<div class="daftar-alpa-empty error">'+escAlpa(e.message)+'</div>';}}
-window.addEventListener("load",function(){const a=document.querySelector(".rekap-alpa");const m=document.getElementById("daftarAlpaModal");const x=document.getElementById("btnTutupDaftarAlpa"),b=document.getElementById("btnTutupDaftarAlpaBottom");if(a)a.addEventListener("click",bukaDaftarAlpaModal);if(x)x.addEventListener("click",tutupDaftarAlpaModal);if(b)b.addEventListener("click",tutupDaftarAlpaModal);if(m)m.addEventListener("click",e=>{if(e.target===m)tutupDaftarAlpaModal();});});
+let daftarAlpaSedangDimuat = false;
+
+function escapeHtmlDaftarAlpa(value){
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function bukaDaftarAlpaModal(){
+
+    const modal =
+        document.getElementById("daftarAlpaModal");
+
+    if(!modal){
+        return;
+    }
+
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden","false");
+
+    const tanggal =
+        document.getElementById("daftarAlpaTanggal");
+
+    const jumlah =
+        document.getElementById("daftarAlpaJumlah");
+
+    const list =
+        document.getElementById("daftarAlpaList");
+
+    if(tanggal){
+        tanggal.innerHTML = "Memuat data...";
+    }
+
+    if(jumlah){
+        jumlah.innerHTML = "Memuat daftar siswa...";
+    }
+
+    if(list){
+        list.innerHTML =
+            '<div class="daftar-alpa-loading">' +
+            'Memuat daftar siswa Alpa...' +
+            '</div>';
+    }
+
+    muatDaftarAlpaHariIni();
+}
+
+function tutupDaftarAlpaModal(){
+
+    const modal =
+        document.getElementById("daftarAlpaModal");
+
+    if(!modal){
+        return;
+    }
+
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden","true");
+}
+
+async function muatDaftarAlpaHariIni(){
+
+    if(daftarAlpaSedangDimuat){
+        return;
+    }
+
+    const tanggal =
+        document.getElementById("daftarAlpaTanggal");
+
+    const jumlah =
+        document.getElementById("daftarAlpaJumlah");
+
+    const list =
+        document.getElementById("daftarAlpaList");
+
+    if(!tanggal || !jumlah || !list){
+        return;
+    }
+
+    daftarAlpaSedangDimuat = true;
+
+    try{
+
+        const data =
+            await ambilDaftarAlpaHariIni();
+
+        if(!data || data.status !== "success"){
+            throw new Error(
+                data && data.pesan
+                    ? data.pesan
+                    : "Daftar Alpa gagal dimuat."
+            );
+        }
+
+        tanggal.innerHTML =
+            formatTanggalRekap(data.tanggal);
+
+        const siswa =
+            Array.isArray(data.siswa)
+                ? data.siswa
+                : [];
+
+        jumlah.innerHTML =
+            siswa.length +
+            " siswa berstatus ALPA";
+
+        if(siswa.length === 0){
+
+            list.innerHTML =
+                '<div class="daftar-alpa-empty">' +
+                '<div class="daftar-alpa-empty-icon">✓</div>' +
+                '<div>Tidak ada siswa yang Alpa hari ini.</div>' +
+                '</div>';
+
+            return;
+        }
+
+        list.innerHTML = "";
+
+        siswa.forEach(function(item,index){
+
+            const row =
+                document.createElement("div");
+
+            row.className =
+                "daftar-alpa-row";
+
+            row.innerHTML =
+                "<div class='daftar-alpa-no'>" +
+                (index + 1) +
+                "</div>" +
+
+                "<div class='daftar-alpa-data'>" +
+
+                "<div class='daftar-alpa-nama'>" +
+                escapeHtmlDaftarAlpa(item.nama) +
+                "</div>" +
+
+                "<div class='daftar-alpa-detail'>" +
+                escapeHtmlDaftarAlpa(item.kode) +
+                " · " +
+                escapeHtmlDaftarAlpa(item.kelas) +
+                "</div>" +
+
+                "</div>" +
+
+                "<div class='daftar-alpa-badge'>" +
+                "ALPA" +
+                "</div>";
+
+            list.appendChild(row);
+        });
+
+    }
+    catch(error){
+
+        console.error(
+            "Gagal memuat daftar Alpa:",
+            error
+        );
+
+        tanggal.innerHTML =
+            "Data tidak tersedia";
+
+        jumlah.innerHTML =
+            "Gagal memuat daftar Alpa";
+
+        list.innerHTML =
+            '<div class="daftar-alpa-empty error">' +
+            escapeHtmlDaftarAlpa(
+                error.message ||
+                "Tidak dapat mengambil data."
+            ) +
+            '</div>';
+
+    }
+    finally{
+
+        daftarAlpaSedangDimuat = false;
+
+    }
+}
+
+function pasangEventDaftarAlpa(){
+
+    const alpa =
+        document.querySelector(".rekap-alpa");
+
+    const tutup =
+        document.getElementById("btnTutupDaftarAlpa");
+
+    const tutupBawah =
+        document.getElementById(
+            "btnTutupDaftarAlpaBottom"
+        );
+
+    const modal =
+        document.getElementById("daftarAlpaModal");
+
+    if(alpa){
+
+        alpa.addEventListener(
+            "click",
+            bukaDaftarAlpaModal
+        );
+
+        alpa.setAttribute("role","button");
+        alpa.setAttribute("tabindex","0");
+
+    }
+
+    if(tutup){
+        tutup.addEventListener(
+            "click",
+            tutupDaftarAlpaModal
+        );
+    }
+
+    if(tutupBawah){
+        tutupBawah.addEventListener(
+            "click",
+            tutupDaftarAlpaModal
+        );
+    }
+
+    if(modal){
+
+        modal.addEventListener(
+            "click",
+            function(event){
+
+                if(event.target === modal){
+                    tutupDaftarAlpaModal();
+                }
+
+            }
+        );
+    }
+
+    document.addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Escape"){
+
+                if(
+                    modal &&
+                    modal.classList.contains("show")
+                ){
+                    tutupDaftarAlpaModal();
+                }
+
+            }
+
+        }
+    );
+}
+
+window.addEventListener(
+    "load",
+    pasangEventDaftarAlpa
+);
+
