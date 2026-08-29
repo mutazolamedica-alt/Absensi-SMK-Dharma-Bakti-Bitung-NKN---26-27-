@@ -348,53 +348,73 @@ a {
     font-weight: 800;
 }
 
-.stats {
+.card-back .stats {
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 7px;
-    margin-top: 17px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 18px 0 12px;
 }
 
-.stat {
-    padding: 9px 7px;
-    border-radius: 12px;
-    background: #f5f8fc;
+.card-back .stat {
+    min-width: 0;
+    min-height: 62px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    padding: 8px 6px;
+    border-radius: 10px;
 }
 
-.stat strong {
-    display: block;
-    font-size: 17px;
-    line-height: 1;
+.card-back .stat strong {
+    font-size: 20px;
+    line-height: 1.05;
+    font-weight: 800;
 }
 
-.stat span {
-    display: block;
-    margin-top: 4px;
-    color: var(--muted);
+.card-back .stat span {
+    margin-top: 5px;
     font-size: 8px;
-    font-weight: 900;
-    letter-spacing: .4px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: .08em;
 }
 
-.stat.hadir strong {
-    color: #149447;
+.card-back .back-result {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-top: 4px;
 }
 
-.stat.terlambat strong {
-    color: #d68a00;
+.card-back .result-box {
+    width: 100%;
+    min-height: 43px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 9px;
 }
 
-.stat.izin strong {
-    color: #3577c9;
+.card-back .result-box strong {
+    font-size: 19px;
+    line-height: 1;
+    font-weight: 800;
 }
 
-.stat.sakit strong {
-    color: #8b57c7;
-}
-
-.stat.alpa strong {
-    color: #d74242;
+.card-back .result-box span {
+    margin-top: 3px;
+    font-size: 7px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: .1em;
 }
 
 .score-row {
