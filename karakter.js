@@ -63,8 +63,9 @@
          * "NKN028": "NKN028.png"
          */
 
-        "NKN028": "NKN028.png",
-        "NKN003": "NKN003.png",
+       "NKN003": "NKN003.png", 
+       "NKN028": "NKN028.png",
+        
 
     };
 
