@@ -1,7 +1,7 @@
 /* =========================================================
    WE ARE NAUTIKA'10
    PERSONAL CHARACTER DECK
-   karakter.js — FINAL
+   karakter.js — FINAL 
    ========================================================= */
 
 (function () {
