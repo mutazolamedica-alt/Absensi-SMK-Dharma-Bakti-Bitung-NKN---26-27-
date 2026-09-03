@@ -17,6 +17,13 @@
     // NKN028 / Trifosa dikunci dan tidak diubah.
     // =====================================================
     const CHARACTER_IMAGES = {
+        "NKN003": "NKN003.png",
+        "NKN004": "NKN004.png",
+        "NKN006": "NKN006.png",
+        "NKN008": "NKN008.png",
+        "NKN011": "NKN011.png",
+        "NKN013": "NKN013.png",
+        "NKN024": "NKN024.png",
         "NKN028": "NKN028.png"
     };
 
