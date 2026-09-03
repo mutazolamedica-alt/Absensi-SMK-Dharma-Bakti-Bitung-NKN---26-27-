@@ -11,11 +11,6 @@
 <div class="character-page">
 
     <header class="character-header">
-        <a href="index.html" class="back-button" aria-label="Kembali ke dashboard">
-            <span>←</span>
-            <span>KEMBALI</span>
-        </a>
-
         <div class="brand">
             <img src="logo-sekolah-hd.png" alt="Logo SMK Dharma Bakti Bitung">
             <div>
@@ -29,28 +24,21 @@
     <main>
         <section class="hero">
             <div class="hero-badge">NAUTIKA'10</div>
-            <h2>KENALI PERKEMBANGAN DIRI</h2>
+            <h2>KENALI SETIAP KARAKTER</h2>
             <p>
                 Setiap siswa memiliki cerita, karakter, dan perjalanan
                 kehadiran yang berbeda.
             </p>
         </section>
 
-        <section class="wali-card" aria-label="Character Card Wali Kelas">
-    
+        <section class="wali-card">
             <picture>
-                <source
-                    media="(min-width: 821px)"
-                    srcset="wali-desktop.png"
-                >
-
-            <img
-                src="wali-kelas-nautika10.png"
-                alt="Character Card Wali Kelas Nautika'10"
-                class="wali-card-image"
-            >
+                <source media="(min-width: 821px)" srcset="wali-desktop.png">
+                <img
+                    src="wali-kelas-nautika10.png"
+                    class="wali-card-image"
+                    alt="Wali Kelas Nautika 10">
             </picture>
-
         </section>
 
         <section class="deck-section">
@@ -63,13 +51,13 @@
             </div>
 
             <div id="loadingDeck" class="deck-message">
-                Memuat daftar siswa...
+                Memuat Character Deck...
             </div>
 
             <div id="deck" class="character-grid"></div>
 
             <div id="emptyDeck" class="deck-message hidden">
-                Daftar siswa belum tersedia.
+                Data siswa belum tersedia.
             </div>
         </section>
     </main>
