@@ -346,11 +346,30 @@ async function simpanStatusKhusus(
 
 }
 
+// ========================================
+// API CHARACTER CARDS
+// WE ARE NAUTIKA'10
+// ========================================
+async function ambilCharacterCards(){
+    const response = await fetch(
+        URL_WEB_APP + "?action=characterCards&_=" + Date.now(),
+        {
+            method: "GET",
+            cache: "no-store"
+        }
+    );
 
-async function ambilDaftarAlpaHariIni(){
-    const response=await fetch(URL_WEB_APP+"?action=daftarAlpaHariIni&_="+Date.now(),{method:"GET",cache:"no-store"});
-    if(!response.ok) throw new Error("Gagal mengambil daftar siswa Alpa.");
-    const data=await response.json();
-    if(data.status!=="success") throw new Error(data.pesan||"Daftar siswa Alpa gagal dimuat.");
+    if(!response.ok){
+        throw new Error("Gagal mengambil data Character Cards.");
+    }
+
+    const data = await response.json();
+
+    if(data.status !== "success"){
+        throw new Error(
+            data.pesan || "API Character Cards gagal."
+        );
+    }
+
     return data;
 }
