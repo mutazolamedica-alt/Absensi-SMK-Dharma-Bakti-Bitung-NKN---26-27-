@@ -26,10 +26,10 @@ const PASSWORD_WALI =
 // ========================================
 
 const USERNAME_SISWA =
-    "SISWA";
+    "siswa";
 
 const PASSWORD_SISWA =
-    "NAUTIKA000";
+    "1crew555";
 
 
 // ========================================
